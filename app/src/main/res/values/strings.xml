@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">政务办公</string>
+    <string name="back">返回</string>
+    <string name="more">●●●</string>
+    <string name="logout">注销</string>
+    <string name="setting">设置</string>
+</resources>

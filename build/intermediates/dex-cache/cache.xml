@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\exploded-aar\Wisp\sdkey\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="1cbf0d9df244d58ee7e37c18c8ea8e1b8da48962">
+        <dex dex="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\pre-dexed\debug\classes-38da82da0997f719babe0a0702db8965ea23078d.jar" />
+    </item>
+    <item
+        jar="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\pre-dexed\debug\classes-9f84cdc983f1ff1d2db566b7ddb408d0bfac5871.jar" />
+    </item>
+    <item
+        jar="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\exploded-aar\Wisp\otherlib\unspecified\jars\libs\fastjson.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="b23584cb28886c145936cb25dfdd327d8fabbb78">
+        <dex dex="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\pre-dexed\debug\fastjson-0e35c5a7462d2b78ce5ac519806ddb1583815bba.jar" />
+    </item>
+    <item
+        jar="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\jars\libs\internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.1-7d116a8de155618089e0c7dbfcef59bb547f7f9e.jar" />
+    </item>
+    <item
+        jar="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\exploded-aar\Wisp\connection\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="9f758cf43a4d66c6c1659142b18bbc60dff68657">
+        <dex dex="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\pre-dexed\debug\classes-28b10c3bf4c27b85babc2ed52b7a06b1f2eed70f.jar" />
+    </item>
+    <item
+        jar="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\exploded-aar\Wisp\util\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="3848bee62b83c7cb4bf763300cf26f8169ef6e77">
+        <dex dex="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\pre-dexed\debug\classes-3539401561bf3ee32174623e2e753569266ddf0b.jar" />
+    </item>
+    <item
+        jar="D:\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.1\support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.1-160e21806fe4fcbe2b20c34d1bbde421f69a17ae.jar" />
+    </item>
+    <item
+        jar="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\pre-dexed\debug\classes-d6dd3a3337da63d84ec6925450d23d64ed88c38b.jar" />
+    </item>
+    <item
+        jar="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\exploded-aar\Wisp\framework\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="13c846ce43f6db02668f3b70670f74c9c7ec06d5">
+        <dex dex="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\pre-dexed\debug\classes-51347e483addc334a084cdcaeb8dc768cb497254.jar" />
+    </item>
+    <item
+        jar="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\exploded-aar\Wisp\otherlib\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="cf9f891b958231837bcbe52d5de081c0b41f223e">
+        <dex dex="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\pre-dexed\debug\classes-c5277de06e9fc292d1678e1e47ccf6c236adeb4f.jar" />
+    </item>
+    <item
+        jar="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\exploded-aar\Wisp\util\unspecified\jars\libs\mail.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="414a5580e34540a60b9d6616e455c307829a123d">
+        <dex dex="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\pre-dexed\debug\mail-f829ad28477728ae258362886b7fc9ce401ac4c6.jar" />
+    </item>
+    <item
+        jar="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\exploded-aar\Wisp\view\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="ecc238306bb778aacfc70f7e4a1dff743cbec9dd">
+        <dex dex="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\build\intermediates\pre-dexed\debug\classes-71e38ab62cf47cbb934f0e2821a0b4fc33f4fab0.jar" />
+    </item>
+
+</items>

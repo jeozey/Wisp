@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 未选中 -->
+    <item android:state_checked="false">
+        <shape>
+
+            <!--
+            <corners android:radius="1dp" /> 
+            <size android:height="25dp" />
+            -->
+
+            <solid android:color="@color/theme" />
+
+            <stroke android:width="1dp" android:color="@android:color/white" />
+        </shape>
+    </item>
+    <!-- 选中 -->
+    <item android:state_checked="true">
+        <shape>
+
+            <!--
+            <corners android:radius="1dp" /> 
+
+            <size android:height="25dp" />
+            -->
+
+            <solid android:color="@android:color/white" />
+
+            <stroke android:width="1dp" android:color="@android:color/white" />
+        </shape>
+    </item>
+
+</selector><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/view/src/main/res/drawable/radiobtn_selector.xml -->

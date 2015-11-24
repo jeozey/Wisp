@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="#000000"
+    android:id="@+id/toast_layout_root">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:id="@+id/iv" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF" />
+</LinearLayout>  
+<!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/sdkey/src/main/res/layout/toast.xml --><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/app/build/intermediates/exploded-aar/Wisp/sdkey/unspecified/res/layout/toast.xml -->

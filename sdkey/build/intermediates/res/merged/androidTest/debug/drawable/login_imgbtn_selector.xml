@@ -1,0 +1,6 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/pinbtn_normal_new" android:state_pressed="false"/>
+    <item android:drawable="@drawable/pinbtn_active_new" android:state_pressed="true"/>
+
+</selector><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/sdkey/src/main/res/drawable/login_imgbtn_selector.xml --><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/sdkey/build/intermediates/bundles/debug/res/drawable/login_imgbtn_selector.xml -->

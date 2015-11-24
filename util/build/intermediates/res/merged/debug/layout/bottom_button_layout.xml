@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buttomFrameLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:clickable="true"
+    android:descendantFocusability="blocksDescendants"
+    android:focusableInTouchMode="true" 
+    android:paddingLeft="2dp">
+
+    <RelativeLayout
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/imgTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:layout_marginTop="5dp"
+            android:textSize="14sp"
+            android:textColor="@color/theme_menu_txt_color" />
+
+        <ImageView
+            android:id="@+id/imgShow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/imgTitle"
+            android:scaleType="fitCenter" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/imgNum"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@mipmap/numbg"
+        android:gravity="center" />
+
+</FrameLayout><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/view/src/main/res/layout/bottom_button_layout.xml --><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/util/build/intermediates/exploded-aar/Wisp/view/unspecified/res/layout/bottom_button_layout.xml -->

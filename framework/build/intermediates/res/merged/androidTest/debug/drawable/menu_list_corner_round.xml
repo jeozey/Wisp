@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" >
+
+    <!-- 渐变 -->
+    <gradient
+        android:angle="270"
+        android:endColor="#76D37B"
+        android:startColor="#B5E7B8" />
+
+    <!-- 描边 -->
+    <!--
+       <stroke android:width="1dip"     
+       android:color="@color/blue" 
+       />
+    -->
+
+
+    <!-- 实心 -->
+    <!--
+       <solid android:color="#FFeaeaea"
+       />
+    -->
+
+
+    <!-- 圆角 -->
+    <corners
+        android:bottomLeftRadius="4dip"
+        android:bottomRightRadius="4dip"
+        android:topLeftRadius="4dip"
+        android:topRightRadius="4dip" />
+
+</shape><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/view/src/main/res/drawable/menu_list_corner_round.xml --><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/framework/build/intermediates/exploded-aar/Wisp/view/unspecified/res/drawable/menu_list_corner_round.xml -->

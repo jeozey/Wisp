@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/view/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="alert">#CC0000</color>
+    <color name="confirm">#FF8800</color>
+    <color name="info">#669900</color>
+    <color name="phone_horizontal_btn_bg">#fff8f8f8</color>
+    <color name="phone_horizontal_btn_top_line">#fff8f8f7</color>
+    <color name="theme">#ff0070ef</color>
+    <color name="theme_menu_txt_color">#ff000000</color>
+    <declare-styleable name="HorizontalListView"><attr format="dimension" name="dividerWidth"/><attr name="android:divider"/><attr name="android:requiresFadingEdge"/><attr name="android:fadingEdgeLength"/></declare-styleable>
+    <!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/view/src/main/res/values/dimen.xml -->
+    <eat-comment/>
+    <dimen name="menu_item_padding">10dp</dimen>
+    <dimen name="radio_button_margin_left_right">8dp</dimen>
+    <dimen name="radio_button_margin_left_right1">4dp</dimen>
+    <dimen name="radio_button_margin_top_bottom">8dp</dimen>
+    <dimen name="radio_button_margin_top_bottom1">4dp</dimen>
+    <dimen name="radio_button_txt_size0">14px</dimen>
+    <dimen name="radio_button_txt_size1">16px</dimen>
+    <dimen name="radio_button_txt_size2">20px</dimen>
+    <!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/view/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">View</string>
+    <!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/view/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+    <style name="CustomProgressDialog" parent="@style/CustomDialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>

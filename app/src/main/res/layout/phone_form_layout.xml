@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 划出的表单页 -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/right_fragment_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme"
+    android:visibility="invisible"
+    android:weightSum="1">
+
+    <!-- tab菜单 -->
+    <com.rj.view.TopTabLayoutWidget
+        android:id="@+id/tabLayoutWidget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/white" />
+
+    <RelativeLayout
+        android:id="@+id/mainBrowserLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/form_bottom_navigate_bar"
+        android:layout_below="@+id/tabLayoutWidget"
+        android:orientation="vertical"
+        android:weightSum="1"></RelativeLayout>
+
+    <!-- 底部菜单栏 -->
+
+    <com.rj.view.button.PhoneHorizontalBtns
+        android:id="@+id/form_bottom_navigate_bar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

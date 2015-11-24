@@ -1,0 +1,6 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/pinbtn_normal_new" android:state_pressed="false" />
+    <item android:drawable="@drawable/pinbtn_active_new" android:state_pressed="true" />
+
+</selector>

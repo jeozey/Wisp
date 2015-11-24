@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:dither="true"
+    android:src="@mipmap/operatebbgm"
+    android:tileMode="clamp" />
+<!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/app/src/main/res/drawable/bottom_bg_style.xml -->

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Wisp.iml" filepath="$PROJECT_DIR$/../Wisp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../app/app.iml" filepath="$PROJECT_DIR$/../app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../connection/connection.iml" filepath="$PROJECT_DIR$/../connection/connection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../framework/framework.iml" filepath="$PROJECT_DIR$/../framework/framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../otherlib/otherlib.iml" filepath="$PROJECT_DIR$/../otherlib/otherlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdkey.iml" filepath="$PROJECT_DIR$/sdkey.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../util/util.iml" filepath="$PROJECT_DIR$/../util/util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../view/view.iml" filepath="$PROJECT_DIR$/../view/view.iml" />
+    </modules>
+  </component>
+</project>
