@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set android:shareInterpolator="false" xmlns:android="http://schemas.android.com/apk/res/android">
-    <rotate 
+<set
+    android:shareInterpolator="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <rotate
         android:interpolator="@android:anim/linear_interpolator"
         android:pivotX="50%"
         android:pivotY="50%"
@@ -9,5 +11,5 @@
         android:duration="1500"
         android:startOffset="-1"
         android:repeatMode="restart"
-        android:repeatCount="-1"/>
+        android:repeatCount="-1" />
 </set><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/view/src/main/res/anim/load.xml -->

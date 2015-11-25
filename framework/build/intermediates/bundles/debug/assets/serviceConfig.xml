@@ -1,501 +1,667 @@
-<?xml version="1.0" encoding="utf-8"?>
-	<!-- 外经贸厅   云平台  发改委-->
-	<server>
-	    <action>false</action>
-	    <isphone>false</isphone><!-- 是否手机 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <app_name>政务云移动办公平台服务器</app_name>
-	    <security_host>172.16.1.16</security_host>
-	    <security_port>5566</security_port>
-	    <meeting_host>172.16.1.19</meeting_host>
-	    <meeting_port>8888</meeting_port>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	  	<homepage_url>http://172.16.1.21:9091/wisp_mgr/system/sys_loginValid?type=5</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-		<aas_host>172.16.1.21</aas_host>
-		<aas_port>9091</aas_port>
-		<app_code>NsRqND2nMpRkNGBkNHuoNGevNWanJWFoB9NmNWZmQWRmNGNjNoqnNXNoNWNpOGBjNGE8Qc37NHem59U8As3s</app_code>
-		<app_url>http://172.16.1.21:9091/wisp_mgr/wispLogin.html</app_url>
-		<ispin>true</ispin>
-		<issdkey>false</issdkey>
-		<httpserver_port>8011</httpserver_port>
-		<changeHost>false</changeHost><!-- 是否能改平台地址 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	
-	<!-- 宁德 -->
-	<server>
-	    <action>false</action>
-	    <isphone>false</isphone><!-- 是否手机 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <app_name>宁德电子政务移动云平台</app_name>
-	    <security_host>172.16.1.16</security_host>
-	    <security_port>5566</security_port>
-	    <meeting_host>172.16.1.19</meeting_host>
-	    <meeting_port>8888</meeting_port>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	  	<homepage_url>http://172.16.1.17/homepage.nsf/homepage?OpenForm</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-		<aas_host>172.16.1.17</aas_host>
-		<aas_port>80</aas_port>
-		<app_code>AGNm0SZnMpP7epVsO9VkNG2wLWYZMczuN9FmQWRmNGJjNGRjNpZ9N9ZpMHqnOGVtQdIrNXem5cjv2GUr</app_code>
-		<app_url>http://172.16.1.17/</app_url>
-		<ispin>true</ispin>
-		<issdkey>false</issdkey>
-		<httpserver_port>8011</httpserver_port>
-		<changeHost>false</changeHost><!-- 是否能改平台地址 -->
-		<updateNeedAppCode>true</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	<!-- 普及版  莆田-->
-	<server>
-	    <action>false</action>
-	    <isphone>true</isphone><!-- 是否手机 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <app_name>电子政务移动云平台</app_name>
-	    <security_host>172.16.1.16</security_host>
-	    <security_port>5566</security_port>
-	    <meeting_host>172.16.1.19</meeting_host>
-	    <meeting_port>8888</meeting_port>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	  	<homepage_url>http://172.16.1.17/homepage.nsf/homepage?OpenForm</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-		<aas_host>172.16.1.17</aas_host>
-		<aas_port>80</aas_port>
-		<app_code>1C7f0SJnMpRkNGBkNHunMpeuNVZt1syrNWZmNXJoNWVpOGNjNGZ9N9ZpMXqsOGVr0HAj49VgNSun0GAmN6==</app_code>
-		<app_url>http://172.16.1.17/</app_url>
-		<ispin>true</ispin>
-		<issdkey>false</issdkey>
-		<httpserver_port>8011</httpserver_port>
-		<changeHost>false</changeHost><!-- 是否能改平台地址 -->
-		<updateNeedAppCode>true</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	<!-- 丽水-->
-	<server>
-	    <action>true</action>
-	    <isphone>false</isphone><!-- 是否手机 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <app_name>电子政务移动云平台</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	  	<app_charset>utf-8</app_charset>
-		<ispin>false</ispin>
-		<issdkey>false</issdkey>
-		<httpserver_port>8011</httpserver_port>
-		<useVpn>true</useVpn><!-- 是否拨VPN -->
-		<vpnHost>220.191.253.188</vpnHost><!-- VPN地址 -->
-		<changeHost>true</changeHost><!-- 是否能改平台地址 -->
-		<updateNeedAppCode>true</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	
-	<!-- 开发环境 -->
-	<server>
-	    <action>false</action>
-	    <isphone>false</isphone><!-- 是否手机 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-     	<isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <app_name>移动云平台</app_name>
-	    <security_host>wisp.rongji.com</security_host>
-	    <security_port>5588</security_port>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	  	<homepage_url>http://192.168.1.105:9091/wisp_mgr/system/sys_loginValid?type=1</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-		<aas_host>192.168.1.105</aas_host>
-		<aas_port>9091</aas_port>
-		<app_code>1pUw2sBnLGRkNGBuO9VkNGZrL9amLGUZADAtMGZmNWZaN9ZnNoqpOGVmRpRmN9NjNGZjN9Y9QdRuNHem5cqrBDao</app_code>
-		<app_url>http://192.168.1.105:9091/wisp_mgr/wispLogin.html</app_url>
-		<ispin>false</ispin>
-		<issdkey>false</issdkey>
-		<httpserver_port>8011</httpserver_port>
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	
-	<!-- 演示环境 -->
-	<server>
-	    <action>false</action>
-	    <isphone>false</isphone><!-- 是否手机 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <app_name>移动电子政务云平台</app_name>
-	    <security_host>192.168.1.154</security_host>
-	    <security_port>5578</security_port>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	  	<homepage_url>http://192.168.1.12:9091/wisp_mgr/system/sys_loginValid?type=1</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-		<aas_host>192.168.1.12</aas_host>
-		<aas_port>9091</aas_port>
-		<app_code>NCUpNDFnLGRkNGBuO9VkNGRwLGZvNFYe4GFoNWZaN9ZnN8quOGNmRpRmN96jM8qnNSZc0DRnP9Y/4C6qAcB=</app_code>
-		<app_url>http://192.168.1.12:9091/wisp_mgr/wispLogin.html</app_url>
-		<ispin>false</ispin>
-		<issdkey>false</issdkey>
-		<httpserver_port>8011</httpserver_port>
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	
-	<!-- itask -->
-	<server>
-	    <action>false</action>
-	    <isphone>false</isphone><!-- 是否手机 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <app_name>itask系统vpn</app_name>
-	    <security_host>wisp.rongji.com</security_host>
-	    <security_port>6600</security_port>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	  	<homepage_url>http://192.168.0.51/pda01.do?act=l</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-		<aas_host>192.168.0.51</aas_host>
-		<aas_port>80</aas_port>
-		<app_code>2WIo3CanLGRkNGBuO9ZkMGVwLWYZBtMhMGZmNXJoNWVpOGNjNGZ9N9ZrMXqsOGVrAXAcMWVgNSvs3CRp0Z==</app_code>
-		<app_url>http://192.168.0.51/pda</app_url>
-		<ispin>false</ispin>
-		<issdkey>false</issdkey>
-		<httpserver_port>8012</httpserver_port>
-		<is_itask>true</is_itask>
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	
-	<!-- 苍南-->
-	<server>
-	    <action>false</action>
-	    <isphone>true</isphone><!-- 是否手机 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <security_host>122.228.139.37</security_host>
-	    <security_port>5566</security_port>
-	    <app_name>苍南县内部流办公系统</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	    <homepage_url>http://10.2.3.48/homepage.nsf/homepage?OpenForm</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-	  	<app_code>BdIwNpanNXuoO9NkMW6wLWYZMD3lMGZmQWRmNGJjM8qnNXNoNWNrOGBjMG6c1cmnP9Y/BDff09N=</app_code>
-	  	<app_url>http://10.2.3.48/</app_url>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8011</httpserver_port> <!-- 监听端口 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	<!-- 浙江交投 1-->
-	<server>
-	    <action>false</action>
-	    <isphone>true</isphone><!-- 是否手机 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <security_host>m.oa.cncico.com</security_host>
-	    <security_port>5566</security_port>
-	    <app_name>浙江交通投资集团登录</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	    <homepage_url>http://jtgs.oa.cncico.com/homepage.nsf/homepage?OpenForm</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-	  	<app_code>BpIuMtUjBDbiOcz7OcMkBsb91ov91sqwLWYZ0cjhN9ZmNWZaN9ZnNoqpOGVmRpRmMWNjLXqoNSBcLDNmP9Y/2TJu4T6=</app_code>
-	  	<app_url>http://jtgs.oa.cncico.com/</app_url>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8011</httpserver_port> <!-- 监听端口 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	
-	
-	<!-- 浙江交投2 -->
-	<server>
-	    <action>false</action>
-	    <isphone>true</isphone><!-- 是否手机 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <security_host>m.oa.cncico.com</security_host>
-	    <security_port>5577</security_port>
-	    <app_name>浙江交通投资集团登录</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	    <homepage_url>http://jtgs2.oa.cncico.com/homepage.nsf/homepage?OpenForm</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-	  	<app_code>BpIuMtUjBDbiOcz7OcMkBsb91ov91sqwLWYZ0cjhN9ZmNWZaN9ZnNoqpOGVmRpRmMWNjLXqoNSBcLDNmP9Y/2TJu4T6=</app_code>
-	  	<app_url>http://jtgs2.oa.cncico.com/</app_url>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8011</httpserver_port> <!-- 监听端口 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	
-	
-	<!-- 浙江交投 3-->
-	<server>
-	    <action>false</action>
-	    <isphone>true</isphone><!-- 是否手机 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <security_host>61.164.37.20</security_host>
-	    <security_port>5566</security_port>
-	    <app_name>浙江交通投资集团登录</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	    <homepage_url>http://jgjt.oa.cncico.com/homepage.nsf/homepage?OpenForm</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-	  	<app_code>BtEc1sAgAsfqOcz7OcMkBsb91ov91sqwLWYZ1TE9MGZaN9ZnMXqnOGVmRpRmMWJjNGZjMDyc392nP9Y/LD3tLWB=</app_code>
-	  	<app_url>http://jgjt.oa.cncico.com/</app_url>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8011</httpserver_port> <!-- 监听端口 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	
-	<!-- 浦江 -->
-	<server>
-	    <action>false</action>
-	    <isphone>true</isphone><!-- 是否手机 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <security_host>220.191.229.139</security_host>
-	    <security_port>5566</security_port>
-	    <app_name>浦江统一登录</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	    <homepage_url>http://192.168.9.204:8090/ids/account/main.jsp</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-	  	<app_code>2Wbs4CenLGRkNGBuO9akN9ZqL96mLGYZ4dfnMGZmQWRmNGFjNWFjNpV9N9ZpMHqmM8qn2oAkAWVgNSuq3cbgMZ==</app_code>
-	  	<app_url>http://192.168.9.204:8090/ids/admin/login.jsp/</app_url>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8011</httpserver_port> <!-- 监听端口 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	
-	<!-- 电建 -->
-	<server>
-	    <action>false</action>
-	    <isphone>true</isphone><!-- 是否手机 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isPortrait>false</isPortrait><!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
-	    <isDianJian>true</isDianJian><!-- 是否电建项目 -->
-	    <security_host>moa.powerchina.cn</security_host>
-	    <security_port>5566</security_port>
-	    <app_name>中国电建移动办公</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	    <homepage_url>http://oa.powerchina.cn/zgdjcoa/homepage.nsf/index.html</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-	  	<app_code>BDEwBpYlBHvm1t3b2cMe0Dv7OcMkL96mJT7kNGFmNXJoNWVqOGVjNGZ9N9ZnMHqsOGEfQdfjNHem5cqt0Dnp</app_code>
-	  	<app_url>http://oa.powerchina.cn/</app_url>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8011</httpserver_port> <!-- 监听端口 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	<!-- 电建准生产 -->
-	<server>
-	    <action>false</action>
-	    <isphone>true</isphone><!-- 是否手机 -->
-	    <isepad>true</isepad><!-- 是否E人E本 -->
-	    <isPortrait>true</isPortrait><!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
-	    <isDianJian>true</isDianJian><!-- 是否电建项目 -->
-	    <security_host>moaz.powerchina.cn</security_host>
-	    <security_port>5566</security_port>
-	    <app_name>中国电建移动办公准生产</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	    <homepage_url>http://oaz.powerchina.cn/poweroa/homepage.nsf/index.html</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-	  	<app_code>NCFmLGQlBCek2TztACQ90TbkBHv919euNVYn1dFrNWZaN9ZnMXqnN8qpNHNoNWRsOGVoOGNnMXBm09VgNSvr1cn81Z==</app_code>
-	  	<app_url>http://oaz.powerchina.cn/</app_url>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8011</httpserver_port> <!-- 监听端口 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	<!-- 电建开发 -->
-	<server>
-	    <action>false</action>
-	    <isphone>false</isphone><!-- 是否手机 -->
-	    <isPortrait>false</isPortrait><!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
-	    <isepad>true</isepad><!-- 是否E人E本 -->
-	    <isDianJian>true</isDianJian><!-- 是否电建项目 -->
-	    <security_host>moadev.powerchina.cn</security_host>
-	    <security_port>5577</security_port>
-	    <app_name>中国电建移动办公</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	    <homepage_url>http://oatest.powerchina.cn/zgdjcoa/homepage.nsf/index.html</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-	  	<app_code>ATAuBGQlBCIb2tJk2TztACQ90TbkBHv919euNVYsNd6rNWZaN9ZnMXqnOGVmRpRmNGFjM8qrAHAeNGVgNSv9LTfj0Z==</app_code>
-	  	<app_url>http://oatest.powerchina.cn/</app_url>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8011</httpserver_port> <!-- 监听端口 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	
-	<!-- 电建会议系统 -->
-	<server>
-	    <action>false</action>
-	    <isphone>false</isphone><!-- 是否手机 -->
-	    <isPortrait>false</isPortrait><!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>true</isDianJian><!-- 是否电建项目 -->
-	    <security_host>moahy.powerchina.cn</security_host>
-	    <security_port>6600</security_port>
-	    <app_name>无线会议</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	  	<homepage_url>http://oa.powerchina.cn/zgdjcoa/homepage.nsf/index.html</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-	    <!--moahyz.powerchina.cn 3sarBdQlBCek2TztACQ90TbkBHv919euNVYe3D2rMGZaN9ZnMXqsOGVmRpRmNGBjM8qnNcyc2d2nP9Y/NWMaBcm= -->
-	    <app_code>BDEwBpYlBHvm1t3b2cMe0Dv7OcMkL96mJT7kNGFmNXJoNWVqOGVjNGZ9N9ZnMHqsOGEfQdfjNHem5cqt0Dnp</app_code>
-		<app_url>http://oa.powerchina.cn/</app_url>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8010</httpserver_port> <!-- 监听端口 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	
-	<!-- 海投 -->
-	<server>
-	    <action>false</action>
-	    <isphone>true</isphone><!-- 是否手机 -->
-	    <isPortrait>false</isPortrait><!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <security_host>mobile.sr.sinohydro.com</security_host>
-	    <security_port>566</security_port>
-	    <app_name>中海投平台</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	  	<homepage_url>http://oadoc.sr.sinohydro.com/zshtoa/homepage.nsf/index.html</homepage_url>
-	  	<app_charset>utf-8</app_charset>
-	    <app_code>AsUa1DrlBDIlBovp28vp0Dvl0Sba2cykBszjL96mJTvaN9FmNXJoNWVpOGNjNGZ9N9ZpNoqnN8qnMDecBCNnP9Y/MSUn4Ta=</app_code>
-		<app_url>http://oadoc.sr.sinohydro.com/</app_url>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8011</httpserver_port> <!-- 监听端口 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	
-	<!-- 6611 -->
-	<server>
-	    <action>false</action>
-	    <isphone>true</isphone><!-- 是否手机 -->
-	    <isPortrait>false</isPortrait><!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <security_host>220.250.1.46</security_host>
-	    <security_port>6611</security_port>
-	    <app_name>政务办公</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	    <homepage_url>http://192.168.1.12/homepage.nsf/homepage?OpenForm</homepage_url>
-	    <app_url>http://192.168.1.12/homepage.nsf</app_url>
-	  	<app_charset>utf-8</app_charset>
-	  	<app_code>NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg</app_code>
-	    <meeting_host>220.250.1.46</meeting_host>
-	    <meeting_port>8888</meeting_port>
-	  	<app_charset>utf-8</app_charset>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8011</httpserver_port> <!-- 监听端口 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	<!-- 法院 -->
-	<server>
-	    <action>false</action>
-	    <isphone>true</isphone><!-- 是否手机 -->
-	    <isPortrait>false</isPortrait><!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <security_host>218.5.2.250</security_host>
-	    <security_port>5566</security_port>
-	    <app_name>法官登陆</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	    <homepage_url>http://192.168.200.200:8123/toSxtxPage.action</homepage_url>
-	    <app_url>http://192.168.200.200:8123/wwgnFgLogin.action</app_url>
-	  	<app_charset>utf-8</app_charset>
-	  	<app_code>NdYv0WRnLGRkNGBuO9RmNXuoNWZwLWVoNqYsMdanNXJoNWVrOGZpOGNnRpRmN9BjNGRjNpUoQdU7NHem5c2s2p6m</app_code>
-	    <meeting_host>220.250.1.46</meeting_host>
-	    <meeting_port>8888</meeting_port>
-	  	<app_charset>utf-8</app_charset>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8011</httpserver_port> <!-- 监听端口 -->
-		<changeHost>false</changeHost><!-- 是否能改平台地址 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	<!-- 高速 -->
-	<server>
-	    <action>false</action>
-	    <isphone>true</isphone><!-- 是否手机 -->
-	    <isPortrait>false</isPortrait><!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <security_host>192.168.4.5</security_host>
-	    <security_port>5566</security_port>
-	    <app_name>协同办公</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	    <homepage_url>http://192.168.4.6/eGov50/homepage.nsf/homepage?OpenForm</homepage_url>
-	    <app_url>http://192.168.4.6/</app_url>
-	  	<app_charset>utf-8</app_charset>
-	  	<app_code>MSbpBsanLGRkNGBuO9JkM9euNVY80TRpNWZaN9ZnMHqmLHqmNHNoNWRrOGVnOGUvQd7gNHem5devM9Ad</app_code>
-	  	<app_charset>utf-8</app_charset>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8011</httpserver_port> <!-- 监听端口 -->
-		<changeHost>false</changeHost><!-- 是否能改平台地址 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-	</server>  
-	<!-- empty -->
-	<server>
-	    <action>false</action>
-	    <isphone>false</isphone><!-- 是否手机 -->
-	    <isPortrait>false</isPortrait><!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
-	    <isepad>false</isepad><!-- 是否E人E本 -->
-	    <isDianJian>false</isDianJian><!-- 是否电建项目 -->
-	    <app_name>政务办公</app_name>
-	    <client_key_store_password>rjsoft@123</client_key_store_password>
-	    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
-	  	<app_charset>utf-8</app_charset>
-	    <meeting_host>220.250.1.46</meeting_host>
-	    <meeting_port>8888</meeting_port>
-	  	<app_charset>utf-8</app_charset>
-	    <isulan>false</isulan> <!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
-	    <ispin>false</ispin> <!-- 是否进行pin验证 -->
-		<issdkey>false</issdkey> <!-- 是否使用key通道，优先级高于普通通道 -->
-		<isordinarysocket>false</isordinarysocket> <!-- 是否使用普通socket通道，优先级低于key通道 -->
-		<httpserver_port>8011</httpserver_port> <!-- 监听端口 -->
-		<updateNeedAppCode>false</updateNeedAppCode> <!-- 更新是否需要传appcode，true需要，false不需要 -->
-		<useVpn>false</useVpn><!-- 是否拨VPN -->
-	</server>  
+<?xml version="1.0" encoding="utf-8"?>    <!-- 外经贸厅   云平台  发改委-->
+<server>
+    <action>false</action>
+    <isphone>false</isphone>
+    <!-- 是否手机 -->
+    <isepad>false</isepad>
+    <!-- 是否E人E本 -->
+    <isDianJian>false</isDianJian>
+    <!-- 是否电建项目 -->
+    <app_name>政务云移动办公平台服务器</app_name>
+    <security_host>172.16.1.16</security_host>
+    <security_port>5566</security_port>
+    <meeting_host>172.16.1.19</meeting_host>
+    <meeting_port>8888</meeting_port>
+    <client_key_store_password>rjsoft@123</client_key_store_password>
+    <client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+    <homepage_url>http://172.16.1.21:9091/wisp_mgr/system/sys_loginValid?type=5</homepage_url>
+    <app_charset>utf-8</app_charset>
+    <aas_host>172.16.1.21</aas_host>
+    <aas_port>9091</aas_port>
+    <app_code>NsRqND2nMpRkNGBkNHuoNGevNWanJWFoB9NmNWZmQWRmNGNjNoqnNXNoNWNpOGBjNGE8Qc37NHem59U8As3s
+    </app_code>
+    <app_url>http://172.16.1.21:9091/wisp_mgr/wispLogin.html</app_url>
+    <ispin>true</ispin>
+    <issdkey>false</issdkey>
+    <httpserver_port>8011</httpserver_port>
+    <changeHost>false</changeHost>
+    <!-- 是否能改平台地址 -->
+    <updateNeedAppCode>false</updateNeedAppCode>
+    <!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>
+
+    <!-- 宁德 -->    <server>
+<action>false</action>
+<isphone>false</isphone>
+<!-- 是否手机 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<app_name>宁德电子政务移动云平台</app_name>
+<security_host>172.16.1.16</security_host>
+<security_port>5566</security_port>
+<meeting_host>172.16.1.19</meeting_host>
+<meeting_port>8888</meeting_port>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://172.16.1.17/homepage.nsf/homepage?OpenForm</homepage_url>
+<app_charset>utf-8</app_charset>
+<aas_host>172.16.1.17</aas_host>
+<aas_port>80</aas_port>
+<app_code>AGNm0SZnMpP7epVsO9VkNG2wLWYZMczuN9FmQWRmNGJjNGRjNpZ9N9ZpMHqnOGVtQdIrNXem5cjv2GUr
+</app_code>
+<app_url>http://172.16.1.17/</app_url>
+<ispin>true</ispin>
+<issdkey>false</issdkey>
+<httpserver_port>8011</httpserver_port>
+<changeHost>false</changeHost>
+<!-- 是否能改平台地址 -->
+<updateNeedAppCode>true</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>    <!-- 普及版  莆田-->    <server>
+<action>false</action>
+<isphone>true</isphone>
+<!-- 是否手机 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<app_name>电子政务移动云平台</app_name>
+<security_host>172.16.1.16</security_host>
+<security_port>5566</security_port>
+<meeting_host>172.16.1.19</meeting_host>
+<meeting_port>8888</meeting_port>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://172.16.1.17/homepage.nsf/homepage?OpenForm</homepage_url>
+<app_charset>utf-8</app_charset>
+<aas_host>172.16.1.17</aas_host>
+<aas_port>80</aas_port>
+<app_code>1C7f0SJnMpRkNGBkNHunMpeuNVZt1syrNWZmNXJoNWVpOGNjNGZ9N9ZpMXqsOGVr0HAj49VgNSun0GAmN6==
+</app_code>
+<app_url>http://172.16.1.17/</app_url>
+<ispin>true</ispin>
+<issdkey>false</issdkey>
+<httpserver_port>8011</httpserver_port>
+<changeHost>false</changeHost>
+<!-- 是否能改平台地址 -->
+<updateNeedAppCode>true</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>    <!-- 丽水-->    <server>
+<action>true</action>
+<isphone>false</isphone>
+<!-- 是否手机 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<app_name>电子政务移动云平台</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<app_charset>utf-8</app_charset>
+<ispin>false</ispin>
+<issdkey>false</issdkey>
+<httpserver_port>8011</httpserver_port>
+<useVpn>true</useVpn>
+<!-- 是否拨VPN -->
+<vpnHost>220.191.253.188</vpnHost>
+<!-- VPN地址 -->
+<changeHost>true</changeHost>
+<!-- 是否能改平台地址 -->
+<updateNeedAppCode>true</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>
+
+    <!-- 开发环境 -->    <server>
+<action>false</action>
+<isphone>false</isphone>
+<!-- 是否手机 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<app_name>移动云平台</app_name>
+<security_host>wisp.rongji.com</security_host>
+<security_port>5588</security_port>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://192.168.1.105:9091/wisp_mgr/system/sys_loginValid?type=1</homepage_url>
+<app_charset>utf-8</app_charset>
+<aas_host>192.168.1.105</aas_host>
+<aas_port>9091</aas_port>
+<app_code>1pUw2sBnLGRkNGBuO9VkNGZrL9amLGUZADAtMGZmNWZaN9ZnNoqpOGVmRpRmN9NjNGZjN9Y9QdRuNHem5cqrBDao
+</app_code>
+<app_url>http://192.168.1.105:9091/wisp_mgr/wispLogin.html</app_url>
+<ispin>false</ispin>
+<issdkey>false</issdkey>
+<httpserver_port>8011</httpserver_port>
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>
+
+    <!-- 演示环境 -->    <server>
+<action>false</action>
+<isphone>false</isphone>
+<!-- 是否手机 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<app_name>移动电子政务云平台</app_name>
+<security_host>192.168.1.154</security_host>
+<security_port>5578</security_port>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://192.168.1.12:9091/wisp_mgr/system/sys_loginValid?type=1</homepage_url>
+<app_charset>utf-8</app_charset>
+<aas_host>192.168.1.12</aas_host>
+<aas_port>9091</aas_port>
+<app_code>NCUpNDFnLGRkNGBuO9VkNGRwLGZvNFYe4GFoNWZaN9ZnN8quOGNmRpRmN96jM8qnNSZc0DRnP9Y/4C6qAcB=
+</app_code>
+<app_url>http://192.168.1.12:9091/wisp_mgr/wispLogin.html</app_url>
+<ispin>false</ispin>
+<issdkey>false</issdkey>
+<httpserver_port>8011</httpserver_port>
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>
+
+    <!-- itask -->    <server>
+<action>false</action>
+<isphone>false</isphone>
+<!-- 是否手机 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<app_name>itask系统vpn</app_name>
+<security_host>wisp.rongji.com</security_host>
+<security_port>6600</security_port>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://192.168.0.51/pda01.do?act=l</homepage_url>
+<app_charset>utf-8</app_charset>
+<aas_host>192.168.0.51</aas_host>
+<aas_port>80</aas_port>
+<app_code>2WIo3CanLGRkNGBuO9ZkMGVwLWYZBtMhMGZmNXJoNWVpOGNjNGZ9N9ZrMXqsOGVrAXAcMWVgNSvs3CRp0Z==
+</app_code>
+<app_url>http://192.168.0.51/pda</app_url>
+<ispin>false</ispin>
+<issdkey>false</issdkey>
+<httpserver_port>8012</httpserver_port>
+<is_itask>true</is_itask>
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>
+
+    <!-- 苍南-->    <server>
+<action>false</action>
+<isphone>true</isphone>
+<!-- 是否手机 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<security_host>122.228.139.37</security_host>
+<security_port>5566</security_port>
+<app_name>苍南县内部流办公系统</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://10.2.3.48/homepage.nsf/homepage?OpenForm</homepage_url>
+<app_charset>utf-8</app_charset>
+<app_code>BdIwNpanNXuoO9NkMW6wLWYZMD3lMGZmQWRmNGJjM8qnNXNoNWNrOGBjMG6c1cmnP9Y/BDff09N=</app_code>
+<app_url>http://10.2.3.48/</app_url>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8011</httpserver_port>
+<!-- 监听端口 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>    <!-- 浙江交投 1-->    <server>
+<action>false</action>
+<isphone>true</isphone>
+<!-- 是否手机 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<security_host>m.oa.cncico.com</security_host>
+<security_port>5566</security_port>
+<app_name>浙江交通投资集团登录</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://jtgs.oa.cncico.com/homepage.nsf/homepage?OpenForm</homepage_url>
+<app_charset>utf-8</app_charset>
+<app_code>
+    BpIuMtUjBDbiOcz7OcMkBsb91ov91sqwLWYZ0cjhN9ZmNWZaN9ZnNoqpOGVmRpRmMWNjLXqoNSBcLDNmP9Y/2TJu4T6=
+</app_code>
+<app_url>http://jtgs.oa.cncico.com/</app_url>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8011</httpserver_port>
+<!-- 监听端口 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>
+
+
+    <!-- 浙江交投2 -->    <server>
+<action>false</action>
+<isphone>true</isphone>
+<!-- 是否手机 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<security_host>m.oa.cncico.com</security_host>
+<security_port>5577</security_port>
+<app_name>浙江交通投资集团登录</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://jtgs2.oa.cncico.com/homepage.nsf/homepage?OpenForm</homepage_url>
+<app_charset>utf-8</app_charset>
+<app_code>
+    BpIuMtUjBDbiOcz7OcMkBsb91ov91sqwLWYZ0cjhN9ZmNWZaN9ZnNoqpOGVmRpRmMWNjLXqoNSBcLDNmP9Y/2TJu4T6=
+</app_code>
+<app_url>http://jtgs2.oa.cncico.com/</app_url>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8011</httpserver_port>
+<!-- 监听端口 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>
+
+
+    <!-- 浙江交投 3-->    <server>
+<action>false</action>
+<isphone>true</isphone>
+<!-- 是否手机 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<security_host>61.164.37.20</security_host>
+<security_port>5566</security_port>
+<app_name>浙江交通投资集团登录</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://jgjt.oa.cncico.com/homepage.nsf/homepage?OpenForm</homepage_url>
+<app_charset>utf-8</app_charset>
+<app_code>BtEc1sAgAsfqOcz7OcMkBsb91ov91sqwLWYZ1TE9MGZaN9ZnMXqnOGVmRpRmMWJjNGZjMDyc392nP9Y/LD3tLWB=
+</app_code>
+<app_url>http://jgjt.oa.cncico.com/</app_url>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8011</httpserver_port>
+<!-- 监听端口 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>
+
+    <!-- 浦江 -->    <server>
+<action>false</action>
+<isphone>true</isphone>
+<!-- 是否手机 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<security_host>220.191.229.139</security_host>
+<security_port>5566</security_port>
+<app_name>浦江统一登录</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://192.168.9.204:8090/ids/account/main.jsp</homepage_url>
+<app_charset>utf-8</app_charset>
+<app_code>2Wbs4CenLGRkNGBuO9akN9ZqL96mLGYZ4dfnMGZmQWRmNGFjNWFjNpV9N9ZpMHqmM8qn2oAkAWVgNSuq3cbgMZ==
+</app_code>
+<app_url>http://192.168.9.204:8090/ids/admin/login.jsp/</app_url>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8011</httpserver_port>
+<!-- 监听端口 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>
+
+    <!-- 电建 -->    <server>
+<action>false</action>
+<isphone>true</isphone>
+<!-- 是否手机 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isPortrait>false</isPortrait>
+<!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
+<isDianJian>true</isDianJian>
+<!-- 是否电建项目 -->
+<security_host>moa.powerchina.cn</security_host>
+<security_port>5566</security_port>
+<app_name>中国电建移动办公</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://oa.powerchina.cn/zgdjcoa/homepage.nsf/index.html</homepage_url>
+<app_charset>utf-8</app_charset>
+<app_code>BDEwBpYlBHvm1t3b2cMe0Dv7OcMkL96mJT7kNGFmNXJoNWVqOGVjNGZ9N9ZnMHqsOGEfQdfjNHem5cqt0Dnp
+</app_code>
+<app_url>http://oa.powerchina.cn/</app_url>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8011</httpserver_port>
+<!-- 监听端口 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>    <!-- 电建准生产 -->    <server>
+<action>false</action>
+<isphone>true</isphone>
+<!-- 是否手机 -->
+<isepad>true</isepad>
+<!-- 是否E人E本 -->
+<isPortrait>true</isPortrait>
+<!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
+<isDianJian>true</isDianJian>
+<!-- 是否电建项目 -->
+<security_host>moaz.powerchina.cn</security_host>
+<security_port>5566</security_port>
+<app_name>中国电建移动办公准生产</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://oaz.powerchina.cn/poweroa/homepage.nsf/index.html</homepage_url>
+<app_charset>utf-8</app_charset>
+<app_code>
+    NCFmLGQlBCek2TztACQ90TbkBHv919euNVYn1dFrNWZaN9ZnMXqnN8qpNHNoNWRsOGVoOGNnMXBm09VgNSvr1cn81Z==
+</app_code>
+<app_url>http://oaz.powerchina.cn/</app_url>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8011</httpserver_port>
+<!-- 监听端口 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>    <!-- 电建开发 -->    <server>
+<action>false</action>
+<isphone>false</isphone>
+<!-- 是否手机 -->
+<isPortrait>false</isPortrait>
+<!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
+<isepad>true</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>true</isDianJian>
+<!-- 是否电建项目 -->
+<security_host>moadev.powerchina.cn</security_host>
+<security_port>5577</security_port>
+<app_name>中国电建移动办公</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://oatest.powerchina.cn/zgdjcoa/homepage.nsf/index.html</homepage_url>
+<app_charset>utf-8</app_charset>
+<app_code>
+    ATAuBGQlBCIb2tJk2TztACQ90TbkBHv919euNVYsNd6rNWZaN9ZnMXqnOGVmRpRmNGFjM8qrAHAeNGVgNSv9LTfj0Z==
+</app_code>
+<app_url>http://oatest.powerchina.cn/</app_url>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8011</httpserver_port>
+<!-- 监听端口 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>
+
+    <!-- 电建会议系统 -->    <server>
+<action>false</action>
+<isphone>false</isphone>
+<!-- 是否手机 -->
+<isPortrait>false</isPortrait>
+<!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>true</isDianJian>
+<!-- 是否电建项目 -->
+<security_host>moahy.powerchina.cn</security_host>
+<security_port>6600</security_port>
+<app_name>无线会议</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://oa.powerchina.cn/zgdjcoa/homepage.nsf/index.html</homepage_url>
+<app_charset>utf-8</app_charset>
+<!--moahyz.powerchina.cn 3sarBdQlBCek2TztACQ90TbkBHv919euNVYe3D2rMGZaN9ZnMXqsOGVmRpRmNGBjM8qnNcyc2d2nP9Y/NWMaBcm= -->
+<app_code>BDEwBpYlBHvm1t3b2cMe0Dv7OcMkL96mJT7kNGFmNXJoNWVqOGVjNGZ9N9ZnMHqsOGEfQdfjNHem5cqt0Dnp
+</app_code>
+<app_url>http://oa.powerchina.cn/</app_url>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8010</httpserver_port>
+<!-- 监听端口 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>
+
+    <!-- 海投 -->    <server>
+<action>false</action>
+<isphone>true</isphone>
+<!-- 是否手机 -->
+<isPortrait>false</isPortrait>
+<!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<security_host>mobile.sr.sinohydro.com</security_host>
+<security_port>566</security_port>
+<app_name>中海投平台</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://oadoc.sr.sinohydro.com/zshtoa/homepage.nsf/index.html</homepage_url>
+<app_charset>utf-8</app_charset>
+<app_code>
+    AsUa1DrlBDIlBovp28vp0Dvl0Sba2cykBszjL96mJTvaN9FmNXJoNWVpOGNjNGZ9N9ZpNoqnN8qnMDecBCNnP9Y/MSUn4Ta=
+</app_code>
+<app_url>http://oadoc.sr.sinohydro.com/</app_url>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8011</httpserver_port>
+<!-- 监听端口 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>
+
+    <!-- 6611 -->    <server>
+<action>false</action>
+<isphone>true</isphone>
+<!-- 是否手机 -->
+<isPortrait>false</isPortrait>
+<!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<security_host>220.250.1.46</security_host>
+<security_port>6611</security_port>
+<app_name>政务办公</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://192.168.1.12/homepage.nsf/homepage?OpenForm</homepage_url>
+<app_url>http://192.168.1.12/homepage.nsf</app_url>
+<app_charset>utf-8</app_charset>
+<app_code>NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg
+</app_code>
+<meeting_host>220.250.1.46</meeting_host>
+<meeting_port>8888</meeting_port>
+<app_charset>utf-8</app_charset>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8011</httpserver_port>
+<!-- 监听端口 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>    <!-- 法院 -->    <server>
+<action>false</action>
+<isphone>true</isphone>
+<!-- 是否手机 -->
+<isPortrait>false</isPortrait>
+<!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<security_host>218.5.2.250</security_host>
+<security_port>5566</security_port>
+<app_name>法官登陆</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://192.168.200.200:8123/toSxtxPage.action</homepage_url>
+<app_url>http://192.168.200.200:8123/wwgnFgLogin.action</app_url>
+<app_charset>utf-8</app_charset>
+<app_code>NdYv0WRnLGRkNGBuO9RmNXuoNWZwLWVoNqYsMdanNXJoNWVrOGZpOGNnRpRmN9BjNGRjNpUoQdU7NHem5c2s2p6m
+</app_code>
+<meeting_host>220.250.1.46</meeting_host>
+<meeting_port>8888</meeting_port>
+<app_charset>utf-8</app_charset>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8011</httpserver_port>
+<!-- 监听端口 -->
+<changeHost>false</changeHost>
+<!-- 是否能改平台地址 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>    <!-- 高速 -->    <server>
+<action>false</action>
+<isphone>true</isphone>
+<!-- 是否手机 -->
+<isPortrait>false</isPortrait>
+<!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<security_host>192.168.4.5</security_host>
+<security_port>5566</security_port>
+<app_name>协同办公</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<homepage_url>http://192.168.4.6/eGov50/homepage.nsf/homepage?OpenForm</homepage_url>
+<app_url>http://192.168.4.6/</app_url>
+<app_charset>utf-8</app_charset>
+<app_code>MSbpBsanLGRkNGBuO9JkM9euNVY80TRpNWZaN9ZnMHqmLHqmNHNoNWRrOGVnOGUvQd7gNHem5devM9Ad
+</app_code>
+<app_charset>utf-8</app_charset>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8011</httpserver_port>
+<!-- 监听端口 -->
+<changeHost>false</changeHost>
+<!-- 是否能改平台地址 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+</server>    <!-- empty -->    <server>
+<action>false</action>
+<isphone>false</isphone>
+<!-- 是否手机 -->
+<isPortrait>false</isPortrait>
+<!-- 是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果 -->
+<isepad>false</isepad>
+<!-- 是否E人E本 -->
+<isDianJian>false</isDianJian>
+<!-- 是否电建项目 -->
+<app_name>政务办公</app_name>
+<client_key_store_password>rjsoft@123</client_key_store_password>
+<client_trust_key_store_password>rjsoft@123</client_trust_key_store_password>
+<app_charset>utf-8</app_charset>
+<meeting_host>220.250.1.46</meeting_host>
+<meeting_port>8888</meeting_port>
+<app_charset>utf-8</app_charset>
+<isulan>false</isulan>
+<!-- 是否试用蓝牙设备验证，需要安卓4.3以上才能正常使用，否则程序奔溃退出 -->
+<ispin>false</ispin>
+<!-- 是否进行pin验证 -->
+<issdkey>false</issdkey>
+<!-- 是否使用key通道，优先级高于普通通道 -->
+<isordinarysocket>false</isordinarysocket>
+<!-- 是否使用普通socket通道，优先级低于key通道 -->
+<httpserver_port>8011</httpserver_port>
+<!-- 监听端口 -->
+<updateNeedAppCode>false</updateNeedAppCode>
+<!-- 更新是否需要传appcode，true需要，false不需要 -->
+<useVpn>false</useVpn>
+<!-- 是否拨VPN -->
+</server>

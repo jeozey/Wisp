@@ -4,26 +4,15 @@ import android.app.Application;
 import android.util.Log;
 
 import com.rj.framework.CrashHandler;
+import com.rj.wisp.ResourceItem;
+
+import java.util.HashMap;
 
 public class WispApplication extends Application {
     private static final String TAG = WispApplication.class.getName();
-    public static final long NOW = System.currentTimeMillis();
     public static boolean isLogin = false;
-    public static int OpenType = 0;
-    public static final int OPENTYPE_WPS = 1;
-    public static final int OPENTYPE_ANNOTATION = 2;
-    public static final int OPENTYPE_PDF = 3;
-    // public static final int OPENTYPE_PDF_LOG = 4;
-
-    public static String tabMsg = "";// 平板pdf阅读器用到
-    public static String cookies = "";
-    public static String docType = "";
-    public static String UserName = "";
-    public static String PDFName = "";
-    public static String FileName = "";//用于适配那边给的名称
-    public static String PDFLogName = "";
-
-
+    public static HashMap<String, ResourceItem> resourcesList = new HashMap<>();
+    public static String cookies;
     private static WispApplication mInstance = null;
 
     public static WispApplication getInstance() {

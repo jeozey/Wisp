@@ -1,7 +1,9 @@
 package com.rj.wisp.base;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -67,9 +69,14 @@ public class BaseActivity extends Activity {
         }
     }
 
+    @TargetApi(21)
     public void clearCookies() {
         CookieManager c = CookieManager.getInstance();
-        c.removeAllCookies(null);
+        if (Build.VERSION.SDK_INT >= 21) {
+            c.removeAllCookies(null);
+        } else {
+            c.removeAllCookie();
+        }
     }
 
 

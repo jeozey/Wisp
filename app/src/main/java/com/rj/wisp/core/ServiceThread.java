@@ -12,13 +12,17 @@ import com.rj.util.DataUtil;
 import com.rj.util.FileUtil;
 import com.rj.util.GzipUtil;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.CharArrayWriter;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
 import java.net.Socket;
 import java.util.zip.GZIPOutputStream;
 
@@ -30,7 +34,7 @@ public class ServiceThread extends Thread {
     private static final String TAG = ServiceThread.class.getName();
     private Socket webViewSocket;
     private Handler handler;
-    private DataInputStream webView_reader;
+    private BufferedReader webView_reader;
     private OutputStream webView_os;
     private Context context;
 
@@ -77,8 +81,8 @@ public class ServiceThread extends Thread {
     private String getHeadLine() {
 
         try {
-            webView_reader = new DataInputStream(
-                    (webViewSocket.getInputStream()));
+            Reader reader = new InputStreamReader(webViewSocket.getInputStream());
+            webView_reader = new BufferedReader(reader, 1024);
             webView_os = webViewSocket.getOutputStream();
             String head_line = webView_reader.readLine();
             Log.e("bug", "head_line:" + head_line);
@@ -86,7 +90,6 @@ public class ServiceThread extends Thread {
         } catch (IOException e1) {
             e1.printStackTrace();
             Log.e(TAG, "请求第一行出错:" + e1.getMessage());
-
 
         }
         return null;
@@ -99,6 +102,9 @@ public class ServiceThread extends Thread {
                 addWebUi();
             } else if (head_line.indexOf("/config/html/") != -1) {// 资源类下载
                 downLoadResource(head_line);
+                // 更新条数
+            } else if (head_line.indexOf("addWebBtnNum") != -1) {
+                addWebBtnNum();
             } else {
                 httpRequest(head_line);
             }
@@ -109,6 +115,13 @@ public class ServiceThread extends Thread {
 
     public static final int ADD_WEB_UI = 2;
 
+    private void responseEmptyToWebView() {
+        responseWebView("\r\n\r\n".getBytes(), "".getBytes());
+    }
+
+    private void addWebBtnNum() {
+        responseEmptyToWebView();
+    }
     private void addWebUi() throws IOException {
         Log.e(TAG, "addWebUi:" + handler);
         if (handler != null) {
@@ -135,10 +148,6 @@ public class ServiceThread extends Thread {
         String line2 = "";
         sb.append(head_line + "\r\n");
 
-        if (head_line.indexOf("@@rj@@handwriting") != -1) {
-//            handWriting(head_line);
-            return;
-        }
 
         boolean isDownloadResources = false;// 是否下载资源文件
 
@@ -336,15 +345,20 @@ public class ServiceThread extends Thread {
             sb.append(line + "\r\n");
         }
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        byte[] b = new byte[1024];
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        CharArrayWriter charArrayWriter = new CharArrayWriter();
+        char[] b = new char[1024];
         int i = 0;
         while ((i = webView_reader.read(b, 0, b.length)) > 0) {
-            bos.write(b, 0, i);
+//            bos.write(b, 0, i);
+            charArrayWriter.write(b, 0, i);
             if (i < 1024)
                 break;
         }
-        jsonData = new String(bos.toByteArray());
+//        bos.close();
+        charArrayWriter.flush();
+        jsonData = charArrayWriter.toString();
+        charArrayWriter.close();
         Log.e("request", "getJsonFromWebview:" + contentLength + "---"
                 + jsonData.length());
         Log.e("request", "getJsonFromWebview:" + jsonData);
@@ -420,16 +434,19 @@ public class ServiceThread extends Thread {
                 if (isForm) {
                     gzipOS.write((sb.toString()).getBytes());
                     int postlength = contentLength;// -sb.toString().getBytes().length;
-                    byte[] buf = new byte[1024];
+                    char[] buf = new char[1024];
+                    StringBuffer stringBuffer = new StringBuffer();
                     int size = 0;
                     do {
                         size = webView_reader.read(buf);
-                        gzipOS.write(buf, 0, size);
+                        stringBuffer.append(new String(buf));
+//                        gzipOS.write(buf, 0, size);
                         postlength = postlength - size;
                         if (postlength <= 0) {
                             break;
                         }
                     } while (size != -1);
+                    gzipOS.write(stringBuffer.toString().getBytes());
                     gzipOS.flush();
 
                     gzipOS.close();
@@ -562,17 +579,6 @@ public class ServiceThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
             return;
-        } finally {
-            try {
-                webView_reader.close();
-            } catch (Exception e) {
-
-            }
-            try {
-                webViewSocket.close();
-            } catch (Exception e) {
-
-            }
         }
     }
 

@@ -35,7 +35,6 @@ public class DB {
     public static String KEY_SERIAL = "";
     public static String MSISDN = "";
     public static String IMSI = "";
-    public static String SDCARD_PATH = "";
     public static String DataDirPath = "";
     public static String HOMEPAGE_URL = "";
     public static String APP_CHARSET = "";
@@ -82,5 +81,12 @@ public class DB {
     public static boolean PDF_RESOLVE = false;
     public static boolean SCREEN_SHOT = false;
     /*************会议****************/
+
+
+    public static String SDCARD_PATH = "";
+    public static String CACHE_FILE_PATH = "";
+    public static String EXTERNAL_FILE_PATH = "";
+    public static String RESOURCE_PATH = "";
+    public static String DOWN_FILE_PATH = "";
 
 }

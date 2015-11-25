@@ -4,22 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_grey640"
-    android:visibility="visible" >
+    android:visibility="visible">
 
-        <ImageView
-            android:id="@+id/guohui"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/guohui" 
-            android:layout_above="@+id/R" />
+    <ImageView
+        android:id="@+id/guohui"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/guohui"
+        android:layout_above="@+id/R" />
 
 
     <RelativeLayout
         android:id="@+id/R"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" >
+        android:layout_centerInParent="true">
 
         <LinearLayout
             android:id="@+id/Layout1"
@@ -27,7 +27,7 @@
             android:layout_height="80dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:background="@drawable/pininputbg" >
+            android:background="@drawable/pininputbg">
 
             <EditText
                 android:id="@+id/pin_login_edt"
@@ -43,8 +43,8 @@
                 android:singleLine="true"
                 android:textColor="#000000"
                 android:maxLength="16"
-                android:imeOptions="actionDone"/>
-                
+                android:imeOptions="actionDone" />
+
 
         </LinearLayout>
 
@@ -54,13 +54,13 @@
             android:layout_height="95dp"
             android:layout_below="@+id/Layout1"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" >
+            android:layout_marginRight="30dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/login_btn"
@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"

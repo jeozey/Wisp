@@ -1,0 +1,148 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_ip"
+        style="@style/tv_label"
+        android:text="IP:" />
+
+    <TextView
+        android:id="@+id/tv_user"
+        style="@style/tv_label"
+        android:layout_below="@id/tv_ip"
+        android:text="User:" />
+
+    <TextView
+        android:id="@+id/tv_passwd"
+        style="@style/tv_label"
+        android:layout_below="@id/tv_user"
+        android:text="Password:" />
+
+    <TextView
+        android:id="@+id/tv_certName"
+        style="@style/tv_label"
+        android:layout_below="@id/tv_passwd"
+        android:text="Cert Name:" />
+
+    <TextView
+        android:id="@+id/tv_certPasswd"
+        style="@style/tv_label"
+        android:layout_below="@id/tv_certName"
+        android:text="Cert Passwd:" />
+
+    <TextView
+        android:id="@+id/tv_sms"
+        style="@style/tv_label"
+        android:layout_below="@id/tv_certPasswd"
+        android:text="Sms Code:" />
+
+    <TextView
+        android:id="@+id/tv_url"
+        style="@style/tv_label"
+        android:layout_below="@id/tv_sms"
+        android:text="Url:" />
+
+    <com.sangfor.ssl.ui.RememberEditText
+        android:id="@+id/edt_ip"
+        style="@style/match_parent"
+        android:layout_alignBaseline="@id/tv_ip"
+        android:layout_toRightOf="@id/tv_ip"
+        android:text="220.191.253.188"
+        android:inputType="textUri" />
+
+    <com.sangfor.ssl.ui.RememberEditText
+        android:id="@+id/edt_user"
+        style="@style/match_parent"
+        android:layout_alignBaseline="@id/tv_user"
+        android:layout_toRightOf="@id/tv_user"
+        android:text="sangfor"
+        android:inputType="textNoSuggestions" />
+
+    <com.sangfor.ssl.ui.RememberEditText
+        android:id="@+id/edt_passwd"
+        style="@style/match_parent"
+        android:text="admin"
+        android:layout_alignBaseline="@id/tv_passwd"
+        android:layout_toRightOf="@id/tv_passwd"
+        android:inputType="textPassword" />
+
+    <com.sangfor.ssl.ui.RememberEditText
+        android:id="@+id/edt_certName"
+        style="@style/match_parent"
+        android:layout_alignBaseline="@id/tv_certName"
+        android:layout_toRightOf="@id/tv_certName"
+        android:text="/sdcard/cert/lyx.p12"
+        android:inputType="textNoSuggestions" />
+
+    <com.sangfor.ssl.ui.RememberEditText
+        android:id="@+id/edt_certPasswd"
+        style="@style/match_parent"
+        android:layout_alignBaseline="@id/tv_certPasswd"
+        android:layout_toRightOf="@id/tv_certPasswd"
+        android:text="123"
+        android:inputType="textPassword" />
+
+    <com.sangfor.ssl.ui.RememberEditText
+        android:id="@+id/edt_sms"
+        style="@style/match_parent"
+        android:layout_alignBaseline="@id/tv_sms"
+        android:layout_toRightOf="@id/tv_sms"
+        android:inputType="number" />
+
+    <com.sangfor.ssl.ui.RememberEditText
+        android:id="@+id/edt_url"
+        style="@style/match_parent"
+        android:layout_alignBaseline="@id/tv_url"
+        android:layout_toRightOf="@id/tv_url"
+        android:inputType="textUri" />
+
+    <Button
+        android:id="@+id/btn_logout"
+        style="@style/tv_label"
+        android:layout_below="@id/tv_url"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick"
+        android:text="Logout" />
+
+    <Button
+        android:id="@+id/btn_login"
+        style="@style/tv_label"
+        android:layout_below="@id/tv_url"
+        android:layout_toLeftOf="@id/btn_logout"
+        android:onClick="onClick"
+        android:text="Login" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        style="@style/tv_label"
+        android:layout_below="@id/btn_logout"
+        android:layout_centerHorizontal="true"
+        android:onClick="onClick"
+        android:text="Cancel" />
+
+    <Button
+        android:id="@+id/btn_sms"
+        style="@style/tv_label"
+        android:layout_below="@id/tv_url"
+        android:layout_toRightOf="@id/btn_logout"
+        android:onClick="onClick"
+        android:text="send sms" />
+
+    <Button
+        android:id="@+id/btn_reget_sms"
+        style="@style/tv_label"
+        android:layout_below="@id/btn_sms"
+        android:layout_alignLeft="@id/btn_sms"
+        android:onClick="onClick"
+        android:text="reget sms" />
+
+    <Button
+        android:id="@+id/btn_test_http"
+        style="@style/tv_label"
+        android:layout_below="@id/btn_cancel"
+        android:layout_alignRight="@id/btn_login"
+        android:onClick="onClick"
+        android:text="T_Http" />
+
+</RelativeLayout>

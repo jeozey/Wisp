@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/edittext_normal_shape" android:state_window_focused="false"/>
-    <item android:drawable="@drawable/edittext_active_shape" android:state_focused="true"/>
+    <item android:drawable="@drawable/edittext_normal_shape" android:state_window_focused="false" />
+    <item android:drawable="@drawable/edittext_active_shape" android:state_focused="true" />
 
 </selector><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/sdkey/src/main/res/drawable/edittext_selector.xml -->

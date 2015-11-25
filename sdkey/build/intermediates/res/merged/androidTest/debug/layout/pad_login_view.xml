@@ -3,13 +3,13 @@
     android:id="@+id/view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pinbg_1280" >
+    android:background="@drawable/pinbg_1280">
 
     <RelativeLayout
         android:id="@+id/loginview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible" >
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/guohui"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/guohui"
             android:layout_centerInParent="true"
-            android:layout_marginTop="20dp" >
+            android:layout_marginTop="20dp">
 
             <LinearLayout
                 android:id="@+id/Layout1"
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -60,8 +60,8 @@
                 android:layout_below="@+id/Layout1"
                 android:layout_marginLeft="250dp"
                 android:layout_marginRight="250dp"
-                android:background="@drawable/pininputbg"              
-                android:orientation="vertical" >
+                android:background="@drawable/pininputbg"
+                android:orientation="vertical">
 
                 <EditText
                     android:id="@+id/pin_login_edt"
@@ -73,11 +73,11 @@
                     android:background="@drawable/edittext_selector"
                     android:hint="@string/input_pin"
                     android:inputType="numberPassword"
-            		android:maxLength="16"
+                    android:maxLength="16"
                     android:singleLine="true"
-                    android:textColor="#000000" 
+                    android:textColor="#000000"
                     android:focusable="true"
-                	android:focusableInTouchMode="true"/>
+                    android:focusableInTouchMode="true" />
 
                 <Button
                     android:id="@+id/login_btn"
@@ -98,7 +98,7 @@
         android:id="@+id/changeview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/Layout4"
@@ -108,7 +108,7 @@
             android:layout_marginLeft="250dp"
             android:layout_marginRight="250dp"
             android:background="@drawable/pininputbg"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/pin_change_edt"
@@ -120,7 +120,7 @@
                 android:background="@drawable/edittext_selector"
                 android:hint="@string/input_old_pin"
                 android:inputType="numberPassword"
-            	android:maxLength="16"
+                android:maxLength="16"
                 android:singleLine="true"
                 android:textColor="#000000" />
 
@@ -134,7 +134,7 @@
                 android:background="@drawable/edittext_selector"
                 android:hint="@string/input_newpin"
                 android:inputType="numberPassword"
-            	android:maxLength="16"
+                android:maxLength="16"
                 android:singleLine="true"
                 android:textColor="#000000" />
 
@@ -148,7 +148,7 @@
                 android:background="@drawable/edittext_selector"
                 android:hint="@string/anginnewpin"
                 android:inputType="numberPassword"
-            	android:maxLength="16"
+                android:maxLength="16"
                 android:singleLine="true"
                 android:textColor="#000000" />
 
@@ -183,7 +183,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="1dp" > 
+            android:layout_marginTop="1dp">
 
             <LinearLayout
                 android:id="@+id/Layout3"
@@ -191,8 +191,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:orientation="vertical" >
- 
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -210,8 +210,8 @@
                     android:text=""
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
-             </LinearLayout> 
-       </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 
     <TextView

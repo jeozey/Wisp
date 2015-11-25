@@ -149,12 +149,6 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         }
     }
 
-    private String QCodeCallBack = "";
-    private static final int CAPTURE_ACTIVITY = 15;
-
-
-    private static final int ADDRESS_BOOK = 4;
-
 
     private void logOut() {
         Log.e(TAG, "logOut WispApplication.isLogin:" + WispApplication.isLogin);
@@ -228,7 +222,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
     }
 
-    private void onTapMenuSelect(int position) {
+    protected void onTapMenuSelect(int position) {
         switch (position) {
             case 0:
                 reload();

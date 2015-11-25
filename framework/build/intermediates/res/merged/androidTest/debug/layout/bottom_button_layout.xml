@@ -6,7 +6,7 @@
     android:layout_gravity="bottom"
     android:clickable="true"
     android:descendantFocusability="blocksDescendants"
-    android:focusableInTouchMode="true" 
+    android:focusableInTouchMode="true"
     android:paddingLeft="2dp">
 
     <RelativeLayout
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/imgTitle"

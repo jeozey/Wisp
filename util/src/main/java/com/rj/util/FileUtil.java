@@ -275,7 +275,7 @@ public class FileUtil {
     }
 
     // 以下为直接从sdCard读取
-    public static String getFromSDCard(Context context, String fileName)
+    public static String readFile(String fileName)
             throws FileNotFoundException {
         try {
             System.out.println("fileName:" + fileName);

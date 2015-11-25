@@ -4,8 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="@mipmap/setting_popmenu_bg_one"
-    android:paddingTop="10dp"
-     >
+    android:paddingTop="10dp">
     <!-- android:background="@drawable/setting_popmenu_bg" -->
 
     <com.rj.view.listview.CornerListView

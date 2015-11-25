@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/theme"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RadioGroup
         android:id="@+id/parentRadioGroup"
@@ -16,7 +16,6 @@
         android:background="@drawable/radio_group_shape"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:padding="2dp" >
-    </RadioGroup>
+        android:padding="2dp"></RadioGroup>
 
 </LinearLayout><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/view/src/main/res/layout/top_tab_widget_layout.xml --><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/view/build/intermediates/bundles/debug/res/layout/top_tab_widget_layout.xml -->

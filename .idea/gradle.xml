@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/sdkey" />
             <option value="$PROJECT_DIR$/util" />
             <option value="$PROJECT_DIR$/view" />
+            <option value="$PROJECT_DIR$/vpn" />
           </set>
         </option>
       </GradleProjectSettings>

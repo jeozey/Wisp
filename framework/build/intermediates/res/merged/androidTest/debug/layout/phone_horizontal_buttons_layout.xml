@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/phone_horizontal_btn_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:orientation="horizontal"
-        android:padding="5dp" >
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/more_left_img"
@@ -27,7 +27,7 @@
             android:src="@mipmap/morel"
             android:visibility="invisible" />
 
-        <com.rj.widget.common.HorizontalListView
+        <com.rj.view.listview.HorizontalListView
             android:id="@+id/btns_listview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

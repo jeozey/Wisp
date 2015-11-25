@@ -4,85 +4,84 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_grey640"
-    android:visibility="visible" >
+    android:visibility="visible">
 
-        <EditText
-            android:id="@+id/pin_change_edt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_above="@+id/pin_new_edt"
-            android:background="@drawable/edittext_selector"
-            android:hint="@string/input_old_pin"
-            android:inputType="numberPassword"
-            android:maxLength="16"
-            android:singleLine="true"
-            android:textColor="#000000"  
-            android:focusable="true" 
-    		android:focusableInTouchMode="true"/>
+    <EditText
+        android:id="@+id/pin_change_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_above="@+id/pin_new_edt"
+        android:background="@drawable/edittext_selector"
+        android:hint="@string/input_old_pin"
+        android:inputType="numberPassword"
+        android:maxLength="16"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
-        <EditText
-            android:id="@+id/pin_new_edt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/pin_aganew_edt"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/edittext_selector"
-            android:hint="@string/input_newpin"
-            android:inputType="numberPassword"
-            android:maxLength="16"
-            android:singleLine="true"
-            android:textColor="#000000" >
-        </EditText>
+    <EditText
+        android:id="@+id/pin_new_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/pin_aganew_edt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/edittext_selector"
+        android:hint="@string/input_newpin"
+        android:inputType="numberPassword"
+        android:maxLength="16"
+        android:singleLine="true"
+        android:textColor="#000000"></EditText>
 
-        <EditText
-            android:id="@+id/pin_aganew_edt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/edittext_selector"
-            android:hint="@string/anginnewpin"
-            android:inputType="numberPassword"
-            android:singleLine="true"
-            android:textColor="#000000" 
-            android:maxLength="16"
-            android:layout_centerInParent="true"/>
+    <EditText
+        android:id="@+id/pin_aganew_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/edittext_selector"
+        android:hint="@string/anginnewpin"
+        android:inputType="numberPassword"
+        android:singleLine="true"
+        android:textColor="#000000"
+        android:maxLength="16"
+        android:layout_centerInParent="true" />
 
-        <Button
-            android:id="@+id/ensure_btn"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/pin_aganew_edt"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/button_selector"
-            android:text="@string/sure"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+    <Button
+        android:id="@+id/ensure_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/pin_aganew_edt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/button_selector"
+        android:text="@string/sure"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/cancle_btn"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/ensure_btn"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/button_selector"
-            android:text="@string/cancle"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp" />
+    <Button
+        android:id="@+id/cancle_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/ensure_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/button_selector"
+        android:text="@string/cancle"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
 
 
 </RelativeLayout><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/sdkey/src/main/res/layout/phone_change_view.xml -->

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SangforSDK">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/vpn/libs/SangforSDK.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
