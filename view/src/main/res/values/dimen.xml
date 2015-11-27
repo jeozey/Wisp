@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="menu_item_padding">10dp</dimen>
+
+    <dimen name="radio_button_txt_size0">14px</dimen>
+    <dimen name="radio_button_txt_size1">16px</dimen>
+    <dimen name="radio_button_txt_size2">20px</dimen>
+    <dimen name="radio_button_margin_top_bottom">8dp</dimen>
+    <dimen name="radio_button_margin_top_bottom1">4dp</dimen>
+    <dimen name="radio_button_margin_left_right">8dp</dimen>
+    <dimen name="radio_button_margin_left_right1">4dp</dimen>
+
+</resources>

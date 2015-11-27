@@ -1,6 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:drawable="@drawable/button_normal_shape" android:state_pressed="false" />
-    <item android:drawable="@drawable/button_active_shape" android:state_pressed="true" />
-
-</selector><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/sdkey/src/main/res/drawable/button_selector.xml --><!-- From: file:/F:/WISP_SAFE_ANDROID_4.0/Wisp/app/build/intermediates/exploded-aar/Wisp/sdkey/unspecified/res/drawable/button_selector.xml -->

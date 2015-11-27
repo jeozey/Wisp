@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--theme-->
+    <color name="theme">#ff0070ef</color>
+    <color name="theme_menu_txt_color">#ff000000</color>
+
+
+    <!--Msg-->
+    <color name="alert">#CC0000</color>
+    <color name="confirm">#FF8800</color>
+    <color name="info">#669900</color>
+
+    <color name="phone_horizontal_btn_bg">#fff8f8f8</color>
+    <color name="phone_horizontal_btn_top_line">#fff8f8f7</color>
+
+</resources>
