@@ -32,12 +32,6 @@ public class SocketConnectionFactory {
     }
 
     public ISocketConnection createOrdinaryConnection(String host, int port) {
-        ISocketConnection connection = null;
-        try {
-            connection = new OrdinarySocketConnection(host, port);
-        } catch (IOException e) {
-            Log.e(TAG, "Create connection error:" + e.getMessage());
-        }
-        return connection;
+        return new OrdinarySocketConnection(host, port);
     }
 }

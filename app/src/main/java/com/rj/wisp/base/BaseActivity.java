@@ -2,9 +2,13 @@ package com.rj.wisp.base;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -16,6 +20,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.rj.view.TabMenu;
 import com.rj.wisp.R;
+import com.rj.wisp.core.NetConnectService;
+import com.rj.wisp.core.WispCore;
 
 
 public class BaseActivity extends Activity {
@@ -100,24 +106,24 @@ public class BaseActivity extends Activity {
     }
 
     public void exitApp() {
-//		AlertDialog.Builder alertbBuilder = new AlertDialog.Builder(this);
-//
-//		alertbBuilder.setTitle("系统提示").setMessage("您确定退出程序吗?")
-//				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int which) {
-//						dialog.cancel();
-//					}
-//				})
-//				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int which) {
-//						// 取消网络监听悬浮窗
-//						Intent exipAppIntent = new Intent(BaseActivity.this,
-//								NetConnectService.class);
-//						exipAppIntent.putExtra("FLAG_IS_EXIT", true);
-//						startService(exipAppIntent);
-//
-//						// 停止8011监听服务
-//						WISP.getWISPSO().CloseService();
+        AlertDialog.Builder alertbBuilder = new AlertDialog.Builder(this);
+
+        alertbBuilder.setTitle("系统提示").setMessage("您确定退出程序吗?")
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 取消网络监听悬浮窗
+                        Intent exipAppIntent = new Intent(BaseActivity.this,
+                                NetConnectService.class);
+                        exipAppIntent.putExtra("FLAG_IS_EXIT", true);
+                        startService(exipAppIntent);
+
+                        // 停止8011监听服务
+                        WispCore.getWISPSO().CloseService();
 //						// 删除临时文件
 //						FileUtil.deleteTempFile();
 //
@@ -125,27 +131,27 @@ public class BaseActivity extends Activity {
 //						if (DB.USE_VPN) {
 //							SangforAuth.getInstance().vpnLogout();
 //						}
-//
-//						new Handler().postDelayed(new Runnable() {
-//
-//							@Override
-//							public void run() {
-//								Intent intent = new Intent(Intent.ACTION_MAIN);
-//								intent.addCategory(Intent.CATEGORY_HOME);
-//								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//								startActivity(intent);
-//								android.os.Process
-//										.killProcess(android.os.Process.myPid());
-//							}
-//						}, 1000);
-//						Log.i("GuLang", "BaseActivity exitapp");
-//						// Intent exitAppIntent = new Intent(
-//						// "com.rj.wisp.exitapp");
-//						// sendBroadcast(exitAppIntent);
-//					};
-//				}).create();
-//
-//		alertbBuilder.show();
+
+                        new Handler().postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(Intent.ACTION_MAIN);
+                                intent.addCategory(Intent.CATEGORY_HOME);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                                android.os.Process
+                                        .killProcess(android.os.Process.myPid());
+                            }
+                        }, 1000);
+                        Log.i("GuLang", "BaseActivity exitapp");
+                        // Intent exitAppIntent = new Intent(
+                        // "com.rj.wisp.exitapp");
+                        // sendBroadcast(exitAppIntent);
+                    }
+                }).create();
+
+        alertbBuilder.show();
     }
 
     @Override

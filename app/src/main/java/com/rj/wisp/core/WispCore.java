@@ -3,9 +3,9 @@ package com.rj.wisp.core;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
-import android.webkit.WebView;
 
 import com.rj.connection.SSLServer;
+import com.rj.framework.DB;
 
 import java.io.InputStream;
 
@@ -61,6 +61,7 @@ public class WispCore {
 
         public void changeHttpServer(Handler handler, Context context) {
             try {
+                Log.e(TAG, "changeHttpServer:handler" + handler);
                 httpServer.changeHttpServer(handler, context);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -75,9 +76,6 @@ public class WispCore {
             }
         }
 
-        public void LoadAppUrl(WebView webView, String appurl) {
-            webView.loadUrl(DB.PRE_URL + appurl);
-        }
 
         public void SSLServerInit(InputStream kclient_is, InputStream tclient_is)
                 throws Exception {

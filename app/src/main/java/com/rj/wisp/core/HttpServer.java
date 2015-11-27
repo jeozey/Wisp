@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
+import com.rj.framework.DB;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -34,7 +36,6 @@ public class HttpServer implements Runnable {
             e.printStackTrace();
         }
         Log.e(TAG, "stopHttpServer1");
-
     }
 
     public void changeHttpServer(Handler handler, Context context) {
@@ -80,18 +81,14 @@ public class HttpServer implements Runnable {
             hasStart = true;
             stopFlg = false;
             while (!stopFlg) {
-//				Log.e(TAG, "running:"+DB.HTTPSERVER_HOST+":"+DB.HTTPSERVER_PORT);
-//				Log.e(TAG, "running:"+DB.SECURITY_HOST+":"+DB.SECURITY_PORT);
                 try {
                     webViewSocket = serverSocket.accept();
                     webViewSocket.setSoTimeout(60000); // 超时设置
 //					webViewSocket.setKeepAlive(true);
 
-                    Log.e(TAG, "获取到请求socket:" + webViewSocket);
                     new Thread(new ServiceThread(webViewSocket, handler, context)).start();
 
                 } catch (Exception e) {
-                    Log.e(TAG, "8011 某个accept socket出错:" + e.getLocalizedMessage());
                     e.printStackTrace();
                     try {
                         if (webViewSocket != null) {

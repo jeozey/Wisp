@@ -96,7 +96,7 @@ public class FileUtil {
             file.createNewFile();
         }
 
-        FileOutputStream fos = new FileOutputStream(new File(filepath));
+        FileOutputStream fos = new FileOutputStream(file);
         fos.write(content);
         fos.flush();
         fos.close();

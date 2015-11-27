@@ -1,8 +1,11 @@
 package com.rj.wisp.core;
 
 import android.content.Context;
+import android.os.Environment;
 import android.os.Handler;
 
+import com.rj.framework.DB;
+import com.rj.util.AndroidTool;
 import com.rj.util.EnvironmentUtil;
 
 import java.io.File;
@@ -13,6 +16,35 @@ import java.io.InputStream;
  * 邮箱：594485991@qq.com
  */
 public class InitUtil {
+    public static boolean initDB(Context context) {
+        try {
+            DB.SDCARD_PATH = Environment.getExternalStorageDirectory().toString();
+            DB.isPhone = true;
+            DB.HTTPSERVER_HOST = "127.0.0.1";
+            DB.HTTPSERVER_PORT = 8011;
+            DB.SECURITY_HOST = "220.250.1.46";
+            DB.SECURITY_PORT = 5599;
+            DB.APP_CODE = "NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg";
+            DB.IS_PIN = false;
+
+
+            String version = AndroidTool.getVersionCode(context);
+            DB.USER_AGENT = " RJ-WISP-Client (IMEI:" + DB.IMEI + " ;IMSI:" + DB.IMSI + "; KEYID:" + DB.KEYID + ";Type:Android;" + "Version:"
+                    + version + ";" + " clientType:newClient)";
+            com.rj.framework.DB.USER_AGENT = DB.USER_AGENT;
+            DB.PRE_URL = "http://" + DB.HTTPSERVER_HOST + ":"
+                    + DB.HTTPSERVER_PORT + "/wisp_aas/adapter?open&url=";
+
+            DB.HOMEPAGE_URL = "http://192.168.1.12/homepage.nsf/homepage?OpenForm";
+            DB.APP_URL = "http://192.168.1.12/homepage.nsf";
+//        DB.APP_URL = "http://127.0.0.1:8011/wisp_aas/ClientInfo.jsp?url=http%3A%2F%2F192.168.1.12%2Fhomepage.nsf";
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public static boolean initFilePath(Context context) {
         try {
             DB.SDCARD_PATH = EnvironmentUtil.getExternalSdCardPath();

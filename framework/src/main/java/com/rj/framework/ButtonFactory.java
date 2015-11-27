@@ -17,8 +17,7 @@ import com.rj.view.button.CustomButton;
 
 public class ButtonFactory {
 
-    private static String filepath = DB.SDCARD_PATH + "/rjcache/WISPResources/"
-            + DB.SECURITY_HOST + "_" + DB.SECURITY_PORT + "/";
+    private static String filepath = DB.RESOURCE_PATH;
 
     public static RelativeLayout getBottomButtonAndText2(
             final CustomButton button, Context context, int hpix, int wpix,
@@ -26,7 +25,7 @@ public class ButtonFactory {
 
         RelativeLayout relativeLayout = new RelativeLayout(context);
         LinearLayout.LayoutParams bottomLayParams = new LinearLayout.LayoutParams(
-                LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT);
+                LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         bottomLayParams.topMargin = 2;
         // bottomLayParams.rightMargin=5;
         // bottomLayParams.leftMargin=5;
@@ -36,7 +35,7 @@ public class ButtonFactory {
                 hpix, wpix, view);
         linearLayout.setContentDescription(button.getButtontext());
         RelativeLayout.LayoutParams btnParams = new RelativeLayout.LayoutParams(
-                LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT);
+                LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         btnParams.bottomMargin = -2;
         // btnParams.topMargin=10;
 
@@ -139,7 +138,7 @@ public class ButtonFactory {
 
         Drawable drawable = null;
         try {
-            drawable = Drawable.createFromPath(DB.SDCARD_PATH + "/rjcache/"
+            drawable = Drawable.createFromPath(DB.RESOURCE_PATH
                     + beforeImg);
         } catch (Exception e) {
             e.printStackTrace();

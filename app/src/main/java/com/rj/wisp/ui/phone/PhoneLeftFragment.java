@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.rj.framework.DB;
 import com.rj.framework.webview.RjWebViewClient;
 import com.rj.framework.webview.WebViewCtrol;
 import com.rj.framework.webview.WebViewFactory;
@@ -23,7 +24,6 @@ import com.rj.view.TopTabLayoutWidget;
 import com.rj.view.button.PhoneHorizontalBtns;
 import com.rj.wisp.R;
 import com.rj.wisp.base.WispApplication;
-import com.rj.wisp.core.DB;
 
 
 public class PhoneLeftFragment extends Fragment {

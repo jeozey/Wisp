@@ -61,20 +61,20 @@ public class SSLSocketConnection implements ISocketConnection {
     }
 
     public SSLSocketConnection(SSLContext sslContext, String host, int port) {
-        Log.e(TAG, "init 0");
+//        Log.e(TAG, "init 0");
         this.sslContext = sslContext;
         this.host = host;
         this.port = port;
         sslSocket = initSSLSocket(sslContext, host, port);
-        Log.e(TAG, "init 2");
+//        Log.e(TAG, "init 2");
 
 
-        Log.e(TAG, "init 3");
+//        Log.e(TAG, "init 3");
     }
 
     private SSLSocket initSSLSocket(SSLContext sslContext, String host, int port) {
         try {
-            Log.e(TAG, "create socket 1");
+//            Log.e(TAG, "create socket 1");
 //            Socket proxy = new Socket(host,
 //                    port);
 //            Log.e(TAG,"create socket 2");
@@ -86,7 +86,7 @@ public class SSLSocketConnection implements ISocketConnection {
             //为什么这种方法创建sslsocket更快
             SSLSocket sslSocket = (SSLSocket) sslContext.getSocketFactory()
                     .createSocket(host, port);
-            Log.e(TAG, "create socket 3");
+//            Log.e(TAG, "create socket 3");
 
 //		securitySocket = (SSLSocket) sslContext.getSocketFactory()
 //				.createSocket(host, port);

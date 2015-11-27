@@ -8,14 +8,14 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.rj.connection.ISocketConnection;
-import com.rj.util.DataUtil;
+import com.rj.framework.DB;
 import com.rj.util.FileUtil;
-import com.rj.util.GzipUtil;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.net.Socket;
-import java.util.zip.GZIPOutputStream;
+import java.util.HashMap;
 
 /**
  * 作者：志文 on 2015/11/18 0018 15:19
@@ -102,9 +102,9 @@ public class ServiceThread extends Thread {
                 addWebUi();
             } else if (head_line.indexOf("/config/html/") != -1) {// 资源类下载
                 downLoadResource(head_line);
-                // 更新条数
-            } else if (head_line.indexOf("addWebBtnNum") != -1) {
-                addWebBtnNum();
+                // ajax请求
+            } else if (head_line.indexOf("AjAxSocketIFC") != -1) {
+                handleAjaxReques(head_line);
             } else {
                 httpRequest(head_line);
             }
@@ -113,15 +113,47 @@ public class ServiceThread extends Thread {
         }
     }
 
+    private void handleAjaxReques(String head_line) throws Exception {
+        responseEmptyToWebView();
+
+        if (head_line.indexOf("addWebBtnNum") != -1) {
+            addWebBtnNum();
+        } else if (head_line.indexOf("@@ShowProgressDialog@@") != -1) {
+            showProgressDialog();
+        } else if (head_line.indexOf("@@DismissProgressDialog@@") != -1) {
+            dismissProgressDialog();
+        }
+    }
+
     public static final int ADD_WEB_UI = 2;
+    public static final int SHOW_LOADING = 3;
+    public static final int DISMISS_LOADING = 4;
 
     private void responseEmptyToWebView() {
         responseWebView("\r\n\r\n".getBytes(), "".getBytes());
     }
 
     private void addWebBtnNum() {
-        responseEmptyToWebView();
     }
+
+    private void showProgressDialog() throws IOException {
+
+        Log.e(TAG, "dismissProgressDialog:" + handler);
+        if (handler != null) {
+            Message msg = handler.obtainMessage(SHOW_LOADING);
+            handler.sendMessage(msg);
+        }
+    }
+
+    private void dismissProgressDialog() throws IOException {
+        Log.e(TAG, "dismissProgressDialog:" + handler);
+        if (handler != null) {
+            Message msg = handler.obtainMessage(DISMISS_LOADING);
+            handler.sendMessage(msg);
+
+        }
+    }
+
     private void addWebUi() throws IOException {
         Log.e(TAG, "addWebUi:" + handler);
         if (handler != null) {
@@ -135,10 +167,6 @@ public class ServiceThread extends Thread {
         }
     }
 
-    private static File SDFile = new File(DB.SDCARD_PATH
-            + "/rjcache/WISPResources/" + DB.SECURITY_HOST + "_"
-            + DB.SECURITY_PORT);
-
     private void downLoadResource(String head_line) throws Exception {
         Log.v("bug", "下载资源:" + head_line);
         String requestfilename = "";// 请求头中带的文件名
@@ -148,46 +176,39 @@ public class ServiceThread extends Thread {
         String line2 = "";
         sb.append(head_line + "\r\n");
 
-
         boolean isDownloadResources = false;// 是否下载资源文件
 
-        while ((line2 = webView_reader.readLine()) != null) {
-            if ("Method-Type: download".equals(line2)) {
+        HashMap<String, String> headMap = SocketStreamUtil.getHttpHead(webView_reader);
+
+        sb.append(headMap.get("httpHead"));
+        Log.e(TAG, "sb:" + sb);
+        try {
+            if ("download".equals(headMap.get("Method-Type"))) {
                 isDownloadResources = true;
             }
-            if (line2.indexOf("File-Name:") != -1) {
-                requestfilename = line2.substring(11, line2.length());
-            } else if (line2.indexOf("File-Type:") != -1) {
-                requestfiletype = line2.substring(11, line2.length());
-            } else if (line2.indexOf("File-Time:") != -1) {
-                requestmodified = line2.substring(11, line2.length());
-            } else if ("".equals(line2)) {
-                sb.append("\r\n");
-                break;
-            }
-            sb.append(line2 + "\r\n");
+            requestfilename = headMap.get("File-Name");
+            requestfiletype = headMap.get("File-Type");
+            requestmodified = headMap.get("File-Time");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        // 数据包包头拼装完成
-        sb.append("\r\n"); // 换行
-//        Log.e(TAG, "sb:"+sb);
 
         String filename = head_line.substring(
                 head_line.indexOf("config/html"), head_line.length() - 9);
-        File cacheFile = new File(DB.SDCARD_PATH + "/rjcache/WISPResources/"
-                + DB.SECURITY_HOST + "_" + DB.SECURITY_PORT + "/"
+        File filePath = new File(DB.RESOURCE_PATH
                 + filename);
 
         //缓存被删后，重新下载 并写入webview
         boolean needWriteToWebView = false;
         if (!isDownloadResources)// 没有下载资源标示 则 为启用高速缓存
         {
-            if (cacheFile.exists()) {
+            if (filePath.exists()) {
                 Log.e(TAG, "启用高速缓存:" + !isDownloadResources);
                 writeCacheToWebView(head_line);
                 return;
             } else {
                 try {
-                    String filepath = SDFile.getAbsolutePath() + "/" + filename;
+                    String filepath = DB.RESOURCE_PATH + filename;
                     Log.e(TAG, "filepath0:" + filepath);
 //                    if(AjaxGetResourcesTask.sourceMap.containsKey(filepath)){
                     Log.e(TAG, "高速缓存被删,重新下载");
@@ -209,26 +230,20 @@ public class ServiceThread extends Thread {
             /** *2.与中间件交互** */
             connection = SocketFactory.getSSLSocket();
 
-            byte[] wispMsgBodyFinal = GzipUtil.gzipEncode((sb.toString())
-                    .getBytes());
+            byte[] wispMsgBodyFinal = sb.toString()
+                    .getBytes();
             connection.write(wispMsgBodyFinal);
 
-            if (!SDFile.exists())
-                SDFile.mkdirs();
 
             Log.e("NNN", "requestfilename = " + requestfilename);
-            String filepath = SDFile.getAbsolutePath() + "/" + requestfilename;
-            File parent = new File(filepath).getParentFile();
-            if (!parent.exists()) {
-                parent.mkdirs();
-            }
-            Log.e(TAG, "filepath:" + filepath);
+            Log.e(TAG, "filepath:" + filePath);
             // 江志文 保存的是http头，下次直接和文件写到webview
 //			FileOutputStream foscache = null;
 //			String cachefile = null;
 //			cachefile = filepath + "_head";
 
             String head_sb = connection.getHttpHead();
+            Log.e(TAG, "head_sb:" + head_sb.length());
             if (TextUtils.isEmpty(head_sb)) {
                 Log.e("bug", "下载资源出错，0kb");
             }
@@ -236,12 +251,11 @@ public class ServiceThread extends Thread {
 //			// 写入文件
 //            writeResourceFile(filepath, connection.getHttpBody());
 
-            FileUtil.writeFile(filepath, connection.getHttpBody());
+            FileUtil.writeFile(filePath.getAbsolutePath(), connection.getHttpBody());
             Log.e(TAG, "写入资源文件成功");
 
             // 是否是下载新资源，如果下载 成功， 更新本地资源列表
-            String path = DB.SDCARD_PATH + "/rjcache/WISPResources/"
-                    + DB.SECURITY_HOST + "_" + DB.SECURITY_PORT + "/"
+            String path = DB.RESOURCE_PATH
                     + requestfilename;
 
 //            if (!SourceFileUtil.isWriting) {
@@ -257,6 +271,9 @@ public class ServiceThread extends Thread {
 
         } catch (Exception e) {
             e.printStackTrace();
+            if (filePath != null && filePath.exists()) {
+                filePath.delete();
+            }
             // 异常捕获
             Message msg = Message.obtain();
             msg.what = 7;
@@ -287,8 +304,7 @@ public class ServiceThread extends Thread {
             int j = 0;
 
 
-            cacheFile = new File(DB.SDCARD_PATH + "/rjcache/WISPResources/"
-                    + DB.SECURITY_HOST + "_" + DB.SECURITY_PORT + "/"
+            cacheFile = new File(DB.RESOURCE_PATH
                     + requestfilename);
 
             byteArrayOutputStream.write("HTTP/1.0 200 OK\r\n".getBytes());//返回应答消息,并结束应答
@@ -376,12 +392,12 @@ public class ServiceThread extends Thread {
     private byte[] getWebViewRequest(String head_line) throws IOException {
 
         StringBuffer sb = null;
-        GZIPOutputStream gzipOS = null;
+        DataOutputStream os = null;
         boolean isForm = false;
         ByteArrayOutputStream bosFinal = null;
         try {
             bosFinal = new ByteArrayOutputStream();
-            gzipOS = new GZIPOutputStream(bosFinal);
+            os = new DataOutputStream(bosFinal);
             sb = new StringBuffer();
             int contentLength = 0;
             sb.append(head_line + "\r\n");
@@ -407,9 +423,9 @@ public class ServiceThread extends Thread {
                 // Log.e("DB.RJ_WISP_Client",
                 // "DB.RJ_WISP_Client:"+DB.RJ_WISP_Client);
                 Log.v("http", sb.toString());
-                gzipOS.write((sb.toString()).getBytes());
-                gzipOS.flush();
-                gzipOS.close();
+                os.write((sb.toString()).getBytes());
+                os.flush();
+                os.close();
 
                 /*** look *****/
             } else if ("POST".equalsIgnoreCase(method)) {
@@ -432,7 +448,7 @@ public class ServiceThread extends Thread {
                     sb.append(line2 + "\r\n");
                 }
                 if (isForm) {
-                    gzipOS.write((sb.toString()).getBytes());
+                    os.write((sb.toString()).getBytes());
                     int postlength = contentLength;// -sb.toString().getBytes().length;
                     char[] buf = new char[1024];
                     StringBuffer stringBuffer = new StringBuffer();
@@ -440,16 +456,16 @@ public class ServiceThread extends Thread {
                     do {
                         size = webView_reader.read(buf);
                         stringBuffer.append(new String(buf));
-//                        gzipOS.write(buf, 0, size);
+//                        os.write(buf, 0, size);
                         postlength = postlength - size;
                         if (postlength <= 0) {
                             break;
                         }
                     } while (size != -1);
-                    gzipOS.write(stringBuffer.toString().getBytes());
-                    gzipOS.flush();
+                    os.write(stringBuffer.toString().getBytes());
+                    os.flush();
 
-                    gzipOS.close();
+                    os.close();
                 } else {
                     byte[] buf = {};
                     int size = 0;
@@ -460,16 +476,16 @@ public class ServiceThread extends Thread {
                             buf[size++] = (byte) c;
                         }
                         sb.append("\r\n");
-                        sb.append(new String(buf, 0, size) + "\r\n");
+                        sb.append(new String(buf, 0, size));
 
                     }
-                    gzipOS.write((sb.toString()).getBytes());
+                    os.write((sb.toString()).getBytes());
 
-                    gzipOS.flush();
-                    gzipOS.close();
+                    os.flush();
+                    os.close();
                 }
             }
-//            Log.e("NNN", "sb.toString() = " + sb.toString());
+            Log.e("NNN", "sb.toString() = " + sb.toString());
             return bosFinal.toByteArray();
 
         } catch (IOException e) {
@@ -547,7 +563,7 @@ public class ServiceThread extends Thread {
 
         Log.e(TAG, "checkConnection write begin");
         try {
-            connection.write(DataUtil.gzipEncode(("GET GET /wisp_aas/adapter?open&_method=checkConnection&appcode=" + DB.APP_CODE + " \r\n\r\n").getBytes()));
+            connection.write(("GET GET /wisp_aas/adapter?open&_method=checkConnection&appcode=" + DB.APP_CODE + " \r\n\r\n").getBytes());
 
 
             String head = connection.getHttpHead();

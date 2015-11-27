@@ -2,25 +2,21 @@ package com.rj.wisp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.rj.connection.ISocketConnection;
 import com.rj.connection.SocketConnectionManager;
 import com.rj.connection.SocketConnectionPool;
+import com.rj.framework.DB;
 import com.rj.sdkey.view.PhoneLoginView;
-import com.rj.util.AndroidTool;
 import com.rj.util.SocketStreamUtil;
 import com.rj.util.ToastTool;
-import com.rj.view.msg.AppMsg;
 import com.rj.wisp.activity.LoginActivity;
-import com.rj.wisp.core.DB;
 import com.rj.wisp.core.InitUtil;
 import com.rj.wisp.core.WispCore;
 
@@ -30,49 +26,19 @@ import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.zip.GZIPInputStream;
 
-import static com.rj.view.msg.AppMsg.LENGTH_LONG;
-import static com.rj.view.msg.AppMsg.LENGTH_SHORT;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getName();
 
-    @Override
-    public void onClick(View v) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                checkConnection(handler);
-            }
-        }).start();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        findViewById(R.id.title).setOnClickListener(this);
-        DB.SDCARD_PATH = Environment.getExternalStorageDirectory().toString();
-        DB.isPhone = true;
-        DB.HTTPSERVER_HOST = "127.0.0.1";
-        DB.HTTPSERVER_PORT = 8011;
-        DB.SECURITY_HOST = "220.250.1.46";
-        DB.SECURITY_PORT = 6611;
-        DB.APP_CODE = "NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg";
-        DB.IS_PIN = true;
 
+        InitUtil.initDB(getApplicationContext());
 
-        String version = AndroidTool.getVersionCode(getBaseContext());
-        DB.USER_AGENT = " RJ-WISP-Client (IMEI:" + DB.IMEI + " ;IMSI:" + DB.IMSI + "; KEYID:" + DB.KEYID + ";Type:Android;" + "Version:"
-                + version + ";" + " clientType:newClient)";
-        com.rj.framework.DB.USER_AGENT = DB.USER_AGENT;
-        DB.PRE_URL = "http://" + DB.HTTPSERVER_HOST + ":"
-                + DB.HTTPSERVER_PORT + "/wisp_aas/adapter?open&url=";
-
-        DB.HOMEPAGE_URL = "http://192.168.1.12/homepage.nsf/homepage?OpenForm";
-        DB.APP_URL = "http://192.168.1.12/homepage.nsf";
-//        DB.APP_URL = "http://127.0.0.1:8011/wisp_aas/ClientInfo.jsp?url=http%3A%2F%2F192.168.1.12%2Fhomepage.nsf";
+        InitUtil.initFilePath(getApplicationContext());
 
         InitUtil.initSSLContext(getApplicationContext(), handler);
 
@@ -89,13 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        },1000,5000);
 
 //        checkConnection();
-        AppMsg.Style style = AppMsg.STYLE_INFO;
-        int time = Toast.LENGTH_SHORT;
-        if (Toast.LENGTH_LONG == time) {
-            style = new AppMsg.Style(LENGTH_LONG, com.rj.util.R.color.custom);
-        } else {
-            style = new AppMsg.Style(LENGTH_SHORT, com.rj.util.R.color.custom);
-        }
 
 
         if (DB.IS_PIN) {
@@ -139,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Socket socket = null;
         OutputStream os = null;
         InputStream is = null;
-        GZIPInputStream gzipInputStream = null;
         DataInputStream dis = null;
         try {
             // 1.socket请求
@@ -148,11 +106,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             os = socket.getOutputStream();
             is = socket.getInputStream();
             dis = new DataInputStream(is);
-            os.write(("GET /wisp_aas/adapter?open&_method=getAllAppInfo HTTP/1.1"
+            os.write(("GET /wisp_aas/config/html/fgwlan/images/720/ico1.png HTTP/1.1"
                     + "\r\n").getBytes());
+//            os.write(("GET /wisp_aas/adapter?open&_method=getAllAppInfo HTTP/1.1"
+//                    + "\r\n").getBytes());
             os.write(("Host: 127.0.0.1:" + DB.HTTPSERVER_PORT + "\r\n")
                     .getBytes());
-            os.write(("Accept-Encoding: gzip" + "\r\n").getBytes());
             os.write(("User-Agent: newClient" + "\r\n").getBytes());
             os.write(("Accept-Language: zh-CN, en-US" + "\r\n").getBytes());
             os.write(("Accept: application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
@@ -165,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // 2.socket响应
             String s = "";
             int contentLength = 0;
-            Log.e("wufeng", "app get gzip");
             HashMap<String, String> map = SocketStreamUtil.getHttpHead2(is);
             if (map.get("WISP-Content-Length") != null) {
                 try {
@@ -175,22 +133,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
             }
-            if (!DB.isTestSSL) {
-                gzipInputStream = new GZIPInputStream(is);
-            }
 
             byte[] buf = {};
             int size = 0;
             if (contentLength != 0) {
                 buf = new byte[contentLength];
                 while (size < contentLength) {
-                    if (DB.isTestSSL) {
-                        int c = is.read();
-                        buf[size++] = (byte) c;
-                    } else {
-                        int c = gzipInputStream.read();
-                        buf[size++] = (byte) c;
-                    }
+                    int c = is.read();
+                    buf[size++] = (byte) c;
 
                 }
                 s = new String(buf, 0, size, "GBK");
@@ -298,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return back;
     }
 
-    Handler handler = new Handler() {
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);

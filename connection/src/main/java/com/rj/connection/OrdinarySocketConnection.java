@@ -1,124 +1,205 @@
 package com.rj.connection;
 
+import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.zip.GZIPInputStream;
 
+/**
+ * Create at: 2015/11/17 0017 16:42
+ *
+ * @author：jeo Email：594485991@qq.com
+ */
 public class OrdinarySocketConnection implements ISocketConnection {
-
+    private String TAG = OrdinarySocketConnection.class.getName();
     private Socket socket;
-    private DataInputStream in;
-    private DataOutputStream out;
 
+    private InputStream in;
+    private OutputStream out;
 
     private String host = "";
     private int port = 0;
 
+    private void initInOutStream() {
+        getInPutStream();
+        getOutputStream();
+    }
     public OutputStream getOutputStream() {
+        try {
+            if (out == null) out = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return out;
     }
 
-    public OrdinarySocketConnection(String host, int port)
-            throws IOException {
+    private InputStream getInPutStream() {
+        try {
+            if (in == null) in = new DataInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return in;
+    }
+
+    private OrdinarySocketConnection() {
+    }
+
+    public OrdinarySocketConnection(String host, int port) {
+//        Log.e(TAG, "init 0");
         this.host = host;
         this.port = port;
-        socket = new Socket(host, port);
-        socket.setSoTimeout(60000); // 超时设置
-        // socket.setKeepAlive(true);
-        // socket.setTcpNoDelay(true);// 数据不作缓冲，立即发送
-        // socket.setSoLinger(true, 0);// socket关闭时，立即释放资源
-        // socket.setTrafficClass(0x04 | 0x10);// 高可靠性和最小延迟传输
-        socket.setReceiveBufferSize(32 * 1024);
-        socket.setSendBufferSize(16 * 1024);
-        this.in = new DataInputStream(socket.getInputStream());
-        this.out = new DataOutputStream(socket.getOutputStream());
-        if (socket == null) {
-            throw new IOException("socket创建失败");
+        socket = initSocket(host, port);
+//        Log.e(TAG, "init 2");
+
+
+//        Log.e(TAG, "init 3");
+    }
+
+    private Socket initSocket(String host, int port) {
+        try {
+//            Log.e(TAG, "create socket 1");
+//            Socket proxy = new Socket(host,
+//                    port);
+//            Log.e(TAG,"create socket 2");
+//            SSLSocket socket = (SSLSocket) sslContext
+//                    .getSocketFactory().createSocket(proxy,
+//                            host, port,
+//                            true);
+
+            //为什么这种方法创建sslsocket更快
+            Socket socket = new Socket(host, port);
+//            Log.e(TAG, "create socket 3");
+
+//		securitySocket = (SSLSocket) sslContext.getSocketFactory()
+//				.createSocket(host, port);
+            socket.setSoTimeout(60000); // 超时设置
+            socket.setKeepAlive(true);
+            socket.setTcpNoDelay(true);// 数据不作缓冲，立即发送
+            socket.setSoLinger(true, 0);// socket关闭时，立即释放资源
+            socket.setTrafficClass(0x04 | 0x10);// 高可靠性和最小延迟传输
+            socket.setReceiveBufferSize(32 * 1024);
+            socket.setSendBufferSize(16 * 1024);
+
+            return socket;
+
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
 
     @Override
-    public void write(byte[] data) throws Exception {
-        if (this.socket == null || !this.socket.isConnected()) {
-            socket = new Socket(host, port);
-            socket.setSoTimeout(60000); // 超时设置
-            // socket.setKeepAlive(true);
-            // socket.setTcpNoDelay(true);// 数据不作缓冲，立即发送
-            // socket.setSoLinger(true, 0);// socket关闭时，立即释放资源
-            // socket.setTrafficClass(0x04 | 0x10);// 高可靠性和最小延迟传输
-            socket.setReceiveBufferSize(32 * 1024);
-            socket.setSendBufferSize(16 * 1024);
-            this.in = new DataInputStream(socket.getInputStream());
-            this.out = new DataOutputStream(socket.getOutputStream());
-            if (socket == null) {
-                throw new IOException("socket创建失败");
-            }
+    public void write(byte[] data) throws IOException {
+        if (out == null) {
+            initInOutStream();
         }
 
+        Log.e(TAG, "write begin");
         out.write(data);
         out.flush();
+        Log.e(TAG, "write over");
     }
 
 
-    public String getHttpHead() {
-        int tmpChar = 0;
-        StringBuilder headline = new StringBuilder();
-        try {
-            StringBuilder temp = new StringBuilder("");
-            while ((tmpChar = in.read()) != -1) {
-                // if(tmpChar==13) Log.e("test7", "13...");
-                // if(tmpChar==10) Log.e("test7", "10...");
-                headline.append((char) tmpChar);
-                temp.append((char) tmpChar);
+    private int getShort(byte[] data) {
+        return (data[0] << 8) | data[1] & 0xFF;
+    }
 
-                // Log.e("test7", "temp_line:"+temp.toString());
-                if (headline.toString().indexOf("\r\n\r\n") > 0) {
-                    break;
-                }
-                if (temp.toString().indexOf("\r\n") > 0) {
-                    temp = new StringBuilder("");
+    public String getHttpHead() {
+        try {
+            if (in == null) {
+                initInOutStream();
+            }
+            Log.e(TAG, "getHttpHead ");
+            BufferedInputStream bis = new BufferedInputStream(in);
+            bis.mark(2);
+            // 取前两个字节
+            byte[] header = new byte[2];
+            int result = bis.read(header);
+            // reset输入流到开始位置
+            bis.reset();
+            // 判断是否是GZIP格式
+            int headerData = getShort(header);
+            // Gzip 流 的前两个字节是 0x1f8b
+            if (result != -1 && headerData == 0x1f8b) {
+                Log.w(TAG, "use GZIPInputStream  ");
+                in = new GZIPInputStream(bis);
+            } else {
+                Log.w(TAG, "not use GZIPInputStream");
+                in = bis;
+            }
+
+            DataInputStream dataInputStream = new DataInputStream(in);
+            String temp = "";
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            while (!TextUtils.isEmpty(temp = dataInputStream.readLine())) {
+                if (temp.indexOf("gzip") == -1) {
+                    byteArrayOutputStream.write(temp.getBytes());
+                    byteArrayOutputStream.write("\r\n".getBytes());
                 }
             }
-//			Log.e("socket", "headline:"+headline);
-            return headline.toString();
+            byteArrayOutputStream.write("\r\n".getBytes());
+            return new String(byteArrayOutputStream.toByteArray());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
 
+
     }
 
     @Override
     public HashMap<String, String> getHttpHead2() {
-        int tmpChar = 0;
-        StringBuilder httpHead = new StringBuilder();
-        HashMap<String, String> head = new HashMap<String, String>();
         try {
-            StringBuilder temp = new StringBuilder("");
-            while ((tmpChar = in.read()) != -1) {
-                httpHead.append((char) tmpChar);
-                temp.append((char) tmpChar);
+            if (in == null) {
+                initInOutStream();
+            }
+            BufferedInputStream bis = new BufferedInputStream(in);
+            bis.mark(2);
+            // 取前两个字节
+            byte[] header = new byte[2];
+            int result = bis.read(header);
+            // reset输入流到开始位置
+            bis.reset();
+            // 判断是否是GZIP格式
+            int headerData = getShort(header);
+            // Gzip 流 的前两个字节是 0x1f8b
+            if (result != -1 && headerData == 0x1f8b) {
+                Log.w(TAG, "use GZIPInputStream  ");
+                in = new GZIPInputStream(bis);
+            } else {
+                Log.w(TAG, "not use GZIPInputStream");
+                in = bis;
+            }
 
-//                Log.e("test7", "temp_line:" + temp.toString());
-                if (httpHead.toString().indexOf("\r\n\r\n") > 0) {
-                    break;
-                }
-                if (temp.toString().indexOf("\r\n") > 0) {
+            HashMap<String, String> head = new HashMap<String, String>();
+            DataInputStream dataInputStream = new DataInputStream(in);
+            String temp = "";
+            StringBuffer httpHead = new StringBuffer();
+            while (!TextUtils.isEmpty(temp = dataInputStream.readLine())) {
+                httpHead.append(temp + "\r\n");
+                if (temp.indexOf("gzip") == -1) {
                     int index = temp.toString().indexOf(":");
                     if (index != -1) {
                         String key = temp.toString().substring(0, index);
                         String value = temp.toString().substring(index + 1).replace(" ", "").replace("\r\n", "");
                         head.put(key, value);
                     }
-
-                    temp = new StringBuilder("");
                 }
             }
             head.put("httpHead", httpHead.toString() + "\r\n");
@@ -127,9 +208,14 @@ public class OrdinarySocketConnection implements ISocketConnection {
             e.printStackTrace();
         }
         return null;
+
+
     }
 
     public byte[] getHttpBody() {
+        if (in == null) {
+            initInOutStream();
+        }
         byte[] buffer = new byte[2048];
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -146,12 +232,20 @@ public class OrdinarySocketConnection implements ISocketConnection {
     }
 
     public byte[] getHttpBody(int len) {
-        byte[] t = new byte[len];
-//		Log.e("test7", "contentLen: "+contentLen);
+        Log.e("socket", "len: " + len);
+        if (in == null) {
+            initInOutStream();
+        }
         try {
-            in.readFully(t);
-            return t;
-        } catch (IOException e) {
+            int i = 0;
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] b = new byte[1];
+            while (i < len && in.read(b, 0, 1) != -1) {
+                bos.write(b, 0, 1);
+                i++;
+            }
+            return bos.toByteArray();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -159,24 +253,18 @@ public class OrdinarySocketConnection implements ISocketConnection {
 
     @Override
     public byte[] getHttpBody(int size, DownLoadInvoke invoke) {
+        if (in == null) {
+            initInOutStream();
+        }
         byte[] b = new byte[size]; // 10kb
         int i = 0;
         int len = 0;
         try {
             while ((i = in.read(b, 0, b.length)) != -1) { // exception:
-//				if (DownLoadDialogTool.allowDownload) {
                 len += i;
                 invoke.downLoadInvoke(b, i);
-//					if(len>=size)break;//避免多读，导致connection reset by peer
-//					Log.e("test7", "b len: "+len);
-//					return b;
-//				} else {
-//					DownLoadDialogTool.sendMsg(4, "-1"); // 消息发送：取消下载
-//					return b;
-//				}
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return b;
@@ -185,12 +273,12 @@ public class OrdinarySocketConnection implements ISocketConnection {
 
     @Override
     public void close() {
-        if (this.in != null) {
+        /*if (this.in != null) {
             try {
                 this.in.close();
             } catch (IOException e) {
                 Log.e("socketPool",
-                        "destory inputstream error " + e.getMessage());
+                        "inputstream  close error " + e.getMessage());
             }
         }
         if (this.out != null) {
@@ -202,15 +290,15 @@ public class OrdinarySocketConnection implements ISocketConnection {
             }
 
         }
-        if (this.socket != null) {
+        if (this.sslSocket != null) {
             try {
-                this.socket.close();
+                this.sslSocket.close();
             } catch (IOException e) {
-                Log.e("socketPool", "destory socket error " + e.getMessage());
+                Log.e("socketPool", "securitySocket close error " + e.getMessage());
             }
         }
         this.out = null;
         this.in = null;
-        this.socket = null;
+        this.sslSocket = null;*/
     }
 }

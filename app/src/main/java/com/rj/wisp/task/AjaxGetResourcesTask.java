@@ -10,11 +10,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.rj.framework.DB;
 import com.rj.framework.download.DownLoadResourcePool;
 import com.rj.framework.download.DownLoadResourcesThread;
 import com.rj.util.SocketStreamUtil;
 import com.rj.util.ToastTool;
-import com.rj.wisp.core.DB;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,7 +27,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.zip.GZIPInputStream;
 
 /*
  * 下载资源文件
@@ -139,7 +138,6 @@ public class AjaxGetResourcesTask extends AsyncTask<Object, Void, String> {
         Socket socket = null;
         OutputStream os = null;
         InputStream is = null;
-        GZIPInputStream gzipInputStream = null;
         try {
             socket = new Socket(DB.HTTPSERVER_HOST, DB.HTTPSERVER_PORT);
             socket.setSoTimeout(20000);
@@ -177,21 +175,13 @@ public class AjaxGetResourcesTask extends AsyncTask<Object, Void, String> {
                 }
             }
 
-            if (!DB.isTestSSL) {
-                gzipInputStream = new GZIPInputStream(is);
-            }
             byte[] buf = {};
             int size = 0;
             if (contentLength != 0) {
                 buf = new byte[contentLength];
                 while (size < contentLength) {
-                    if (DB.isTestSSL) {
-                        int c = is.read();
-                        buf[size++] = (byte) c;
-                    } else {
-                        int c = gzipInputStream.read();
-                        buf[size++] = (byte) c;
-                    }
+                    int c = is.read();
+                    buf[size++] = (byte) c;
                 }
                 s = new String(buf, 0, size, "GBK");
                 Log.e("RJMOA", "消息体：" + s);
@@ -211,9 +201,6 @@ public class AjaxGetResourcesTask extends AsyncTask<Object, Void, String> {
                 }
                 if (is != null) {
                     is.close();
-                }
-                if (gzipInputStream != null) {
-                    gzipInputStream.close();
                 }
             } catch (Exception e2) {
                 e2.printStackTrace();
@@ -313,9 +300,7 @@ public class AjaxGetResourcesTask extends AsyncTask<Object, Void, String> {
         resetButtonMethod();// mq:突然断网后，重新驱动，下载资源
     }
 
-    private final String resourceJsonPath = DB.SDCARD_PATH
-            + "/rjcache/WISPResources/" + DB.SECURITY_HOST + "_"
-            + DB.SECURITY_PORT + "/" + "sourcelist.txt";
+    private final String resourceJsonPath = DB.RESOURCE_PATH + "sourcelist.txt";
 
     private List<Resources> getData() throws Exception {
         System.out.println("getData()");
@@ -447,8 +432,7 @@ public class AjaxGetResourcesTask extends AsyncTask<Object, Void, String> {
         String localtype = "";
         String localmodified = "";
 
-        String path = DB.SDCARD_PATH + "/rjcache/WISPResources/"
-                + DB.SECURITY_HOST + "_" + DB.SECURITY_PORT + "/" + filepath;
+        String path = DB.RESOURCE_PATH + filepath;
         File f = new File(path);
         if (!"folder".equals(filetype) && !f.exists()) {
             return false;
@@ -466,8 +450,7 @@ public class AjaxGetResourcesTask extends AsyncTask<Object, Void, String> {
         boolean result = true;
         if ("".equals(localtype) && "".equals(localmodified)) {
             if ("folder".equals(filetype)) {// 文件夹类型 创建新文件夹
-                File file = new File(DB.SDCARD_PATH + "/rjcache/WISPResources/"
-                        + DB.SECURITY_HOST + "_" + DB.SECURITY_PORT + "/"
+                File file = new File(DB.RESOURCE_PATH
                         + filepath);
                 if (!file.exists()) {
                     file.mkdirs();
@@ -481,9 +464,6 @@ public class AjaxGetResourcesTask extends AsyncTask<Object, Void, String> {
             if (!modified.equals(localmodified)) {// 修改日期不一致 以服务器时间为准 修改
                 Log.e("test1", "filepath: " + filepath + "  " + modified + " "
                         + localmodified);
-                Log.e("test1", "modified@RJ@" + DB.SDCARD_PATH
-                        + "/rjcache/WISPResources/" + DB.SECURITY_HOST + "_"
-                        + DB.SECURITY_PORT + "/" + filepath);
                 result = false;
             }
         }

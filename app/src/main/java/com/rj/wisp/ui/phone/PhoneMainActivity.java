@@ -43,6 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rj.framework.ButtonFactory;
+import com.rj.framework.DB;
 import com.rj.framework.WISPComponentsParser;
 import com.rj.framework.webview.UrlHandler;
 import com.rj.framework.webview.WebViewCtrol;
@@ -59,7 +60,6 @@ import com.rj.view.loading.ProgressDialogTool;
 import com.rj.wisp.R;
 import com.rj.wisp.activity.LoginActivity;
 import com.rj.wisp.base.WispApplication;
-import com.rj.wisp.core.DB;
 import com.rj.wisp.core.NetConnectService;
 import com.rj.wisp.core.ServiceThread;
 import com.rj.wisp.core.WispCore;
@@ -122,6 +122,12 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                 switch (msg.what) {
                     case ServiceThread.ADD_WEB_UI:
                         addWebUI(msg);
+                        break;
+                    case ServiceThread.SHOW_LOADING:
+                        showProgressDialog();
+                        break;
+                    case ServiceThread.DISMISS_LOADING:
+                        dismissProgressDialog();
                         break;
                     default:
                         break;
@@ -477,12 +483,14 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
             // 记录按钮数字
             int buttonNum = 0;
 
+            //noinspection unchecked
             collectionlist = map.get("collectionlist");
-            List<CustomButton> buttonlist = map.get("bottombtnlist");
+            @SuppressWarnings("unchecked") List<CustomButton> buttonlist = map.get("bottombtnlist");
 
             /***
              * 添加顶部公告栏
              */
+            //noinspection unchecked
             noticeList = map.get("noticelist");
 //            updateNotice(noticeList);
 
