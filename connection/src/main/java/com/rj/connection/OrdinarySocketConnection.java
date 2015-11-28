@@ -31,7 +31,7 @@ public class OrdinarySocketConnection implements ISocketConnection {
     private int port = 0;
 
     private void initInOutStream() {
-        getInPutStream();
+        getInputStream();
         getOutputStream();
     }
     public OutputStream getOutputStream() {
@@ -44,7 +44,7 @@ public class OrdinarySocketConnection implements ISocketConnection {
         return out;
     }
 
-    private InputStream getInPutStream() {
+    public InputStream getInputStream() {
         try {
             if (in == null) in = new DataInputStream(socket.getInputStream());
         } catch (IOException e) {
@@ -84,13 +84,17 @@ public class OrdinarySocketConnection implements ISocketConnection {
 
 //		securitySocket = (SSLSocket) sslContext.getSocketFactory()
 //				.createSocket(host, port);
-            socket.setSoTimeout(60000); // 超时设置
-            socket.setKeepAlive(true);
-            socket.setTcpNoDelay(true);// 数据不作缓冲，立即发送
-            socket.setSoLinger(true, 0);// socket关闭时，立即释放资源
-            socket.setTrafficClass(0x04 | 0x10);// 高可靠性和最小延迟传输
-            socket.setReceiveBufferSize(32 * 1024);
-            socket.setSendBufferSize(16 * 1024);
+//            socket.setSoTimeout(60000); // 超时设置
+//            socket.setKeepAlive(true);
+//            socket.setTcpNoDelay(true);// 数据不作缓冲，立即发送
+//            socket.setSoLinger(true, 0);// socket关闭时，立即释放资源
+//            socket.setTrafficClass(0x04 | 0x10);// 高可靠性和最小延迟传输
+//            socket.setReceiveBufferSize(32 * 1024);
+//            socket.setSendBufferSize(16 * 1024);
+
+            socket.setSoTimeout(30000);// 10秒超时来判断是否能连得上服务器
+            // socket.setKeepAlive(true);
+            socket.setReceiveBufferSize(10240);
 
             return socket;
 
@@ -148,10 +152,10 @@ public class OrdinarySocketConnection implements ISocketConnection {
             String temp = "";
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             while (!TextUtils.isEmpty(temp = dataInputStream.readLine())) {
-                if (temp.indexOf("gzip") == -1) {
+//                if (temp.indexOf("gzip") == -1) {
                     byteArrayOutputStream.write(temp.getBytes());
                     byteArrayOutputStream.write("\r\n".getBytes());
-                }
+//                }
             }
             byteArrayOutputStream.write("\r\n".getBytes());
             return new String(byteArrayOutputStream.toByteArray());
@@ -216,12 +220,13 @@ public class OrdinarySocketConnection implements ISocketConnection {
         if (in == null) {
             initInOutStream();
         }
-        byte[] buffer = new byte[2048];
+        byte[] buffer = new byte[1024];
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             int len = 0;
             int i = 0;
             while ((len = in.read(buffer)) != -1) {
+//                Log.e(TAG,"len:"+len);
                 byteArrayOutputStream.write(buffer, 0, len);
             }
             return byteArrayOutputStream.toByteArray();

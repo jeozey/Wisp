@@ -1,7 +1,6 @@
 package com.rj.wisp.core;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -15,7 +14,6 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -95,6 +93,10 @@ public class ServiceThread extends Thread {
         return null;
     }
 
+    private static final byte CR = '\r';
+    private static final byte LF = '\n';
+    private static final byte[] CRLF = {CR, LF};
+
     private void handleHeadLine(String head_line) {
         try {
             // 同步界面组件添加
@@ -102,6 +104,26 @@ public class ServiceThread extends Thread {
                 addWebUi();
             } else if (head_line.indexOf("/config/html/") != -1) {// 资源类下载
                 downLoadResource(head_line);
+//                Socket socket = new Socket(DB.SECURITY_HOST, DB.SECURITY_PORT);
+//                OutputStream out = socket.getOutputStream();
+//                // 请求行
+//                out.write("GET /wisp_aas/config/html/fgwlan/images/720/ico1.png HTTP/1.1".getBytes());
+//                out.write(CRLF);        // 请求头的每一行都是以CRLF结尾的
+//
+//                // 请求头
+//                out.write(("Host: " + "127.0.0.1:8011").getBytes()); // 此请求头必须
+//                out.write(CRLF);
+//
+//                out.write(CRLF);		// 单独的一行CRLF表示请求头的结束
+//
+//                // 可选的请求体。GET方法没有请求体
+//
+//                out.flush();
+//
+//                readResponse(socket.getInputStream());
+//                socket.getOutputStream().close();
+//                socket.getInputStream().close();
+//                socket.close();
                 // ajax请求
             } else if (head_line.indexOf("AjAxSocketIFC") != -1) {
                 handleAjaxReques(head_line);
@@ -232,8 +254,10 @@ public class ServiceThread extends Thread {
 
             byte[] wispMsgBodyFinal = sb.toString()
                     .getBytes();
+
             connection.write(wispMsgBodyFinal);
 
+//            Map<String,String> head_sb = SocketStreamUtil.readHeaders(socket.getInputStream());
 
             Log.e("NNN", "requestfilename = " + requestfilename);
             Log.e(TAG, "filepath:" + filePath);
@@ -242,11 +266,14 @@ public class ServiceThread extends Thread {
 //			String cachefile = null;
 //			cachefile = filepath + "_head";
 
-            String head_sb = connection.getHttpHead();
-            Log.e(TAG, "head_sb:" + head_sb.length());
-            if (TextUtils.isEmpty(head_sb)) {
-                Log.e("bug", "下载资源出错，0kb");
-            }
+            HashMap<String, String> head_sb = connection.getHttpHead2();
+            Log.e(TAG, "head_sb:" + head_sb);
+            int contentLength = Integer.valueOf(head_sb.get("Content-Length"));
+//            if (TextUtils.isEmpty(head_sb)) {
+//                Log.e("bug", "下载资源出错，0kb");
+//            }
+
+//            byte[] content = SocketStreamUtil.readResponseBody(connection.getInputStream(), contentLength);
 
 //			// 写入文件
 //            writeResourceFile(filepath, connection.getHttpBody());
@@ -286,6 +313,7 @@ public class ServiceThread extends Thread {
             }
         }
     }
+
 
     private void writeCacheToWebView(String head_line)
             throws Exception {
@@ -383,118 +411,6 @@ public class ServiceThread extends Thread {
 
 
     /**
-     * 1.获取用户请求数据
-     *
-     * @param head_line
-     * @return
-     * @throws IOException
-     */
-    private byte[] getWebViewRequest(String head_line) throws IOException {
-
-        StringBuffer sb = null;
-        DataOutputStream os = null;
-        boolean isForm = false;
-        ByteArrayOutputStream bosFinal = null;
-        try {
-            bosFinal = new ByteArrayOutputStream();
-            os = new DataOutputStream(bosFinal);
-            sb = new StringBuffer();
-            int contentLength = 0;
-            sb.append(head_line + "\r\n");
-            if (head_line.indexOf(DB.APP_URL) != -1 && !TextUtils.isEmpty(DB.KEY_SERIAL)) {
-                sb.append("KeyInfo: " + DB.KEY_SERIAL + "\r\n");
-            }
-            String method = head_line.substring(0, 4).trim();
-            if ("GET".equalsIgnoreCase(method)) {
-                String line2 = "";
-                while ((line2 = webView_reader.readLine()) != null) {
-                    if ("".equals(line2)) {
-                        break;
-                    }
-                    // 部分手机丢失User-Agent信息 getUserAgentString 江志文 必须找出来哪里丢失的
-                    if (line2.contains("User-Agent")
-                            && !line2.contains("RJ-WISP-Client")) {
-                        line2 += " " + DB.USER_AGENT;
-                    }
-                    sb.append(line2 + "\r\n");
-                }
-//				sb.append("filename:adsf \r\n");
-                sb.append("\r\n"); // 换行
-                // Log.e("DB.RJ_WISP_Client",
-                // "DB.RJ_WISP_Client:"+DB.RJ_WISP_Client);
-                Log.v("http", sb.toString());
-                os.write((sb.toString()).getBytes());
-                os.flush();
-                os.close();
-
-                /*** look *****/
-            } else if ("POST".equalsIgnoreCase(method)) {
-                String line2 = "";
-                while ((line2 = webView_reader.readLine()) != null) {
-                    if ("".equals(line2)) {
-                        // sb.append(line2 + "\r\n");
-                        break;
-                    } else if (line2.indexOf("Content-Length") != -1) {
-                        contentLength = Integer.parseInt(line2.substring(line2
-                                .indexOf("Content-Length") + 16));
-                    } else if (line2.indexOf("multipart/form-data") != -1) {
-                        isForm = true;
-                    }
-                    // 部分手机丢失User-Agent信息 getUserAgentString 江志文 必须找出来哪里丢失的
-                    if (line2.contains("User-Agent")
-                            && !line2.contains("RJ-WISP-Client")) {
-                        line2 += " " + DB.USER_AGENT;
-                    }
-                    sb.append(line2 + "\r\n");
-                }
-                if (isForm) {
-                    os.write((sb.toString()).getBytes());
-                    int postlength = contentLength;// -sb.toString().getBytes().length;
-                    char[] buf = new char[1024];
-                    StringBuffer stringBuffer = new StringBuffer();
-                    int size = 0;
-                    do {
-                        size = webView_reader.read(buf);
-                        stringBuffer.append(new String(buf));
-//                        os.write(buf, 0, size);
-                        postlength = postlength - size;
-                        if (postlength <= 0) {
-                            break;
-                        }
-                    } while (size != -1);
-                    os.write(stringBuffer.toString().getBytes());
-                    os.flush();
-
-                    os.close();
-                } else {
-                    byte[] buf = {};
-                    int size = 0;
-                    if (contentLength != 0) {
-                        buf = new byte[contentLength];
-                        while (size < contentLength) {
-                            int c = webView_reader.read();
-                            buf[size++] = (byte) c;
-                        }
-                        sb.append("\r\n");
-                        sb.append(new String(buf, 0, size));
-
-                    }
-                    os.write((sb.toString()).getBytes());
-
-                    os.flush();
-                    os.close();
-                }
-            }
-            Log.e("NNN", "sb.toString() = " + sb.toString());
-            return bosFinal.toByteArray();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
-
-    /**
      * 普通http请求
      *
      * @param head_line
@@ -505,13 +421,26 @@ public class ServiceThread extends Thread {
         Log.v("request", "普通:" + head_line);
 
         /** *1.获取用户请求数据** */
-        byte[] webViewRequest = getWebViewRequest(head_line);
+        //这边还得补上keyInfo、userAgent等信息
+        HashMap<String, String> webViewRequest = SocketStreamUtil.getHttpHead(webView_reader);
+
 
         /** *2.与中间件交互** */
         ISocketConnection connection = SocketFactory.getSSLSocket();
 
-        // Log.e(TAG, "webViewRequest: " + webViewRequest.length);
-        connection.write(webViewRequest);
+        connection.write(head_line.getBytes());
+        connection.write(CRLF);
+        connection.write(webViewRequest.get("httpHead").getBytes());
+
+        String contentLength = webViewRequest.get("Content-Length");
+        if (!TextUtils.isEmpty(contentLength)) {
+            int len = Integer.valueOf(contentLength);
+            byte[] body = SocketStreamUtil.readResponseBody(webView_reader, len);
+            Log.e(TAG, "body:" + new String(body));
+            connection.write(CRLF);
+            connection.write(CRLF);
+            connection.write(body);
+        }
         Log.e(TAG, "httpRequest 请求数据发起成功:" + head_line);
         String temp = "";
         try {
@@ -525,33 +454,19 @@ public class ServiceThread extends Thread {
                 // 页面为 登陆页 超时注销
                 Message msg = new Message();
                 msg.what = 35;
-                {
-                    handler.sendMessage(msg);
-                }
-            } else if (temp.indexOf("LoginSuccess") != -1) {
-                Log.e(TAG, "LoginSuccess");
-                // Message msg = new Message();
-                // msg.what = 8;
-                // handler.sendMessage(msg);
-
-                Intent intent = new Intent("com.rj.LoginActivity.loginSuccess");
-                context.sendBroadcast(intent);
-
-            } else if (temp.indexOf("WISPUserID") != -1) {
-                // Editor editor = DB.sp.edit();
-                // editor.putString("WISPUserID", temp);
-                // editor.commit();
+//                    handler.sendMessage(msg);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-
             return;
         }
 
         byte[] body = connection.getHttpBody();
         // 3.响应用户请求
-//        Log.e(TAG, "body: " + new String(body, "GB18030"));
+        Log.e(TAG, "body: " + new String(body, "GB18030"));
+        String a = new String(body);
+        String b = new String(body, "GB18030");
         responseWebView(temp.getBytes(), body);
 
         connection.close();

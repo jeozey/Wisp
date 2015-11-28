@@ -35,7 +35,7 @@ public class SSLSocketConnection implements ISocketConnection {
     private int port = 0;
 
     private void initInOutStream() {
-        getInPutStream();
+        getInputStream();
         getOutputStream();
     }
     public OutputStream getOutputStream() {
@@ -48,7 +48,7 @@ public class SSLSocketConnection implements ISocketConnection {
         return out;
     }
 
-    private InputStream getInPutStream() {
+    public InputStream getInputStream() {
         try {
             if (in == null) in = new DataInputStream(sslSocket.getInputStream());
         } catch (IOException e) {

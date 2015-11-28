@@ -13,8 +13,8 @@ import android.util.Log;
 import com.rj.framework.DB;
 import com.rj.framework.download.DownLoadResourcePool;
 import com.rj.framework.download.DownLoadResourcesThread;
-import com.rj.util.SocketStreamUtil;
 import com.rj.util.ToastTool;
+import com.rj.wisp.core.SocketStreamUtil;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,6 +27,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
  * 下载资源文件
@@ -165,7 +166,7 @@ public class AjaxGetResourcesTask extends AsyncTask<Object, Void, String> {
             String s = "";
 
             int contentLength = 0;
-            HashMap<String, String> map = SocketStreamUtil.getHttpHead2(is);
+            Map<String, String> map = SocketStreamUtil.readHeaders(is);
             if (map.get("WISP-Content-Length") != null) {
                 try {
                     contentLength = Integer.valueOf(map

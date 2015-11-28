@@ -1,11 +1,17 @@
 package com.rj.connection;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 
 public class SDKeySocketConnection implements ISocketConnection {
     public SDKeySocketConnection(String host, int port) throws IOException{
+    }
+
+    @Override
+    public InputStream getInputStream() {
+        return null;
     }
 
     @Override

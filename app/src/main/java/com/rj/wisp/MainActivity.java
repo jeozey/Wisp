@@ -14,7 +14,6 @@ import com.rj.connection.SocketConnectionManager;
 import com.rj.connection.SocketConnectionPool;
 import com.rj.framework.DB;
 import com.rj.sdkey.view.PhoneLoginView;
-import com.rj.util.SocketStreamUtil;
 import com.rj.util.ToastTool;
 import com.rj.wisp.activity.LoginActivity;
 import com.rj.wisp.core.InitUtil;
@@ -86,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 //            public void run() {
 //                try {
 //                    getAppInfo();
+////                    new LearnHttp().testHttp();
 //                } catch (Exception e) {
 //
 //                }
@@ -121,34 +121,34 @@ public class MainActivity extends AppCompatActivity {
             os.write("\r\n".getBytes());
             os.flush();
 
-            // 2.socket响应
-            String s = "";
-            int contentLength = 0;
-            HashMap<String, String> map = SocketStreamUtil.getHttpHead2(is);
-            if (map.get("WISP-Content-Length") != null) {
-                try {
-                    contentLength = Integer.valueOf(map
-                            .get("WISP-Content-Length"));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            byte[] buf = {};
-            int size = 0;
-            if (contentLength != 0) {
-                buf = new byte[contentLength];
-                while (size < contentLength) {
-                    int c = is.read();
-                    buf[size++] = (byte) c;
-
-                }
-                s = new String(buf, 0, size, "GBK");
-                Log.v("RJMOA", "消息体：" + s);
-            }
-
-            String jsonData = s;
-            Log.e(TAG, "jsonData:" + jsonData);
+//            // 2.socket响应
+//            String s = "";
+//            int contentLength = 0;
+//            Map<String, String> map = SocketStreamUtil.readHeaders(is);
+//            if (map.get("WISP-Content-Length") != null) {
+//                try {
+//                    contentLength = Integer.valueOf(map
+//                            .get("WISP-Content-Length"));
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            byte[] buf = {};
+//            int size = 0;
+//            if (contentLength != 0) {
+//                buf = new byte[contentLength];
+//                while (size < contentLength) {
+//                    int c = is.read();
+//                    buf[size++] = (byte) c;
+//
+//                }
+//                s = new String(buf, 0, size, "GBK");
+//                Log.v("RJMOA", "消息体：" + s);
+//            }
+//
+//            String jsonData = s;
+//            Log.e(TAG, "jsonData:" + jsonData);
         } catch (Exception e) {
             e.printStackTrace();
         }
