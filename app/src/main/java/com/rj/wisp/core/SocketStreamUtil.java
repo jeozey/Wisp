@@ -51,7 +51,6 @@ public class SocketStreamUtil {
         }
         return null;
     }
-
     public static HashMap<String, String> getHttpHead(InputStream in) {
         int tmpChar = 0;
         StringBuilder httpHead = new StringBuilder();
@@ -117,11 +116,11 @@ public class SocketStreamUtil {
     }
 
 
+
     /*********************************************/
     private static final byte CR = '\r';
     private static final byte LF = '\n';
     private static final byte[] CRLF = {CR, LF};
-
     public static Map<String, String> readHeaders(InputStream in) throws IOException {
         Map<String, String> headers = new HashMap<String, String>();
 
@@ -160,7 +159,6 @@ public class SocketStreamUtil {
         Log.e(TAG, "all count:" + buff.toByteArray().length);
         return buff.toByteArray();
     }
-
     public static byte[] readResponseBody(BufferedReader in, int contentLength) throws IOException {
 
         ByteArrayOutputStream buff = new ByteArrayOutputStream(contentLength);

@@ -14,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -411,6 +412,115 @@ public class ServiceThread extends Thread {
 
 
     /**
+     * 1.获取用户请求数据
+     *
+     * @param head_line
+     * @return
+     * @throws IOException
+     */
+    private byte[] getWebViewRequest(String head_line) throws IOException {
+
+        StringBuffer sb = null;
+        DataOutputStream os = null;
+        boolean isForm = false;
+        ByteArrayOutputStream bosFinal = null;
+        try {
+            bosFinal = new ByteArrayOutputStream();
+            os = new DataOutputStream(bosFinal);
+            sb = new StringBuffer();
+            int contentLength = 0;
+            sb.append(head_line + "\r\n");
+            if (head_line.indexOf(DB.APP_URL) != -1 && !TextUtils.isEmpty(DB.KEY_SERIAL)) {
+                sb.append("KeyInfo: " + DB.KEY_SERIAL + "\r\n");
+            }
+            String method = head_line.substring(0, 4).trim();
+            if ("GET".equalsIgnoreCase(method)) {
+                String line2 = "";
+                while ((line2 = webView_reader.readLine()) != null) {
+                    if ("".equals(line2)) {
+                        break;
+                    }
+                    // 部分手机丢失User-Agent信息 getUserAgentString 江志文 必须找出来哪里丢失的
+                    if (line2.contains("User-Agent")
+                            && !line2.contains("RJ-WISP-Client")) {
+                        line2 += " " + DB.USER_AGENT;
+                    }
+                    sb.append(line2 + "\r\n");
+                }
+//				sb.append("filename:adsf \r\n");
+                sb.append("\r\n"); // 换行
+                // Log.e("DB.RJ_WISP_Client",
+                // "DB.RJ_WISP_Client:"+DB.RJ_WISP_Client);
+                Log.v("http", sb.toString());
+                os.write((sb.toString()).getBytes());
+                os.flush();
+                os.close();
+
+                /*** look *****/
+            } else if ("POST".equalsIgnoreCase(method)) {
+                String line2 = "";
+                while ((line2 = webView_reader.readLine()) != null) {
+                    if ("".equals(line2)) {
+                        // sb.append(line2 + "\r\n");
+                        break;
+                    } else if (line2.indexOf("Content-Length") != -1) {
+                        contentLength = Integer.parseInt(line2.substring(line2
+                                .indexOf("Content-Length") + 16));
+                    } else if (line2.indexOf("multipart/form-data") != -1) {
+                        isForm = true;
+                    }
+                    // 部分手机丢失User-Agent信息 getUserAgentString 江志文 必须找出来哪里丢失的
+                    if (line2.contains("User-Agent")
+                            && !line2.contains("RJ-WISP-Client")) {
+                        line2 += " " + DB.USER_AGENT;
+                    }
+                    sb.append(line2 + "\r\n");
+                }
+                if (isForm) {
+                    os.write((sb.toString()).getBytes());
+                    int postlength = contentLength;// -sb.toString().getBytes().length;
+                    char[] buf = new char[1024];
+                    int size = 0;
+//                    do {
+//                        size = webView_reader.read(buf);
+//                        os.write(buf, 0, size);
+//                        postlength = postlength - size;
+//                        if (postlength <= 0) {
+//                            break;
+//                        }
+//                    } while (size != -1);
+                    os.flush();
+
+                    os.close();
+                } else {
+                    byte[] buf = {};
+                    int size = 0;
+                    if (contentLength != 0) {
+                        buf = new byte[contentLength];
+                        while (size < contentLength) {
+                            int c = webView_reader.read();
+                            buf[size++] = (byte) c;
+                        }
+                        sb.append("\r\n");
+                        sb.append(new String(buf, 0, size) + "\r\n");
+
+                    }
+                    os.write((sb.toString()).getBytes());
+
+                    os.flush();
+                    os.close();
+                }
+            }
+            Log.e("NNN", "sb.toString() = " + sb.toString());
+            return bosFinal.toByteArray();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    /**
      * 普通http请求
      *
      * @param head_line
@@ -428,19 +538,26 @@ public class ServiceThread extends Thread {
         /** *2.与中间件交互** */
         ISocketConnection connection = SocketFactory.getSSLSocket();
 
-        connection.write(head_line.getBytes());
-        connection.write(CRLF);
-        connection.write(webViewRequest.get("httpHead").getBytes());
-
+//        byte[] request = getWebViewRequest(head_line);
+//        connection.write(request);
+        StringBuilder sb = new StringBuilder();
+        sb.append(head_line + "\r\n").append(webViewRequest.get("httpHead"));
+//        connection.write(head_line);
+//        connection.write(CRLF);
+//        connection.write(webViewRequest.get("httpHead").getBytes());
+//
         String contentLength = webViewRequest.get("Content-Length");
         if (!TextUtils.isEmpty(contentLength)) {
             int len = Integer.valueOf(contentLength);
             byte[] body = SocketStreamUtil.readResponseBody(webView_reader, len);
             Log.e(TAG, "body:" + new String(body));
-            connection.write(CRLF);
-            connection.write(CRLF);
-            connection.write(body);
+            sb.append(new String(body));
+            System.out.println("sb:" + sb.toString());
+//            connection.write(CRLF);
+//            connection.write(CRLF);
+//            connection.write(body);
         }
+        connection.write(sb.toString().getBytes());
         Log.e(TAG, "httpRequest 请求数据发起成功:" + head_line);
         String temp = "";
         try {
