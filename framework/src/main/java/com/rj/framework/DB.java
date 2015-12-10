@@ -9,7 +9,6 @@ import java.io.File;
  * 邮箱：594485991@qq.com
  */
 public class DB {
-    public final static String BASE_URL = "http://q.com";
     public static boolean isPhone;//phone or pad
     public static boolean isEpad;//是否E本
     public static boolean isPortrait = false;//是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果
