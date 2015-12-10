@@ -18,18 +18,21 @@ public class LearnHttp {
 	}
 
 	public void testHttp() throws IOException {
-		String host = "220.250.1.46";
-		Socket socket = new Socket(host, 5599);
+		String host = "218.5.67.104";
+		Socket socket = new Socket(host, 5566);
+
+//		String host = "220.250.1.42";
+//		Socket socket = new Socket(host, 80);
 
 		OutputStream out = socket.getOutputStream();
 		InputStream in = socket.getInputStream();
 
 		// 在同一个TCP连接里发送多个HTTP请求
-		for (int i = 0; i < 2; i++) {
+//		for (int i = 0; i < 2; i++) {
 			writeRequest(out, host);
 			readResponse(in);
 			System.out.println("\n\n\n");
-		}
+//		}
 		out.close();
 		in.close();
 		socket.close();
@@ -38,12 +41,13 @@ public class LearnHttp {
 	private void writeRequest(OutputStream out, String host) throws IOException {
 		// 请求行
 		out.write("GET /wisp_aas/config/html/fgwlan/images/720/ico1.png HTTP/1.1".getBytes());
+//		out.write("GET /por/images/default_logo.gif HTTP/1.1".getBytes());
 		out.write(CRLF);        // 请求头的每一行都是以CRLF结尾的
 
 		// 请求头
 		out.write(("Host: " + host).getBytes()); // 此请求头必须
 		out.write(CRLF);
-
+//		out.write(CRLF);out.write(CRLF);out.write(CRLF);
 		out.write(CRLF);        // 单独的一行CRLF表示请求头的结束
 
 		// 可选的请求体。GET方法没有请求体

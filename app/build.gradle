@@ -11,11 +11,57 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+
+    signingConfigs {
+        release {
+            storeFile file("F:\\wisp签名\\wisp.keystore")
+            keyAlias "wisp"
+            storeFile file("stone.keystore")
+            storePassword "rjsoft"
+            keyPassword "rjsoft"
+        }
+
+        debug {
+            storeFile file("F:\\wisp签名\\wisp.keystore")
+            keyAlias "wisp"
+            storePassword "rjsoft"
+            keyPassword "rjsoft"
+        }
+    }
+
+
+
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            resValue "string", "app_name", "政务办公"
+
+            flavorDimensions "version"
+            buildConfigField "boolean", "IS_PIN", "true"
+            buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
+            buildConfigField "int", "HTTPSERVER_PORT", "8011"
+            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
+            buildConfigField "int", "SECURITY_PORT", "5599"
+            buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
+            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
+            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
         }
+        "5599" {
+            signingConfig signingConfigs.release
+            resValue "string", "app_name", "协同办公"
+
+            flavorDimensions "version"
+            buildConfigField "boolean", "IS_PIN", "true"
+            buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
+            buildConfigField "int", "HTTPSERVER_PORT", "8011"
+            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
+            buildConfigField "int", "SECURITY_PORT", "5599"
+            buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
+            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
+            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
+        }
+
 
     }
     sourceSets {
@@ -28,7 +74,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.0.0'
     compile project(":util");
     compile project(":view");

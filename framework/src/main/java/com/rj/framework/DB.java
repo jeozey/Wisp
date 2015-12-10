@@ -9,6 +9,7 @@ import java.io.File;
  * 邮箱：594485991@qq.com
  */
 public class DB {
+    public final static String BASE_URL = "http://q.com";
     public static boolean isPhone;//phone or pad
     public static boolean isEpad;//是否E本
     public static boolean isPortrait = false;//是否竖屏显示,电建需要平板展示竖屏效果，其实就是手机的效果
@@ -40,7 +41,7 @@ public class DB {
     public static String AAS_HOST = "";
     public static Integer AAS_PORT = 5566;
     public static String APP_CODE = "";
-    public static String APP_URL = "";//loginPage
+    public static String LOGINPAGE_URL = "";//loginPage
     public static String HTTPSERVER_HOST = "127.0.0.1";
     public static Integer HTTPSERVER_PORT = 0;
     public static String PRE_URL = "";

@@ -43,13 +43,13 @@ public class LoginActivity extends BaseActivity {
 
         WispApplication.isLogin = true;
         //获取cookies
-        String cookies = CookieManager.getInstance().getCookie(DB.PRE_URL + DB.APP_URL);
+        String cookies = CookieManager.getInstance().getCookie(DB.PRE_URL + DB.LOGINPAGE_URL);
         WispApplication.cookies = cookies;
 
         // 登陆时候跳转多个地方， 所以暂时不停止， 让他继续跳转，
         // 到时候如果出现登陆不行的情况, 再考虑loginsuccess之后的数据都写入主页面的webview中
         // webView.stopLoading();
-        // webView.loadUrl(DB.PRE_URL+DB.APP_URL);
+        // webView.loadUrl(DB.PRE_URL+DB.LOGINPAGE_URL);
         WispCore.getWISPSO().CloseService();
 
         if (DB.isPhone) {
@@ -145,7 +145,7 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         // AppSystemTool.clearWebViewCookie(getBaseContext());
-        Log.e(TAG, "DB.APP_URL:" + DB.APP_URL);
+        Log.e(TAG, "DB.LOGINPAGE_URL:" + DB.LOGINPAGE_URL);
         try {
             String url = getIntent().getStringExtra("url");
 //			url = "http://baidu.com";
@@ -154,10 +154,10 @@ public class LoginActivity extends BaseActivity {
 
             } else
 //				webView = WebViewFactory.getNewWebView(LoginActivity.this, "http://127.0.0.1:8011/wisp_aas/ClientInfo.jsp?url=http%3A%2F%2F192.168.1.12%2Fhomepage.nsf");
-                webView = WebViewFactory.getNewWebView(LoginActivity.this, DB.PRE_URL + DB.APP_URL);
+                webView = WebViewFactory.getNewWebView(LoginActivity.this, DB.PRE_URL + DB.LOGINPAGE_URL);
             clearCache(webView, true);// 清除下缓存
         } catch (Exception e) {
-            webView = WebViewFactory.getNewWebView(LoginActivity.this, DB.PRE_URL + DB.APP_URL);
+            webView = WebViewFactory.getNewWebView(LoginActivity.this, DB.PRE_URL + DB.LOGINPAGE_URL);
         }
 
 
@@ -211,13 +211,13 @@ public class LoginActivity extends BaseActivity {
         switch (position) {
             case 0:
                 if (webView != null) {
-                    webView.loadUrl(DB.PRE_URL + DB.APP_URL);
+                    webView.loadUrl(DB.PRE_URL + DB.LOGINPAGE_URL);
                 }
                 break;
             case 1:
                 clearCache(webView, true);
                 clearCookies();
-                webView.loadUrl(DB.PRE_URL + DB.APP_URL);
+                webView.loadUrl(DB.PRE_URL + DB.LOGINPAGE_URL);
                 break;
             case 2:
 //			if (DB.isPhone) {

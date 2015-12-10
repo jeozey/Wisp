@@ -166,7 +166,7 @@ public class PhoneLeftFragment extends Fragment {
             Log.e(TAG, "WispApplication.cookies:" + WispApplication.cookies);
 //			synCookies(activity, DB.PRE_URL
 //						+ DB.HOMEPAGE_URL, WispApplication.cookies);
-            Log.e(TAG, "DB.LOGINPAGE_URL" + DB.APP_URL);
+            Log.e(TAG, "DB.LOGINPAGE_URL" + DB.LOGINPAGE_URL);
             Log.e(TAG, "DB.HOMEPAGE_URL" + DB.HOMEPAGE_URL);
             if (webView == null) {
                 webView = WebViewFactory.getNewWebView(activity, DB.PRE_URL

@@ -191,30 +191,15 @@ public class ServiceThread extends Thread {
     }
 
     private void downLoadResource(String head_line) throws Exception {
+        head_line = head_line.replace("GET", "HEAD");
         Log.v("bug", "下载资源:" + head_line);
-        String requestfilename = "";// 请求头中带的文件名
-        String requestfiletype = "";// 请求头中带的文件类型
-        String requestmodified = "";// 请求头中带的文件修改时间
         StringBuilder sb = new StringBuilder();
-        String line2 = "";
         sb.append(head_line + "\r\n");
-
-        boolean isDownloadResources = false;// 是否下载资源文件
 
         HashMap<String, String> headMap = SocketStreamUtil.getHttpHead(webView_reader);
 
         sb.append(headMap.get("httpHead"));
         Log.e(TAG, "sb:" + sb);
-        try {
-            if ("download".equals(headMap.get("Method-Type"))) {
-                isDownloadResources = true;
-            }
-            requestfilename = headMap.get("File-Name");
-            requestfiletype = headMap.get("File-Type");
-            requestmodified = headMap.get("File-Time");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         String filename = head_line.substring(
                 head_line.indexOf("config/html"), head_line.length() - 9);
@@ -223,10 +208,7 @@ public class ServiceThread extends Thread {
 
         //缓存被删后，重新下载 并写入webview
         boolean needWriteToWebView = false;
-        if (!isDownloadResources)// 没有下载资源标示 则 为启用高速缓存
-        {
             if (filePath.exists()) {
-                Log.e(TAG, "启用高速缓存:" + !isDownloadResources);
                 writeCacheToWebView(head_line);
                 return;
             } else {
@@ -236,7 +218,6 @@ public class ServiceThread extends Thread {
 //                    if(AjaxGetResourcesTask.sourceMap.containsKey(filepath)){
                     Log.e(TAG, "高速缓存被删,重新下载");
                     needWriteToWebView = true;
-                    requestfilename = filename;
 //                    }else{
 //                        return;
 //                    }
@@ -245,7 +226,6 @@ public class ServiceThread extends Thread {
                 }
 
             }
-        }
         // 对中间件发送数据包
         Log.v("bug", "下载资源---请求中间件:");
         ISocketConnection connection = null;
@@ -260,7 +240,6 @@ public class ServiceThread extends Thread {
 
 //            Map<String,String> head_sb = SocketStreamUtil.readHeaders(socket.getInputStream());
 
-            Log.e("NNN", "requestfilename = " + requestfilename);
             Log.e(TAG, "filepath:" + filePath);
             // 江志文 保存的是http头，下次直接和文件写到webview
 //			FileOutputStream foscache = null;
@@ -284,7 +263,7 @@ public class ServiceThread extends Thread {
 
             // 是否是下载新资源，如果下载 成功， 更新本地资源列表
             String path = DB.RESOURCE_PATH
-                    + requestfilename;
+                    + filename;
 
 //            if (!SourceFileUtil.isWriting) {
 //                Message msg = Message.obtain();
@@ -430,7 +409,7 @@ public class ServiceThread extends Thread {
             sb = new StringBuffer();
             int contentLength = 0;
             sb.append(head_line + "\r\n");
-            if (head_line.indexOf(DB.APP_URL) != -1 && !TextUtils.isEmpty(DB.KEY_SERIAL)) {
+            if (head_line.indexOf(DB.LOGINPAGE_URL) != -1 && !TextUtils.isEmpty(DB.KEY_SERIAL)) {
                 sb.append("KeyInfo: " + DB.KEY_SERIAL + "\r\n");
             }
             String method = head_line.substring(0, 4).trim();
