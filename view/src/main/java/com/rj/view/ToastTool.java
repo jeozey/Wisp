@@ -1,4 +1,4 @@
-package com.rj.util;
+package com.rj.view;
 
 import android.app.Activity;
 import android.content.Context;

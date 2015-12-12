@@ -7,7 +7,7 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import com.rj.util.ToastTool;
+import com.rj.view.ToastTool;
 
 public class UrlHandler {
     private static final String TAG = "UrlHandler";

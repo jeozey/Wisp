@@ -13,4 +13,7 @@
     <color name="phone_horizontal_btn_bg">#fff8f8f8</color>
     <color name="phone_horizontal_btn_top_line">#fff8f8f7</color>
 
+    <color name="custom">#ff0099CC</color>
+    <color name="sticky">#ffffcd5a</color>
+
 </resources>

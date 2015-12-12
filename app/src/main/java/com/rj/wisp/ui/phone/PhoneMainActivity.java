@@ -48,9 +48,9 @@ import com.rj.framework.WISPComponentsParser;
 import com.rj.framework.webview.UrlHandler;
 import com.rj.framework.webview.WebViewCtrol;
 import com.rj.util.PixelTool;
-import com.rj.util.ToastTool;
 import com.rj.view.PopMenu;
 import com.rj.view.TabMenu;
+import com.rj.view.ToastTool;
 import com.rj.view.button.CustomButton;
 import com.rj.view.button.CustomWidgetButton;
 import com.rj.view.button.NoticeBean;
@@ -769,7 +769,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
     @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-        Log.e(TAG, "onReceivedError:" + error.getErrorCode() + "--" + error.getDescription());
+        Log.e(TAG, "onReceivedError:");
         view.stopLoading();
         if (failingUrl.indexOf("refreshWebView") == -1) {
             failingUrl = failingUrl;

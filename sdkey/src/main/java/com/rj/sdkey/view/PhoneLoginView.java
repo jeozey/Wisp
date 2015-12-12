@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.icloudaegis.service.KeySdkService;
 import com.icloudaegis.service.PinResult;
 import com.rj.sdkey.R;
-import com.rj.util.ToastTool;
+import com.rj.view.ToastTool;
 
 public class PhoneLoginView extends LinearLayout implements OnClickListener {
 

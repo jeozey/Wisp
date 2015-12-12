@@ -13,7 +13,7 @@ import android.util.Log;
 import com.rj.framework.DB;
 import com.rj.framework.download.DownLoadResourcePool;
 import com.rj.framework.download.DownLoadResourcesThread;
-import com.rj.util.ToastTool;
+import com.rj.view.ToastTool;
 import com.rj.wisp.core.SocketStreamUtil;
 
 import org.json.JSONArray;

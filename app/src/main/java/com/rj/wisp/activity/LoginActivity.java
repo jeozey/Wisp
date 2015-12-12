@@ -21,7 +21,7 @@ import com.rj.framework.webview.RjWebViewClient;
 import com.rj.framework.webview.WebViewCtrol;
 import com.rj.framework.webview.WebViewCtrolImpl;
 import com.rj.framework.webview.WebViewFactory;
-import com.rj.util.ToastTool;
+import com.rj.view.ToastTool;
 import com.rj.wisp.R;
 import com.rj.wisp.base.BaseActivity;
 import com.rj.wisp.base.WispApplication;

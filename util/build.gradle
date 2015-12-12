@@ -21,6 +21,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile files('src/main/libs/mail.jar')
-    compile project(":view")
+//    compile files('src/main/libs/mail.jar')
+//    compile project(":view")
 }

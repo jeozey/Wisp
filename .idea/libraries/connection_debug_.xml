@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="connection-debug-">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/connection-debug/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/connection-debug/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

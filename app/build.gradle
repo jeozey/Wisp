@@ -4,16 +4,6 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.0"
 
-    defaultConfig {
-        applicationId "com.rj.wisp"
-        minSdkVersion 9
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
-        resValue "string", "app_name", "政务办公"
-    }
-
-
     signingConfigs {
         release {
             storeFile file("F:\\wisp签名\\wisp.keystore")
@@ -24,23 +14,47 @@ android {
 
     }
 
+    defaultConfig {
+        applicationId "com.rj.wisp"
+        minSdkVersion 9
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+
+        signingConfig signingConfigs.release
+        resValue "string", "app_name", "政务办公"
+
+        flavorDimensions "version"
+        buildConfigField "boolean", "IS_PIN", "true"
+        buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
+        buildConfigField "int", "HTTPSERVER_PORT", "8011"
+        buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
+        buildConfigField "int", "SECURITY_PORT", "5599"
+        buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
+        buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
+        buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
+    }
+
+
+
+
 
 
     buildTypes {
-        release {
-            signingConfig signingConfigs.release
-            resValue "string", "app_name", "政务办公"
-
-            flavorDimensions "version"
-            buildConfigField "boolean", "IS_PIN", "true"
-            buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
-            buildConfigField "int", "HTTPSERVER_PORT", "8011"
-            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
-            buildConfigField "int", "SECURITY_PORT", "5599"
-            buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
-            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
-            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
-        }
+//        release {
+//            signingConfig signingConfigs.release
+//            resValue "string", "app_name", "政务办公"
+//
+//            flavorDimensions "version"
+//            buildConfigField "boolean", "IS_PIN", "true"
+//            buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
+//            buildConfigField "int", "HTTPSERVER_PORT", "8011"
+//            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
+//            buildConfigField "int", "SECURITY_PORT", "5599"
+//            buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
+//            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
+//            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
+//        }
         "5599" {
             signingConfig signingConfigs.release
             resValue "string", "app_name", "协同办公"
@@ -64,15 +78,32 @@ android {
         }
     }
 
+
 }
 
+
+
+
 dependencies {
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile(name: 'sdkey-debug', ext: 'aar')
+    compile(name: 'connection-debug', ext: 'aar')
+    compile(name: 'framework-debug', ext: 'aar')
+    compile(name: 'view-debug', ext: 'aar')
+
     compile 'com.android.support:appcompat-v7:23.0.0'
     compile project(":util");
-    compile project(":view");
-    compile project(":framework");
-    compile project(":connection");
+//    compile project(":view");
+//    compile project(":framework");
+//    compile project(":connection");
     compile project(":otherlib");
-    compile project(":sdkey");
+//    compile project(":sdkey");
 }
+
+//fileTree(dir: 'libs', include: '**/*.aar')
+//        .each { File file ->
+//    dependencies.add("compile", [name: file.name.lastIndexOf('.').with { it != -1 ? file.name[0..<it] : file.name }, ext: 'aar'])
+//}
+

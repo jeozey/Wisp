@@ -14,7 +14,7 @@ import com.rj.connection.SocketConnectionManager;
 import com.rj.connection.SocketConnectionPool;
 import com.rj.framework.DB;
 import com.rj.sdkey.view.PhoneLoginView;
-import com.rj.util.ToastTool;
+import com.rj.view.ToastTool;
 import com.rj.wisp.activity.LoginActivity;
 import com.rj.wisp.core.InitUtil;
 import com.rj.wisp.core.WispCore;
@@ -26,8 +26,8 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
-    private static final String TAG = MainActivity.class.getName();
+public class AppLoadActivity extends AppCompatActivity {
+    private static final String TAG = AppLoadActivity.class.getName();
 
 
     @Override
@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
             PhoneLoginView login = new PhoneLoginView(getBaseContext(), new PhoneLoginView.IKeySdkService() {
                 @Override
                 public void loginSuccess() {
-                    ToastTool.show(MainActivity.this, "验证成功", Toast.LENGTH_LONG);
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    ToastTool.show(AppLoadActivity.this, "验证成功", Toast.LENGTH_LONG);
+                    startActivity(new Intent(AppLoadActivity.this, LoginActivity.class));
                 }
 
                 @Override
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     LinearLayout.LayoutParams.MATCH_PARENT);
             addContentView(login, lParams);
             // 初始化，识别SDKEY
-            login.initPin(MainActivity.this);
+            login.initPin(AppLoadActivity.this);
         } else {
 
             startActivity(new Intent(this, LoginActivity.class));
