@@ -18,6 +18,7 @@ import com.rj.view.ToastTool;
 import com.rj.wisp.activity.LoginActivity;
 import com.rj.wisp.core.InitUtil;
 import com.rj.wisp.core.WispCore;
+import com.rj.wisp.ui.phone.SettingActivity;
 
 import java.io.DataInputStream;
 import java.io.InputStream;
@@ -76,7 +77,8 @@ public class AppLoadActivity extends AppCompatActivity {
             login.initPin(AppLoadActivity.this);
         } else {
 
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, SettingActivity.class));
+//            startActivity(new Intent(this, LoginActivity.class));
         }
 
 

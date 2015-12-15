@@ -1,9 +1,11 @@
 package com.rj.wisp.core;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
@@ -51,29 +53,27 @@ public class SocketStreamUtil {
         }
         return null;
     }
-    public static HashMap<String, String> getHttpHead(InputStream in) {
-        int tmpChar = 0;
-        StringBuilder httpHead = new StringBuilder();
-        HashMap<String, String> head = new HashMap<String, String>();
-        try {
-            StringBuilder temp = new StringBuilder("");
-            while ((tmpChar = in.read()) != -1) {
-                httpHead.append((char) tmpChar);
-                temp.append((char) tmpChar);
 
-//                Log.e("test7", "temp_line:" + temp.toString());
-                if (httpHead.toString().indexOf("\r\n\r\n") > 0) {
-                    break;
-                }
-                if (temp.toString().indexOf("\r\n") > 0) {
+    private static int getShort(byte[] data) {
+        return (data[0] << 8) | data[1] & 0xFF;
+    }
+
+    public static HashMap<String, String> getHttpHead(DataInputStream in) {
+        try {
+
+            HashMap<String, String> head = new HashMap<String, String>();
+            DataInputStream dataInputStream = new DataInputStream(in);
+            String temp = "";
+            StringBuffer httpHead = new StringBuffer();
+            while (!TextUtils.isEmpty(temp = dataInputStream.readLine())) {
+                httpHead.append(temp + "\r\n");
+                if (temp.indexOf("gzip") == -1) {
                     int index = temp.toString().indexOf(":");
                     if (index != -1) {
                         String key = temp.toString().substring(0, index);
                         String value = temp.toString().substring(index + 1).replace(" ", "").replace("\r\n", "");
                         head.put(key, value);
                     }
-
-                    temp = new StringBuilder("");
                 }
             }
             head.put("httpHead", httpHead.toString() + "\r\n");
@@ -82,6 +82,8 @@ public class SocketStreamUtil {
             e.printStackTrace();
         }
         return null;
+
+
     }
 
     public static HashMap<String, String> getHttpHead(BufferedReader bufferedReader) {
@@ -139,22 +141,44 @@ public class SocketStreamUtil {
         return headers;
     }
 
+    public static byte[] getHttpBody(InputStream in, int contentLength) {
+        byte[] buffer = new byte[1024];
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            int len = 0;
+            int i = 0;
+            while ((len = in.read(buffer)) != -1) {
+//                Log.e(TAG,"len:"+len);
+                byteArrayOutputStream.write(buffer, 0, len);
+            }
+            return byteArrayOutputStream.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static byte[] readResponseBody(InputStream in, int contentLength) throws IOException {
 
         ByteArrayOutputStream buff = new ByteArrayOutputStream(contentLength);
 
         int b;
         int count = 0;
-//        while(count++ < contentLength) {
-//            b = in.read();
-//            buff.write(b);
+        while (count++ < contentLength) {
+            b = in.read();
+            if (b == -1) {
+                break;
+            }
+            buff.write(b);
 //            Log.e(TAG,"count:"+count);
-//            System.out.print("count:"+count);
+        }
+//        byte[] buffer = new byte[10240];
+//        while ((count = in.read(buffer)) != -1) {
+////            Log.e(TAG,"count:"+count);
+//            buff.write(buffer, 0, count);
 //        }
-        byte[] buffer = new byte[10240];
-        while ((count = in.read(buffer)) != -1) {
-//            Log.e(TAG,"count:"+count);
-            buff.write(buffer, 0, count);
+        if (buff.toByteArray().length != contentLength) {
+            return new byte[0];
         }
         Log.e(TAG, "all count:" + buff.toByteArray().length);
         return buff.toByteArray();

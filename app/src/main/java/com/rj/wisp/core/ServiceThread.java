@@ -9,6 +9,7 @@ import android.util.Log;
 import com.rj.connection.ISocketConnection;
 import com.rj.framework.DB;
 import com.rj.util.FileUtil;
+import com.rj.util.GzipUtil;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -391,7 +392,7 @@ public class ServiceThread extends Thread {
 
 
     /**
-     * 1.获取用户请求数据
+     * 1.获取用户请求数据(无GZIP压缩)
      *
      * @param head_line
      * @return
@@ -507,6 +508,7 @@ public class ServiceThread extends Thread {
      */
 
     public void httpRequest(String head_line) throws Exception {
+
         Log.v("request", "普通:" + head_line);
 
         /** *1.获取用户请求数据** */
@@ -517,26 +519,18 @@ public class ServiceThread extends Thread {
         /** *2.与中间件交互** */
         ISocketConnection connection = SocketFactory.getSSLSocket();
 
-//        byte[] request = getWebViewRequest(head_line);
-//        connection.write(request);
         StringBuilder sb = new StringBuilder();
         sb.append(head_line + "\r\n").append(webViewRequest.get("httpHead"));
-//        connection.write(head_line);
-//        connection.write(CRLF);
-//        connection.write(webViewRequest.get("httpHead").getBytes());
-//
+        String t = sb.toString().replace("\r", "/");
         String contentLength = webViewRequest.get("Content-Length");
         if (!TextUtils.isEmpty(contentLength)) {
             int len = Integer.valueOf(contentLength);
             byte[] body = SocketStreamUtil.readResponseBody(webView_reader, len);
             Log.e(TAG, "body:" + new String(body));
             sb.append(new String(body));
-            System.out.println("sb:" + sb.toString());
-//            connection.write(CRLF);
-//            connection.write(CRLF);
-//            connection.write(body);
+            Log.e(TAG, "sb:" + sb.toString());
         }
-        connection.write(sb.toString().getBytes());
+        connection.write(GzipUtil.byteCompress(sb.toString().getBytes()));
         Log.e(TAG, "httpRequest 请求数据发起成功:" + head_line);
         String temp = "";
         try {
@@ -561,8 +555,6 @@ public class ServiceThread extends Thread {
         byte[] body = connection.getHttpBody();
         // 3.响应用户请求
         Log.e(TAG, "body: " + new String(body, "GB18030"));
-        String a = new String(body);
-        String b = new String(body, "GB18030");
         responseWebView(temp.getBytes(), body);
 
         connection.close();
@@ -598,14 +590,14 @@ public class ServiceThread extends Thread {
 
 //            Log.e("responseWebView", "head123:" + new String(head));
             webView_os.write(head);
+//            webView_os.flush();
             webView_os.write(body);
-            webView_os.flush();
+//            webView_os.flush();
             webView_os.close();
             Log.e("responseWebView", "responseWebView over");
 
         } catch (IOException e) {
             e.printStackTrace();
-            return;
         }
     }
 

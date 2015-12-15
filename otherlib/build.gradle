@@ -21,5 +21,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.0.0'
-    compile files('libs/fastjson.jar')
+    compile files('libs/fastjson-1.1.34.android-javadoc.jar')
+    compile files('libs/fastjson-1.1.34.android.jar')
 }
