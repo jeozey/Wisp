@@ -29,6 +29,7 @@ import com.rj.wisp.core.ServiceThread;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.ui.pad.PadMainActivity;
 import com.rj.wisp.ui.phone.PhoneMainActivity;
+import com.rj.wisp.ui.phone.SettingActivity;
 
 public class LoginActivity extends BaseActivity {
     private static final String TAG = "LoginActivity";
@@ -220,12 +221,12 @@ public class LoginActivity extends BaseActivity {
                 webView.loadUrl(DB.PRE_URL + DB.LOGINPAGE_URL);
                 break;
             case 2:
-//			if (DB.isPhone) {
-//				startActivity(new Intent(LoginActivity.this,
-//						SettingActivity.class));
-//			} else {
+                if (DB.isPhone) {
+                    startActivity(new Intent(LoginActivity.this,
+                            SettingActivity.class));
+                } else {
 //				new AppSettingDialog(this).show();
-//			}
+                }
                 break;
             case 3:
                 exitApp();

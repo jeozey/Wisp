@@ -192,7 +192,7 @@ public class ServiceThread extends Thread {
     }
 
     private void downLoadResource(String head_line) throws Exception {
-        head_line = head_line.replace("GET", "HEAD");
+//        head_line = head_line.replace("GET", "HEAD");
         Log.v("bug", "下载资源:" + head_line);
         StringBuilder sb = new StringBuilder();
         sb.append(head_line + "\r\n");
@@ -200,6 +200,7 @@ public class ServiceThread extends Thread {
         HashMap<String, String> headMap = SocketStreamUtil.getHttpHead(webView_reader);
 
         sb.append(headMap.get("httpHead"));
+//        sb.append("hi");
         Log.e(TAG, "sb:" + sb);
 
         String filename = head_line.substring(
@@ -234,10 +235,10 @@ public class ServiceThread extends Thread {
             /** *2.与中间件交互** */
             connection = SocketFactory.getSSLSocket();
 
-            byte[] wispMsgBodyFinal = sb.toString()
-                    .getBytes();
+            //到时候Gzip全部去掉
+            byte[] body = GzipUtil.byteCompress(sb.toString().getBytes());
 
-            connection.write(wispMsgBodyFinal);
+            connection.write(body);
 
 //            Map<String,String> head_sb = SocketStreamUtil.readHeaders(socket.getInputStream());
 
@@ -554,7 +555,7 @@ public class ServiceThread extends Thread {
 
         byte[] body = connection.getHttpBody();
         // 3.响应用户请求
-        Log.e(TAG, "body: " + new String(body, "GB18030"));
+//        Log.e(TAG, "body: " + new String(body, "GB18030"));
         responseWebView(temp.getBytes(), body);
 
         connection.close();

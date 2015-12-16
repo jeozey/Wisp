@@ -19,13 +19,16 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.rj.framework.AppSystemTool;
 import com.rj.framework.DB;
 import com.rj.util.PixelTool;
 import com.rj.view.BackTitleBar;
 import com.rj.view.ToastTool;
 import com.rj.view.listview.CornerListView;
+import com.rj.wisp.AppLoadActivity;
 import com.rj.wisp.R;
 import com.rj.wisp.bean.AppConfig;
+import com.rj.wisp.core.InitUtil;
 import com.rj.wisp.task.GetAppConfigTask;
 import com.rj.wisp.ui.adapter.PhoneSettingAdapter;
 
@@ -38,7 +41,7 @@ import java.util.Map;
  * 作者：志文 on 2015/12/15 0015 09:22
  * 邮箱：594485991@qq.com
  */
-public class SettingActivity extends Activity implements PhoneSettingAdapter.AppSettingCallBack {
+public class SettingActivity extends Activity implements View.OnClickListener, PhoneSettingAdapter.AppSettingCallBack {
     private static final String TAG = SettingActivity.class.getName();
     private BackTitleBar titleBar;
     private LinearLayout scrollView;
@@ -52,6 +55,7 @@ public class SettingActivity extends Activity implements PhoneSettingAdapter.App
         titleBar.setLeftText("返回");
         titleBar.setRightText("保存");
         titleBar.setTitle("设置");
+        titleBar.setBtnOnclickListener(this);
 
         scrollView = (LinearLayout) findViewById(R.id.setting_scrollView);
 
@@ -60,6 +64,22 @@ public class SettingActivity extends Activity implements PhoneSettingAdapter.App
             initVpnSetting();
         }
         initAboutSetting();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.leftBtn:
+                SettingActivity.this.finish();
+                break;
+            case R.id.rightBtn:
+                InitUtil.saveConfig(getBaseContext());
+                AppSystemTool.clearWebViewCookie(getBaseContext());
+                AppSystemTool.restartApp(SettingActivity.this, AppLoadActivity.class);
+                break;
+            default:
+                break;
+        }
     }
 
     //解决 scrollview 与listview冲突问题 http://blog.csdn.net/hitlion2008/article/details/6737459
@@ -84,13 +104,17 @@ public class SettingActivity extends Activity implements PhoneSettingAdapter.App
         listView.setLayoutParams(params);
     }
 
+    private ArrayList<HashMap<String, String>> appConfigs;
+    PhoneSettingAdapter appConfigAdapter;
+
     private void initAppSetting() {
+        appConfigs = getAppSettingList();
         CornerListView listView = new CornerListView(getBaseContext());
-        PhoneSettingAdapter adapter = new PhoneSettingAdapter(this,
-                getAppSettingList(), R.layout.simple_list_item_edit, new String[]{
+        appConfigAdapter = new PhoneSettingAdapter(this, appConfigs
+                , R.layout.simple_list_item_edit, new String[]{
                 "item", "text"}, new int[]{R.id.item_title,
                 R.id.item_edit}, this);
-        listView.setAdapter(adapter);
+        listView.setAdapter(appConfigAdapter);
 
         initListView(listView);
         scrollView.addView(listView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -270,9 +294,6 @@ public class SettingActivity extends Activity implements PhoneSettingAdapter.App
 
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
-//                                    if (editText != null) {
-//                                        editText.setText(data[which]);
-//                                    }
 
                                     Map<String, String> map = dataMapList
                                             .get(which);
@@ -283,7 +304,15 @@ public class SettingActivity extends Activity implements PhoneSettingAdapter.App
                                     DB.LOGINPAGE_URL = map.get("loginpage");
                                     DB.HOMEPAGE_URL = map.get("homepage");
                                     DB.APP_CHARSET = map.get("charset");
+                                    Log.e(TAG, "DB.AAS_HOST:" + DB.AAS_HOST);
+                                    Log.e(TAG, "DB.APP_CODE:" + DB.APP_CODE);
+                                    Log.e(TAG, "DB.APP_CHARSET:" + DB.APP_CHARSET);
                                     dialog.cancel();
+
+                                    if (appConfigs.size() > 2) {
+                                        appConfigs.get(2).put("text", DB.APP_NAME);
+                                    }
+                                    appConfigAdapter.notifyDataSetChanged();
 
                                 }
                             });

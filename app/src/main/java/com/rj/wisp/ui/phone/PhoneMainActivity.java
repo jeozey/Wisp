@@ -241,8 +241,8 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                         LoginActivity.class));
                 break;
             case 2:
-//                startActivity(new Intent(PhoneMainActivity.this,
-//                        SettingActivity.class));
+                startActivity(new Intent(PhoneMainActivity.this,
+                        SettingActivity.class));
                 break;
             case 3:
                 exitApp();

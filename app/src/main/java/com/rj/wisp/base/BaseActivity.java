@@ -55,6 +55,23 @@ public class BaseActivity extends Activity {
 
     }
 
+//    @Override
+//    /**
+//     * 拦截MENU 子类实现
+//     */
+//    public boolean onMenuOpened(int featureId, Menu menu) {
+//        if (tabMenu != null) {
+//            if (tabMenu.isShowing())
+//                tabMenu.dismiss();
+//            else {
+//                tabMenu.showAtLocation(
+//                        findViewById(R.id.RelativeLayout_catalog),
+//                        Gravity.BOTTOM, 0, 0);
+//            }
+//        }
+//        return false;// 返回为true 则显示系统menu
+//    }
+
     protected void onTapMenuSelect(int position) {
 
     }

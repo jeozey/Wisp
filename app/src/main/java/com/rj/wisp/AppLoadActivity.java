@@ -4,18 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.Menu;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.rj.connection.ISocketConnection;
-import com.rj.connection.SocketConnectionManager;
-import com.rj.connection.SocketConnectionPool;
 import com.rj.framework.DB;
 import com.rj.sdkey.view.PhoneLoginView;
 import com.rj.view.ToastTool;
 import com.rj.wisp.activity.LoginActivity;
+import com.rj.wisp.base.BaseActivity;
 import com.rj.wisp.core.InitUtil;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.ui.phone.SettingActivity;
@@ -23,18 +22,16 @@ import com.rj.wisp.ui.phone.SettingActivity;
 import java.io.DataInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.ConnectException;
 import java.net.Socket;
-import java.util.HashMap;
 
-public class AppLoadActivity extends AppCompatActivity {
+public class AppLoadActivity extends BaseActivity {
     private static final String TAG = AppLoadActivity.class.getName();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_appload);
 
         InitUtil.initDB(getApplicationContext());
 
@@ -45,16 +42,6 @@ public class AppLoadActivity extends AppCompatActivity {
         InitUtil.initHttpServer(getApplicationContext(), handler);
 
         WispCore.getWISPSO().StartService(handler, getApplicationContext());
-
-
-//        new Timer().schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                        checkConnection(handler);
-//            }
-//        },1000,5000);
-
-//        checkConnection();
 
 
         if (DB.IS_PIN) {
@@ -76,9 +63,7 @@ public class AppLoadActivity extends AppCompatActivity {
             // 初始化，识别SDKEY
             login.initPin(AppLoadActivity.this);
         } else {
-
-            startActivity(new Intent(this, SettingActivity.class));
-//            startActivity(new Intent(this, LoginActivity.class));
+            checkSetting();
         }
 
 
@@ -93,8 +78,8 @@ public class AppLoadActivity extends AppCompatActivity {
 //                }
 //            }
 //        }).start();
-
     }
+
 
     private void getAppInfo() throws Exception {
         Socket socket = null;
@@ -157,98 +142,16 @@ public class AppLoadActivity extends AppCompatActivity {
     }
 
 
-    public Integer checkConnection(final Handler handler) {
-        int back = 0;
-        this.handler = handler;
-        try {
-            long start = System.currentTimeMillis();
-            Log.e(TAG, "DB.HTTPSERVER_HOST:" + DB.HTTPSERVER_HOST);
-            Log.e(TAG, "DB.HTTPSERVER_PORT:" + DB.HTTPSERVER_PORT);
-            // 1.socket请求
-
-            /** *2.与中间件交互** */
-            SocketConnectionPool connectionPool = SocketConnectionManager
-                    .getInstance().getSocketConnectionPool();
-            ISocketConnection socket = connectionPool.getConnection(
-                    DB.HTTPSERVER_HOST, DB.HTTPSERVER_PORT, SocketConnectionPool.SOCKET_TYPE.ORIDINARY_SOCKET);
-
-//            Socket socket = new Socket(DB.HTTPSERVER_HOST, DB.HTTPSERVER_PORT);
-//            Log.e(TAG,"socket:"+socket);
-//            socket.setSoTimeout(10000);// 10秒超时来判断是否能连得上服务器
-//            // socket.setKeepAlive(true);
-//            socket.setReceiveBufferSize(10240);
-
-            OutputStream os = socket.getOutputStream();
-
-            os.write(("SOCKET /AjAxSocketIFC/checkConnection" + "\r\n")
-                    .getBytes());
-            os.flush();
-//            InputStream is = socket.getInputStream();
-//
-//            HashMap<String, String> map = SocketStreamUtil.getHttpResponse(is);
-//            if (map != null) {
-//                Log.e(TAG, "map!=null," + map);
-//            } else {
-//                handler.sendEmptyMessage(-2);
-//                Log.e(TAG, "map为空");
-//                os.close();
-//                is.close();
-//                socket.close();
-//                Log.i(TAG, "关闭checkSocket方法中的socket");
-//                back = -2;
-//                return back;
-//            }
-            HashMap<String, String> map = socket.getHttpHead2();
-            if (map != null) {
-                Log.e(TAG, "map!=null," + map);
-            } else {
-                handler.sendEmptyMessage(-2);
-                Log.e(TAG, "map为空");
-                os.close();
-//                is.close();
-                socket.close();
-                Log.i(TAG, "关闭checkSocket方法中的socket");
-                back = -2;
-                return back;
-            }
-
-            String result = map.get("httpHead");
-            long end = System.currentTimeMillis();
-            long sub = end - start;
-
-            Log.e(TAG, "result:" + result);
-            if (map != null && map.get("httpHead") != null
-                    && map.get("httpHead").contains("true")) {
-                Message msg = new Message();
-                msg.obj = sub;
-                String t = result.replace(" ", "").replace("\r", "")
-                        .replace("\n", "");
-                Log.e(TAG, "t:" + t);
-                msg.getData().putString("result", t);
-                msg.what = 4;
-                handler.sendMessage(msg);
-                back = 4;
-            } else {
-                handler.sendEmptyMessage(-2);
-                back = -2;
-            }
-            os.close();
-//            is.close();
-            socket.close();
-            Log.i(TAG, "关闭checkSocket方法中的socket");
-        } catch (ConnectException e0) {
-            e0.printStackTrace();
-            //本地服务8011未开启 说明应用未启动或已退出
-            back = -1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (handler != null) {
-                handler.sendEmptyMessage(-2);
-                back = -2;
-            }
+    private void checkSetting() {
+        if (TextUtils.isEmpty(DB.APP_CODE)) {
+            ToastTool.show(getBaseContext(), "没有获取到应用", Toast.LENGTH_SHORT);
+            startActivity(new Intent(this, SettingActivity.class));
+        } else {
+            ToastTool.show(getBaseContext(), "初始化成功", Toast.LENGTH_SHORT);
+            startActivity(new Intent(this, LoginActivity.class));
         }
-        return back;
     }
+
 
     private Handler handler = new Handler() {
         @Override
@@ -256,5 +159,22 @@ public class AppLoadActivity extends AppCompatActivity {
             super.handleMessage(msg);
         }
     };
+
+    @Override
+    /**
+     * 拦截MENU
+     */
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        if (tabMenu != null) {
+            if (tabMenu.isShowing())
+                tabMenu.dismiss();
+            else {
+                tabMenu.showAtLocation(
+                        findViewById(R.id.content),
+                        Gravity.BOTTOM, 0, 0);
+            }
+        }
+        return false;// 返回为true 则显示系统menu
+    }
 
 }

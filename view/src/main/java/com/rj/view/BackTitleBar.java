@@ -38,6 +38,13 @@ public class BackTitleBar extends RelativeLayout {
         rightBtn = (TextView) view.findViewById(R.id.rightBtn);
     }
 
+    public void setBtnOnclickListener(View.OnClickListener listener) {
+        if (listener != null && leftBtn != null && rightBtn != null) {
+            leftBtn.setOnClickListener(listener);
+            rightBtn.setOnClickListener(listener);
+        }
+    }
+
     public void setLeftText(String txt) {
         leftBtn.setText(txt);
         leftBtn.setVisibility(View.VISIBLE);
