@@ -1,6 +1,7 @@
 package com.rj.wisp;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,22 +17,21 @@ import com.rj.view.ToastTool;
 import com.rj.wisp.activity.LoginActivity;
 import com.rj.wisp.base.BaseActivity;
 import com.rj.wisp.core.InitUtil;
+import com.rj.wisp.core.LocalSocketRequestTool;
 import com.rj.wisp.core.WispCore;
+import com.rj.wisp.task.AjaxGetResourcesTask;
 import com.rj.wisp.ui.phone.SettingActivity;
-
-import java.io.DataInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
 
 public class AppLoadActivity extends BaseActivity {
     private static final String TAG = AppLoadActivity.class.getName();
 
-
+    private LocalSocketRequestTool localSocketRequestTool;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appload);
+
+        localSocketRequestTool = new LocalSocketRequestTool();
 
         InitUtil.initDB(getApplicationContext());
 
@@ -63,84 +63,28 @@ public class AppLoadActivity extends BaseActivity {
             // 初始化，识别SDKEY
             login.initPin(AppLoadActivity.this);
         } else {
-            checkSetting();
+//            checkSetting();
         }
 
 
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
-//                try {
-//                    getAppInfo();
-////                    new LearnHttp().testHttp();
-//                } catch (Exception e) {
-//
-//                }
+//                localSocketRequestTool.checkConnection(handler);
 //            }
 //        }).start();
+
+        new MyTAsyncTask().execute();
     }
 
-
-    private void getAppInfo() throws Exception {
-        Socket socket = null;
-        OutputStream os = null;
-        InputStream is = null;
-        DataInputStream dis = null;
-        try {
-            // 1.socket请求
-            socket = new Socket(DB.HTTPSERVER_HOST, DB.HTTPSERVER_PORT);
-            socket.setSoTimeout(50000);
-            os = socket.getOutputStream();
-            is = socket.getInputStream();
-            dis = new DataInputStream(is);
-            os.write(("GET /wisp_aas/config/html/fgwlan/images/720/ico1.png HTTP/1.1"
-                    + "\r\n").getBytes());
-//            os.write(("GET /wisp_aas/adapter?open&_method=getAllAppInfo HTTP/1.1"
-//                    + "\r\n").getBytes());
-            os.write(("Host: 127.0.0.1:" + DB.HTTPSERVER_PORT + "\r\n")
-                    .getBytes());
-            os.write(("User-Agent: newClient" + "\r\n").getBytes());
-            os.write(("Accept-Language: zh-CN, en-US" + "\r\n").getBytes());
-            os.write(("Accept: application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5"
-                    + "\r\n").getBytes());
-            os.write(("Accept-Charset: utf-8, iso-8859-1, utf-16, *;q=0.7"
-                    + "\r\n").getBytes());
-            os.write("\r\n".getBytes());
-            os.flush();
-
-//            // 2.socket响应
-//            String s = "";
-//            int contentLength = 0;
-//            Map<String, String> map = SocketStreamUtil.readHeaders(is);
-//            if (map.get("WISP-Content-Length") != null) {
-//                try {
-//                    contentLength = Integer.valueOf(map
-//                            .get("WISP-Content-Length"));
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            byte[] buf = {};
-//            int size = 0;
-//            if (contentLength != 0) {
-//                buf = new byte[contentLength];
-//                while (size < contentLength) {
-//                    int c = is.read();
-//                    buf[size++] = (byte) c;
-//
-//                }
-//                s = new String(buf, 0, size, "GBK");
-//                Log.v("RJMOA", "消息体：" + s);
-//            }
-//
-//            String jsonData = s;
-//            Log.e(TAG, "jsonData:" + jsonData);
-        } catch (Exception e) {
-            e.printStackTrace();
+    class MyTAsyncTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            localSocketRequestTool.checkConnection(handler);
+            localSocketRequestTool.checkNewVersion(handler);
+            return null;
         }
     }
-
 
     private void checkSetting() {
         if (TextUtils.isEmpty(DB.APP_CODE)) {
@@ -160,10 +104,62 @@ public class AppLoadActivity extends BaseActivity {
         }
     };
 
-    @Override
+
+    class MyAsyncTask extends AsyncTask<Object, Integer, Void> {
+
+        @Override
+        protected Void doInBackground(Object... params) {
+            try {
+                Message msg = new Message();
+                msg.what = 5;
+                if (Integer.parseInt(params[0].toString()) == 5) {// 检测socket是否通
+                    msg.obj = "连接服务器...";
+                    handler.sendMessage(msg);
+                    localSocketRequestTool.checkConnection(handler);
+                } else if (Integer.parseInt(params[0].toString()) == 1) {// 获取更新信息
+                    msg.obj = "获取更新信息...";
+                    handler.sendMessage(msg);
+                    localSocketRequestTool.checkNewVersion(handler);
+                } else if (Integer.parseInt(params[0].toString()) == 2) {// 更新数据包
+                    msg.obj = "更新数据包...";
+                    handler.sendMessage(msg);
+                    localSocketRequestTool.updateVersion(params[1].toString());
+                } else if (Integer.parseInt(params[0].toString()) == 3) {// 更新资源
+                    msg.obj = "更新资源...";
+                    handler.sendMessage(msg);
+                    AjaxGetResourcesTask ajaxGetResourcesTask = new AjaxGetResourcesTask(
+                            AppLoadActivity.this, handler);
+                    ajaxGetResourcesTask.execute(0);
+                }
+                handler.sendMessage(msg);
+            } catch (Exception e) {
+                e.printStackTrace();
+                handler.sendEmptyMessage(-1);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            // if (TextUtils.isEmpty(DB.SECURITY_HOST)) {
+            // startActivity(new Intent(AppLoadActivity.this,
+            // SettingActivity.class));
+            // } else {
+            // if (!TextUtils.isEmpty(DB.APP_URL)) {
+            // startActivity(new Intent(AppLoadActivity.this,
+            // LoginActivity.class));
+            // }
+            // }
+            super.onPostExecute(result);
+        }
+
+    }
+
     /**
      * 拦截MENU
      */
+    @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
         if (tabMenu != null) {
             if (tabMenu.isShowing())

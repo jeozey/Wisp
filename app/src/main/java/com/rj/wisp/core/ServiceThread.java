@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.rj.connection.ISocketConnection;
 import com.rj.framework.DB;
+import com.rj.util.DataUtil;
 import com.rj.util.FileUtil;
 import com.rj.util.GzipUtil;
 
@@ -25,6 +26,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 作者：志文 on 2015/11/18 0018 15:19
@@ -129,6 +131,8 @@ public class ServiceThread extends Thread {
                 // ajax请求
             } else if (head_line.indexOf("AjAxSocketIFC") != -1) {
                 handleAjaxReques(head_line);
+            } else if (head_line.indexOf("LocalSocket") != -1) {
+                handleLocalSocketRequest(head_line);
             } else {
                 httpRequest(head_line);
             }
@@ -137,9 +141,17 @@ public class ServiceThread extends Thread {
         }
     }
 
-    private void handleAjaxReques(String head_line) throws Exception {
-        responseEmptyToWebView();
+    private void handleLocalSocketRequest(String head_line) throws Exception {
+        if (head_line.indexOf("checkConnection") != -1) {
+            checkConnection();
+        } else if (head_line.indexOf("versionUpdate") != -1) {
+            versionUpdate(head_line);
+        }
+    }
 
+    private void handleAjaxReques(String head_line) throws Exception {
+        //需要有返回给webview,否则ajax会等待超时报错
+        responseEmptyToWebView();
         if (head_line.indexOf("addWebBtnNum") != -1) {
             addWebBtnNum();
         } else if (head_line.indexOf("@@ShowProgressDialog@@") != -1) {
@@ -210,24 +222,24 @@ public class ServiceThread extends Thread {
 
         //缓存被删后，重新下载 并写入webview
         boolean needWriteToWebView = false;
-            if (filePath.exists()) {
-                writeCacheToWebView(head_line);
-                return;
-            } else {
-                try {
-                    String filepath = DB.RESOURCE_PATH + filename;
-                    Log.e(TAG, "filepath0:" + filepath);
+        if (filePath.exists()) {
+            writeCacheToWebView(head_line);
+            return;
+        } else {
+            try {
+                String filepath = DB.RESOURCE_PATH + filename;
+                Log.e(TAG, "filepath0:" + filepath);
 //                    if(AjaxGetResourcesTask.sourceMap.containsKey(filepath)){
-                    Log.e(TAG, "高速缓存被删,重新下载");
-                    needWriteToWebView = true;
+                Log.e(TAG, "高速缓存被删,重新下载");
+                needWriteToWebView = true;
 //                    }else{
 //                        return;
 //                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+        }
         // 对中间件发送数据包
         Log.v("bug", "下载资源---请求中间件:");
         ISocketConnection connection = null;
@@ -563,25 +575,57 @@ public class ServiceThread extends Thread {
 
     public void checkConnection() {
         Log.e(TAG, "checkConnection");
-        ISocketConnection connection = SocketFactory.getSSLSocket();
-
-        Log.e(TAG, "checkConnection write begin");
         try {
-            connection.write(("GET GET /wisp_aas/adapter?open&_method=checkConnection&appcode=" + DB.APP_CODE + " \r\n\r\n").getBytes());
-
-
-            String head = connection.getHttpHead();
-            if (head != null) {
-                Log.e(TAG, "head1:" + head);
-                responseWebView(head.getBytes(), "".getBytes());
-            } else {
-                Log.e(TAG, "checkConnection failed");
-            }
+            byte[] head = GzipUtil.byteCompress(("GET /wisp_aas/adapter?open&_method=checkConnection&appcode=" + DB.APP_CODE + "\r\n").getBytes());
+            sendRequest(head, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
         Log.e(TAG, "checkConnection write over");
+    }
 
+    public void versionUpdate(String head_line) {
+        Log.e(TAG, "checkConnection");
+        try {
+            byte[] head = ("SOCKET /AjAxSocketIFC/versionUpdate/android\r\nUser-Agent: newClient \r\nContent-Length: "
+                    + DB.APP_VERSION_ID.length() + "\r\n\r\n")
+                    .getBytes();
+            byte[] body = DB.APP_VERSION_ID
+                    .getBytes();
+
+            Log.v("bug", "更新:" + DB.APP_VERSION_ID);
+            Log.v("bug", "更新:" + new String(head));
+            sendRequest(DataUtil.gzipEncode(head), DataUtil.gzipEncode(body));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG, "checkConnection write over");
+    }
+
+    private void sendRequest(byte[] head, byte[] body) {
+        Log.e(TAG, "sendRequest");
+        ISocketConnection connection = SocketFactory.getSSLSocket();
+
+        Log.e(TAG, "sendRequest write begin");
+        try {
+            connection.write(head);
+            if (body != null) {
+                connection.write(body);
+            }
+            Map<String, String> map = connection.getHttpHead2();
+            String contentLength = map.get("Content-Length");
+            if (!TextUtils.isEmpty(contentLength)) {
+                int len = Integer.valueOf(contentLength);
+                byte[] content = connection.getHttpBody(len);
+                responseWebView(map.get("httpHead").getBytes(), content);
+            } else {
+                responseWebView(map.get("httpHead").getBytes(), null);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG, "sendRequest write over");
     }
 
     private void responseWebView(byte[] head, byte[] body) {
@@ -590,10 +634,13 @@ public class ServiceThread extends Thread {
             OutputStream webView_os = webViewSocket.getOutputStream();
 
 //            Log.e("responseWebView", "head123:" + new String(head));
-            webView_os.write(head);
-//            webView_os.flush();
-            webView_os.write(body);
-//            webView_os.flush();
+
+            if (head != null) {
+                webView_os.write(head);
+            }
+            if (body != null) {
+                webView_os.write(body);
+            }
             webView_os.close();
             Log.e("responseWebView", "responseWebView over");
 

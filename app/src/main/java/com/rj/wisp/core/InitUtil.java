@@ -59,8 +59,9 @@ public class InitUtil {
             Log.e(TAG, "DB.IMSI:" + DB.IMSI);
 
             setUserAgent(context);
-
+            Log.e(TAG, "DB.APP_VERSION_ID:" + DB.APP_VERSION_ID);
             DB.APP_VERSION_ID += "@@RJ@@" + DB.APP_CODE;
+            Log.e(TAG, "DB.APP_VERSION_ID:" + DB.APP_VERSION_ID);
 
             return true;
         } catch (Exception e) {
