@@ -9,6 +9,9 @@ import com.rj.framework.DB;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class HttpServer implements Runnable {
     private static final String TAG = HttpServer.class.getName();
@@ -74,6 +77,15 @@ public class HttpServer implements Runnable {
         }
     }
 
+    private ThreadPoolExecutor threadPool = new ThreadPoolExecutor(
+            2,      //corePoolSize
+            5,      //maximumPoolSize
+            3,      //keepAliveTime
+            TimeUnit.SECONDS,   //unit
+            new ArrayBlockingQueue<Runnable>(3),  //workQueue
+            new ThreadPoolExecutor.DiscardOldestPolicy()//
+    );
+    private int i = 0;
     public void run() {
         try {
             Socket webViewSocket = null;
@@ -86,7 +98,9 @@ public class HttpServer implements Runnable {
                     webViewSocket.setSoTimeout(60000); // 超时设置
 //					webViewSocket.setKeepAlive(true);
 
-                    new Thread(new ServiceThread(webViewSocket, handler, context)).start();
+                    threadPool.execute(new ServiceThread(webViewSocket, handler, context));
+                    i++;
+//                    new Thread(new ServiceThread(webViewSocket, handler, context)).start();
 
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -2,7 +2,6 @@ package com.rj.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
@@ -25,7 +24,7 @@ public class GzipUtil {
      * @param os
      * @throws Exception
      */
-    public static void compress(InputStream is, OutputStream os)
+    private static void compress(InputStream is, OutputStream os)
             throws Exception {
 
         GZIPOutputStream gos = new GZIPOutputStream(os);
@@ -50,7 +49,7 @@ public class GzipUtil {
      * @param os
      * @throws Exception
      */
-    public static void decompress(InputStream is, OutputStream os)
+    private static void decompress(InputStream is, OutputStream os)
             throws Exception {
 
         GZIPInputStream gis = new GZIPInputStream(is);
@@ -71,7 +70,10 @@ public class GzipUtil {
      * @return
      * @throws Exception
      */
-    public static byte[] byteCompress(byte[] data) throws Exception {
+    public static byte[] byteCompress(byte[] data, boolean flg) throws Exception {
+        if (!flg) {
+            return data;
+        }
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -87,23 +89,23 @@ public class GzipUtil {
         return output;
     }
 
-    /**
-     * gzip 压缩
-     *
-     * @param data
-     * @return
-     * @throws IOException
-     */
-    public static byte[] gzipEncode(byte[] data) throws IOException {
-        ByteArrayOutputStream bosFinal = new ByteArrayOutputStream();
-        GZIPOutputStream gzipOS = new GZIPOutputStream(bosFinal);
-        gzipOS.write(data);
-        gzipOS.flush();
-        gzipOS.close();
-        byte[] wispMsgBodyFinal = bosFinal.toByteArray();
-        bosFinal.close();
-        return wispMsgBodyFinal;
-    }
+//    /**
+//     * gzip 压缩
+//     *
+//     * @param data
+//     * @return
+//     * @throws IOException
+//     */
+//    public static byte[] gzipEncode(byte[] data) throws IOException {
+//        ByteArrayOutputStream bosFinal = new ByteArrayOutputStream();
+//        GZIPOutputStream gzipOS = new GZIPOutputStream(bosFinal);
+//        gzipOS.write(data);
+//        gzipOS.flush();
+//        gzipOS.close();
+//        byte[] wispMsgBodyFinal = bosFinal.toByteArray();
+//        bosFinal.close();
+//        return wispMsgBodyFinal;
+//    }
 
     /**
      * 解压缩
@@ -112,7 +114,10 @@ public class GzipUtil {
      * @return
      * @throws Exception
      */
-    public static byte[] byteDecompress(byte[] data) throws Exception {
+    public static byte[] byteDecompress(byte[] data, boolean flg) throws Exception {
+        if (!flg) {
+            return data;
+        }
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 

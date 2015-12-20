@@ -26,6 +26,7 @@ android {
 
         flavorDimensions "version"
         buildConfigField "boolean", "IS_PIN", "false"
+        buildConfigField "boolean", "IS_GZIP", "false"
         buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
         buildConfigField "int", "HTTPSERVER_PORT", "8011"
         buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""

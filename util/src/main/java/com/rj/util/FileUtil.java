@@ -102,6 +102,24 @@ public class FileUtil {
         fos.close();
     }
 
+    public static final void writeFile(File file, byte[] content)
+            throws IOException {
+        File folder = file.getParentFile();
+        if (!folder.isDirectory() && !folder.exists()) {
+            Log.e(TAG, "mkdirs:" + folder.getAbsolutePath());
+            folder.mkdirs();
+        }
+        if (!file.exists()) {
+            Log.e(TAG, "createNewFile file:" + file.getAbsolutePath());
+            file.createNewFile();
+        }
+
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(content);
+        fos.flush();
+        fos.close();
+    }
+
     public static final void write(File source, File target) {
         if (!source.exists()) {
             return;
@@ -275,6 +293,10 @@ public class FileUtil {
     }
 
     // 以下为直接从sdCard读取
+    public static String readFile(File file) {
+        return readFile(file.getAbsoluteFile());
+    }
+
     public static String readFile(String fileName)
             throws FileNotFoundException {
         try {

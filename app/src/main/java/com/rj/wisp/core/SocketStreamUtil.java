@@ -1,7 +1,6 @@
 package com.rj.wisp.core;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -142,14 +141,18 @@ public class SocketStreamUtil {
     }
 
     public static byte[] getHttpBody(InputStream in, int contentLength) {
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[10240];
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             int len = 0;
-            int i = 0;
+            int allLen = 0;
             while ((len = in.read(buffer)) != -1) {
-//                Log.e(TAG,"len:"+len);
+//                Log.e(TAG, "len:" + len);
                 byteArrayOutputStream.write(buffer, 0, len);
+                allLen += len;
+                if (allLen >= contentLength) {
+                    break;
+                }
             }
             return byteArrayOutputStream.toByteArray();
         } catch (Exception e) {
@@ -158,51 +161,6 @@ public class SocketStreamUtil {
         return null;
     }
 
-    public static byte[] readResponseBody(InputStream in, int contentLength) throws IOException {
-
-        ByteArrayOutputStream buff = new ByteArrayOutputStream(contentLength);
-
-        int b;
-        int count = 0;
-        while (count++ < contentLength) {
-            b = in.read();
-            if (b == -1) {
-                break;
-            }
-            buff.write(b);
-//            Log.e(TAG,"count:"+count);
-        }
-//        byte[] buffer = new byte[10240];
-//        while ((count = in.read(buffer)) != -1) {
-////            Log.e(TAG,"count:"+count);
-//            buff.write(buffer, 0, count);
-//        }
-        if (buff.toByteArray().length != contentLength) {
-            return new byte[0];
-        }
-        Log.e(TAG, "all count:" + buff.toByteArray().length);
-        return buff.toByteArray();
-    }
-    public static byte[] readResponseBody(BufferedReader in, int contentLength) throws IOException {
-
-        ByteArrayOutputStream buff = new ByteArrayOutputStream(contentLength);
-
-        int b;
-        int count = 0;
-        while (count++ < contentLength) {
-            b = in.read();
-            buff.write(b);
-//            Log.e(TAG,"count:"+count);
-//            System.out.print("count:"+count);
-        }
-//        byte[] buffer = new byte[10240];
-//        while ((count=in.read(buffer))!=-1){
-//            Log.e(TAG,"count:"+count);
-//            buff.write(buffer,0,count);
-//        }
-        Log.e(TAG, "all count:" + buff.toByteArray().length);
-        return buff.toByteArray();
-    }
 
     public static String readStatusLine(InputStream in) throws IOException {
         return readLine(in);

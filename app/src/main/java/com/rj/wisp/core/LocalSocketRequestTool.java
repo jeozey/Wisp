@@ -6,26 +6,27 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.rj.framework.DB;
+import com.rj.wisp.bean.HttpPkg;
 
 import java.io.DataInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PushbackInputStream;
 import java.net.Socket;
 import java.util.HashMap;
 
 
 public class LocalSocketRequestTool {
     private static final String TAG = LocalSocketRequestTool.class.getName();
+    private static final byte CR = '\r';
+    private static final byte LF = '\n';
+    private static final byte[] CRLF = {CR, LF};
+    private static final String _CRLF = "\r\n";
+    private static final String CHECK_CONNECTION = "SOCKET /@@LocalSocket/checkConnection\r\n";
+    private static final String VERSION_UPDATE = "SOCKET /@@LocalSocket/versionUpdate/android\r\n";
     private Handler handler = null;
 
-    class HttpPkg {
-        public String head;
-        public byte[] body;
-    }
 
-    private HttpPkg getLocalSocketRequest(byte[] head, byte[] body) {
+    public HttpPkg getLocalSocketRequest(byte[] head, byte[] body) {
         try {
             Socket socket = new Socket(DB.HTTPSERVER_HOST, DB.HTTPSERVER_PORT);
             socket.setSoTimeout(60000);
@@ -33,19 +34,20 @@ public class LocalSocketRequestTool {
             OutputStream os = socket.getOutputStream();
             DataInputStream is = new DataInputStream(socket.getInputStream());
             os.write(head);
+            os.write(CRLF);
             if (body != null) {
                 os.write(body);
             }
-
+            socket.shutdownOutput();
             HashMap<String, String> map = SocketStreamUtil.getHttpHead(is);
             String contentLength = map.get("Content-Length");
             HttpPkg httpPkg = new HttpPkg();
-            httpPkg.head = map.get("httpHead");
-            Log.e(TAG, "head::" + httpPkg.head);
+            httpPkg.setHead(map);
+            Log.e(TAG, "head::" + map);
             if (!TextUtils.isEmpty(contentLength)) {
                 int len = Integer.valueOf(contentLength);
                 byte[] contentBody = SocketStreamUtil.getHttpBody(is, len);
-                httpPkg.body = contentBody;
+                httpPkg.setBody(contentBody);
             }
             os.close();
             is.close();
@@ -59,14 +61,13 @@ public class LocalSocketRequestTool {
 
 
     public Integer checkConnection(final Handler handler) {
-        int back = 0;
         this.handler = handler;
         try {
             long start = System.currentTimeMillis();
-            byte head[] = "SOCKET /LocalSocket/checkConnection\r\n".getBytes();
+            byte head[] = CHECK_CONNECTION.getBytes();
             HttpPkg httpPkg = getLocalSocketRequest(head, "".getBytes());
 
-            String result = httpPkg.head;
+            String result = httpPkg.getHead().get("httpHead");
             long end = System.currentTimeMillis();
             long sub = end - start;
 
@@ -97,11 +98,11 @@ public class LocalSocketRequestTool {
         this.handler = handler;
         try {
 
-            byte head[] = "SOCKET /LocalSocket/versionUpdate/android\r\n".getBytes();
-            HttpPkg httpPkg = getLocalSocketRequest(head, "".getBytes());
+            byte head[] = VERSION_UPDATE.getBytes();
+            HttpPkg httpPkg = getLocalSocketRequest(head, null);
 
 
-            String result = new String(httpPkg.body);
+            String result = new String(httpPkg.getBody());
             Log.v("BodyVersion:", "包体2:" + result);
 //			Log.v("BodyVersion:", "result=" + result);
             if (result != null) {
@@ -130,39 +131,6 @@ public class LocalSocketRequestTool {
         }
     }
 
-    private String readLine(InputStream in) throws IOException {
-        StringBuilder line = new StringBuilder(80); // Typical line length
-        boolean foundTerminator = false;
-        while (true) {
-            int nextByte = in.read();
-            switch (nextByte) {
-                case -1:
-                    if (line.length() == 0 && !foundTerminator) {
-                        return null;
-                    }
-                    return line.toString();
-                case (byte) '\r':
-                    if (foundTerminator) {
-                        ((PushbackInputStream) in).unread(nextByte);
-                        return line.toString();
-                    }
-                    foundTerminator = true;
-                /* Have to be able to peek ahead one byte */
-                    if (!(in.getClass() == PushbackInputStream.class)) {
-                        in = new PushbackInputStream(in);
-                    }
-                    break;
-                case (byte) '\n':
-                    return line.toString();
-                default:
-                    if (foundTerminator) {
-                        ((PushbackInputStream) in).unread(nextByte);
-                        return line.toString();
-                    }
-                    line.append((char) nextByte);
-            }
-        }
-    }
 
     public void updateVersion(String result) {
         // 1.socket下载请求
