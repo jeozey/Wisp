@@ -177,23 +177,23 @@ public class SSLSocketConnection implements ISocketConnection {
             if (in == null) {
                 initInOutStream();
             }
-            BufferedInputStream bis = new BufferedInputStream(in);
-            bis.mark(2);
-            // 取前两个字节
-            byte[] header = new byte[2];
-            int result = bis.read(header);
-            // reset输入流到开始位置
-            bis.reset();
-            // 判断是否是GZIP格式
-            int headerData = getShort(header);
-            // Gzip 流 的前两个字节是 0x1f8b
-            if (result != -1 && headerData == 0x1f8b) {
-                Log.w(TAG, "use GZIPInputStream  ");
-                in = new GZIPInputStream(bis);
-            } else {
-                Log.w(TAG, "not use GZIPInputStream");
-                in = bis;
-            }
+//            BufferedInputStream bis = new BufferedInputStream(in);
+//            bis.mark(2);
+//            // 取前两个字节
+//            byte[] header = new byte[2];
+//            int result = bis.read(header);
+//            // reset输入流到开始位置
+//            bis.reset();
+//            // 判断是否是GZIP格式
+//            int headerData = getShort(header);
+//            // Gzip 流 的前两个字节是 0x1f8b
+//            if (result != -1 && headerData == 0x1f8b) {
+//                Log.w(TAG, "use GZIPInputStream  ");
+//                in = new GZIPInputStream(bis);
+//            } else {
+//                Log.w(TAG, "not use GZIPInputStream");
+//                in = bis;
+//            }
 
             HashMap<String, String> head = new HashMap<String, String>();
             DataInputStream dataInputStream = new DataInputStream(in);
@@ -201,16 +201,15 @@ public class SSLSocketConnection implements ISocketConnection {
             StringBuffer httpHead = new StringBuffer();
             while (!TextUtils.isEmpty(temp = dataInputStream.readLine())) {
                 httpHead.append(temp + "\r\n");
-                if (temp.indexOf("gzip") == -1) {
-                    int index = temp.toString().indexOf(":");
-                    if (index != -1) {
-                        String key = temp.toString().substring(0, index);
-                        String value = temp.toString().substring(index + 1).replace(" ", "").replace("\r\n", "");
-                        head.put(key, value);
-                    }
+                int index = temp.toString().indexOf(":");
+                if (index != -1) {
+                    String key = temp.toString().substring(0, index);
+                    String value = temp.toString().substring(index + 1).replace(" ", "").replace("\r\n", "");
+                    head.put(key, value);
                 }
             }
-            head.put("httpHead", httpHead.toString() + "\r\n");
+            head.put("httpHead", httpHead.toString());
+//            head.put("httpHead", httpHead.toString() + "\r\n");
             return head;
         } catch (Exception e) {
             e.printStackTrace();
@@ -247,10 +246,13 @@ public class SSLSocketConnection implements ISocketConnection {
         try {
             int i = 0;
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            byte[] b = new byte[1];
-            while (i < len && in.read(b, 0, 1) != -1) {
-                bos.write(b, 0, 1);
+            int buffer = 0;
+            while (i < len && (buffer = in.read()) != -1) {
+                bos.write(buffer);
                 i++;
+                if (i >= len) {
+                    break;
+                }
             }
             return bos.toByteArray();
         } catch (Exception e) {
@@ -308,5 +310,17 @@ public class SSLSocketConnection implements ISocketConnection {
         this.out = null;
         this.in = null;
         this.sslSocket = null;*/
+    }
+
+    @Override
+    public void shutDownOutPut() {
+        try {
+            if (sslSocket != null) {
+                sslSocket.shutdownOutput();
+            }
+        } catch (Exception e) {
+
+        }
+
     }
 }

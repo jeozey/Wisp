@@ -66,13 +66,11 @@ public class SocketStreamUtil {
             StringBuffer httpHead = new StringBuffer();
             while (!TextUtils.isEmpty(temp = dataInputStream.readLine())) {
                 httpHead.append(temp + "\r\n");
-                if (temp.indexOf("gzip") == -1) {
-                    int index = temp.toString().indexOf(":");
-                    if (index != -1) {
-                        String key = temp.toString().substring(0, index);
-                        String value = temp.toString().substring(index + 1).replace(" ", "").replace("\r\n", "");
-                        head.put(key, value);
-                    }
+                int index = temp.toString().indexOf(":");
+                if (index != -1) {
+                    String key = temp.toString().substring(0, index);
+                    String value = temp.toString().substring(index + 1).replace(" ", "").replace("\r\n", "");
+                    head.put(key, value);
                 }
             }
             head.put("httpHead", httpHead.toString() + "\r\n");
@@ -93,11 +91,12 @@ public class SocketStreamUtil {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
 //                Log.e(TAG, "line:" + line);
-                httpHead.append(line + "\r\n");
 
                 if ("".equals(line)) {
                     break;
                 }
+                httpHead.append(line + "\r\n");
+
                 int index = line.toString().indexOf(":");
                 if (index != -1) {
                     String key = line.toString().substring(0, index);
@@ -117,11 +116,11 @@ public class SocketStreamUtil {
     }
 
 
-
     /*********************************************/
     private static final byte CR = '\r';
     private static final byte LF = '\n';
     private static final byte[] CRLF = {CR, LF};
+
     public static Map<String, String> readHeaders(InputStream in) throws IOException {
         Map<String, String> headers = new HashMap<String, String>();
 
@@ -140,21 +139,41 @@ public class SocketStreamUtil {
         return headers;
     }
 
-    public static byte[] getHttpBody(InputStream in, int contentLength) {
-        byte[] buffer = new byte[10240];
+    public static byte[] getHttpBody(BufferedReader in, int contentLength) {
         try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            int len = 0;
-            int allLen = 0;
-            while ((len = in.read(buffer)) != -1) {
-//                Log.e(TAG, "len:" + len);
-                byteArrayOutputStream.write(buffer, 0, len);
-                allLen += len;
-                if (allLen >= contentLength) {
+            int readBytes = 0;
+            char[] b = new char[contentLength];//可改成任何需要的值
+            int len = b.length;
+            while (readBytes < len) {
+                int read = in.read(b, readBytes, len - readBytes);
+                //判断是不是读到了数据流的末尾 ，防止出现死循环。
+                if (read == -1) {
                     break;
                 }
+                readBytes += read;
             }
-            return byteArrayOutputStream.toByteArray();
+            return new String(b).getBytes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static byte[] getHttpBody(InputStream in, int contentLength) {
+
+        try {
+            int readBytes = 0;
+            byte[] b = new byte[contentLength];//可改成任何需要的值
+            int len = b.length;
+            while (readBytes < len) {
+                int read = in.read(b, readBytes, len - readBytes);
+                //判断是不是读到了数据流的末尾 ，防止出现死循环。
+                if (read == -1) {
+                    break;
+                }
+                readBytes += read;
+            }
+            return b;
         } catch (Exception e) {
             e.printStackTrace();
         }

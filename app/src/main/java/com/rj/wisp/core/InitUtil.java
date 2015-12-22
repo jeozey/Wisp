@@ -30,7 +30,7 @@ public class InitUtil {
             DB.SDCARD_PATH = Environment.getExternalStorageDirectory().toString();
             DB.isPhone = !SystemUtil.isPad(context);
             Log.e(TAG, "DB.isPhone:" + DB.isPhone);
-            DB.IS_GZIP = BuildConfig.IS_GZIP;
+//            DB.IS_GZIP = BuildConfig.IS_GZIP;
             DB.HTTPSERVER_HOST = BuildConfig.HTTPSERVER_HOST;
             DB.HTTPSERVER_PORT = BuildConfig.HTTPSERVER_PORT;
             Log.e(TAG, "DB.HTTPSERVER_PORT:" + DB.HTTPSERVER_PORT);

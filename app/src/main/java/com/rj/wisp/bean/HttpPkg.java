@@ -13,6 +13,18 @@ public class HttpPkg {
     private HashMap<String, String> head;
     private byte[] body;
 
+    public HttpPkg() {
+    }
+
+    public HttpPkg(HashMap<String, String> head) {
+        setHead(head);
+    }
+
+    public HttpPkg(HashMap<String, String> head, byte[] body) {
+        setHead(head);
+        setBody(body);
+    }
+
     public String getHeadLine() {
         return headLine;
     }

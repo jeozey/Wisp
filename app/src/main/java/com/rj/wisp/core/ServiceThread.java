@@ -10,11 +10,11 @@ import com.rj.connection.ISocketConnection;
 import com.rj.framework.DB;
 import com.rj.util.FileUtil;
 import com.rj.util.GzipUtil;
+import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.bean.HttpPkg;
-import com.rj.wisp.bean.MessageEvent;
 
 import java.io.BufferedReader;
-import java.io.CharArrayWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,8 +25,6 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.greenrobot.event.EventBus;
-
 /**
  * 作者：志文 on 2015/11/18 0018 15:19
  * 邮箱：594485991@qq.com
@@ -35,10 +33,12 @@ public class ServiceThread extends Thread {
     private static final String TAG = ServiceThread.class.getName();
     private static final String HTTP_HEAD = "httpHead";
     private static final String Content_Length = "Content-Length";
+    private static final String NOT_FOUND = "404 Not Found";
     private static final byte CR = '\r';
     private static final byte LF = '\n';
     private static final byte[] CRLF = {CR, LF};
     private static final String _CRLF = "\r\n";
+    private static final String _CRLF2 = "\r\n\r\n";
     private Socket webViewSocket;
     private Handler handler;
     private BufferedReader webView_reader;
@@ -46,7 +46,7 @@ public class ServiceThread extends Thread {
     private Context context;
 
     public ServiceThread(Socket socket, Handler handler, Context context) {
-        Log.e(TAG, "socket:" + socket);
+//        Log.e(TAG, "socket:" + socket);
         this.webViewSocket = socket;
         this.handler = handler;
         this.context = context;
@@ -61,6 +61,7 @@ public class ServiceThread extends Thread {
                 if (httpPkg == null) {
                     return;
                 }
+                Log.e(TAG, "httpPkg.getHead():" + httpPkg.getHead());
                 handleHttpPkg(httpPkg);
             }
         } catch (Exception e) {
@@ -110,16 +111,15 @@ public class ServiceThread extends Thread {
                 Log.e(TAG, "head_line is null");
                 return;
             }
-            // 同步界面组件添加
-            if (head_line.indexOf("addWebUI") != -1) {
-                addWebUi();
-            } else if (head_line.indexOf("@@LocalDown") != -1) {// 资源类下载
-                downResource(httpPkg);
-            } else if (head_line.indexOf("/config/html/") != -1) {// 资源类下载
-                getResource(httpPkg);
+            if (head_line.indexOf("/config/html/") != -1) {// 资源类下载
+                if ("down".equals(httpPkg.getHead().get("Method-Type"))) {
+                    downResource(httpPkg, false);
+                } else {
+                    getResource(httpPkg);
+                }
             } else if (head_line.indexOf("AjAxSocketIFC") != -1) {
                 // ajax请求
-                handleAjaxReques(head_line);
+                handleAjaxRequest(head_line);
             } else if (head_line.indexOf("@@LocalSocket") != -1) {
                 handleLocalSocketRequest(head_line);
             } else {
@@ -138,10 +138,14 @@ public class ServiceThread extends Thread {
         }
     }
 
-    private void handleAjaxReques(String head_line) throws Exception {
+    private void handleAjaxRequest(String head_line) throws Exception {
+        Log.e(TAG, "handleAjaxRequest:" + head_line);
         //需要有返回给webview,否则ajax会等待超时报错
         responseEmptyToWebView();
-        if (head_line.indexOf("addWebBtnNum") != -1) {
+        // 同步界面组件添加
+        if (head_line.indexOf("addWebUI") != -1) {
+            addWebUi();
+        } else if (head_line.indexOf("addWebBtnNum") != -1) {
             addWebBtnNum();
         } else if (head_line.indexOf("@@ShowProgressDialog@@") != -1) {
             showProgressDialog();
@@ -155,7 +159,7 @@ public class ServiceThread extends Thread {
     public static final int DISMISS_LOADING = 4;
 
     private void responseEmptyToWebView() {
-        responseWebView((_CRLF).getBytes(), "".getBytes());
+        responseWebView(CRLF, "".getBytes());
     }
 
     private void addWebBtnNum() {
@@ -208,7 +212,7 @@ public class ServiceThread extends Thread {
                 writeCacheToWebView(filename);
             } else {
                 Log.e(TAG, "resource file not exist");
-                downResource(httpPkg);
+                downResource(httpPkg, true);
             }
 
         } catch (Exception e) {
@@ -219,12 +223,9 @@ public class ServiceThread extends Thread {
         }
     }
 
-    private void downResource(HttpPkg httpPkg) throws Exception {
+    private void downResource(HttpPkg httpPkg, boolean writeFile) throws Exception {
         String head_line = httpPkg.getHeadLine();
-        String filename = head_line.substring(
-                head_line.indexOf("config/html"), head_line.length() - 9);
-        File file = new File(DB.RESOURCE_PATH
-                + filename);
+
 
         Log.v(TAG, "下载资源:" + head_line);
 
@@ -239,21 +240,34 @@ public class ServiceThread extends Thread {
             byte[] content = GzipUtil.byteCompress(httpPkg.getHead().get(HTTP_HEAD).getBytes(), DB.IS_GZIP);
 
             connection.write(content);
+            connection.write(CRLF);
 
 
             HashMap<String, String> head_sb = connection.getHttpHead2();
-            Log.e(TAG, "head_sb:" + head_sb);
-            int contentLength = Integer.valueOf(head_sb.get("Content-Length"));
-            byte[] body = connection.getHttpBody(contentLength);
+            Log.e(TAG, "head_sb:" + "@" + head_line + "@" + head_sb);
 
-            Log.e(TAG, "body.length:" + body.length);
-            responseWebView(head_sb.get("httpHead").getBytes(), body);
+            if (head_sb.get(HTTP_HEAD).indexOf(NOT_FOUND) == -1) {
+                int contentLength = Integer.valueOf(head_sb.get("Content-Length"));
+                byte[] body = connection.getHttpBody(contentLength);
 
-            FileUtil.writeFile(file, body);
+                Log.e(TAG, "body.length:" + body.length + " contentLength:" + contentLength);
+                responseWebView(head_sb.get("httpHead").getBytes(), body);
 
-            Log.e(TAG, "下载完毕,发送通知");
-            //通知订阅者下载完一个资源
-            EventBus.getDefault().post(new MessageEvent(MessageEvent.RESOURCE_DOWN_SUCC, filename));
+                Log.e(TAG, "writeFile:" + writeFile);
+                if (writeFile) {
+                    String filename = head_line.substring(
+                            head_line.indexOf("config/html"), head_line.length() - 9);
+                    File file = new File(DB.RESOURCE_PATH
+                            + filename);
+                    FileUtil.writeFile(file, body);
+                }
+//
+//            Log.e(TAG, "下载完毕,发送通知");
+//            //通知订阅者下载完一个资源
+//            EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_SUCC, filename));
+            } else {
+                responseWebView("HTTP/1.0 200 OK\r\n".getBytes(), null);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -281,27 +295,23 @@ public class ServiceThread extends Thread {
             StringBuilder sb = new StringBuilder();
             sb.append("HTTP/1.0 200 OK\r\n");//返回应答消息,并结束应答
 //			sb.append("Content-Type: application/octet-stream\r\n".getBytes());
-            sb.append(("Content-Length: " + 5 + "\r\n"));// 返回内容字节数
-//            sb.append("\r\n");
+            sb.append(("Content-Length: " + cacheFile.length() + "\r\n"));// 返回内容字节数
 
-            responseWebView(sb.toString().getBytes(), "HELLOOOO".getBytes());
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            int len = 0;
+            security_is = new FileInputStream(cacheFile);
+            while ((j = security_is.read(content)) != -1) {
+                byteArrayOutputStream.write(content, 0, j);
+                len += j;
+            }
 
-//            webView_os.write(sb.toString().getBytes());
-//
-//            webView_os.write("HELLOOOO".getBytes());
-//            ByteArrayOutputStream  byteArrayOutputStream = new ByteArrayOutputStream();
-//            int len = 0;
-//            security_is = new FileInputStream(cacheFile);
-//            while ((j = security_is.read(content)) != -1) {
-//                webView_os.write(content, 0, j);
-//                len+=j;
-//            }
+            responseWebView(sb.toString().getBytes(), byteArrayOutputStream.toByteArray());
             Log.e(TAG, "cacheFile.length():" + cacheFile.length());
-//            Log.e(TAG,"file len:" + len);
-//            security_is.close();
+            Log.e(TAG, "file len:" + len);
+            security_is.close();
 
 //            webView_os.write(byteArrayOutputStream.toByteArray());
-//            webView_os.close();
+            webView_os.close();
             Log.e(TAG, "缓存写入完成" + cacheFile.getAbsolutePath());
 //        } catch (FileNotFoundException e0) {
 //            Log.e(TAG, "资源文件不存在:" + cacheFile.getAbsolutePath());
@@ -325,7 +335,7 @@ public class ServiceThread extends Thread {
     public String getJsonFromWebview() throws NumberFormatException,
             IOException {
 
-        StringBuilder sb = new StringBuilder();
+       /* StringBuilder sb = new StringBuilder();
         String jsonData = "";
         int contentLength = 0;
         String line = "";
@@ -357,7 +367,8 @@ public class ServiceThread extends Thread {
         Log.e("request", "getJsonFromWebview:" + contentLength + "---"
                 + jsonData.length());
         Log.e("request", "getJsonFromWebview:" + jsonData);
-        return jsonData;
+        return jsonData;*/
+        return "";
     }
 
 
@@ -373,7 +384,11 @@ public class ServiceThread extends Thread {
             HttpPkg pkg = new HttpPkg();
             Reader reader = new InputStreamReader(webViewSocket.getInputStream());
             webView_reader = new BufferedReader(reader, 1024);
+//            webView_reader = new DataInputStream(webViewSocket.getInputStream());
+
             String firstLine = webView_reader.readLine();
+
+            Log.e(TAG, "firstLine:" + firstLine);
             pkg.setHeadLine(firstLine);
             HashMap<String, String> map = SocketStreamUtil.getHttpHead(webView_reader);
             String head = map.get(HTTP_HEAD);
@@ -383,8 +398,11 @@ public class ServiceThread extends Thread {
             pkg.setHead(map);
             String contentLength = map.get(Content_Length);
             if (!TextUtils.isEmpty(contentLength)) {
+                Log.e(TAG, "contentLength:" + contentLength);
                 int len = Integer.valueOf(contentLength);
-                byte[] body = SocketStreamUtil.getHttpBody(webViewSocket.getInputStream(), len);
+                //为什么这句在POST的时候会卡住
+//                byte[] body = SocketStreamUtil.getHttpBody(webViewSocket.getInputStream(), len);
+                byte[] body = SocketStreamUtil.getHttpBody(webView_reader, len);
                 pkg.setBody(body);
             }
             return pkg;
@@ -406,45 +424,28 @@ public class ServiceThread extends Thread {
         //这边还得补上keyInfo、userAgent等信息
         Log.v("request", "普通:" + httpPkg.getHeadLine());
 
-        /** *2.与中间件交互** */
-        ISocketConnection connection = SocketFactory.getSSLSocket();
-
-        connection.write(GzipUtil.byteCompress(httpPkg.getHead().get(HTTP_HEAD).getBytes(), DB.IS_GZIP));
-        connection.write(GzipUtil.byteCompress(httpPkg.getBody(), DB.IS_GZIP));
+//        byte[] head = null;
+//        byte[] body = null;
+//        if(httpPkg.getHead()!=null){
+//            head = GzipUtil.byteCompress(httpPkg.getHead().get(HTTP_HEAD).getBytes(), DB.IS_GZIP);
+////            head = GzipUtil.byteCompress((httpPkg.getHead().get(HTTP_HEAD)+_CRLF).getBytes(), DB.IS_GZIP);
+//        }
+//        if(httpPkg.getBody()!=null){
+//            body = GzipUtil.byteCompress(httpPkg.getBody(), DB.IS_GZIP);
+//        }
+//        sendRequest(head, body);
+        sendRequest(httpPkg.getHead().get(HTTP_HEAD), httpPkg.getBody());
         Log.e(TAG, "httpRequest 请求数据发起成功:");
-        String temp = "";
-        try {
-
-            temp = connection.getHttpHead();
-//            Log.e(TAG, "httpRequest 返回temp: " + temp);
-            if (temp == null)
-                throw new IOException();
-            if (temp.indexOf("LoginPage") != -1) {
-                Log.e(TAG, "注销: ");
-                // 页面为 登陆页 超时注销
-                Message msg = new Message();
-                msg.what = 35;
-//                    handler.sendMessage(msg);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-
-        byte[] body = connection.getHttpBody();
-        // 3.响应用户请求
-//        Log.e(TAG, "body: " + new String(body, "GB18030"));
-        responseWebView(temp.getBytes(), body);
-
-        connection.close();
     }
 
     public void checkConnection() {
         Log.e(TAG, "checkConnection");
         try {
-            byte[] head = GzipUtil.byteCompress(("GET /wisp_aas/adapter?open&_method=checkConnection&appcode=" + DB.APP_CODE + _CRLF).getBytes(), DB.IS_GZIP);
-            sendRequest(head, null);
+            String head = "GET /wisp_aas/adapter?open&_method=checkConnection&appcode=" + DB.APP_CODE + _CRLF;
+            HttpPkg httpPkg = sendRequest(head, null);
+            Log.e(TAG, "checkConnection:" + httpPkg.getHead());
+            //是否为注销页面（影响效率,考虑是否在webview直接判断）
+//            checkLoginOut(httpPkg.getHead());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -454,52 +455,75 @@ public class ServiceThread extends Thread {
     public void versionUpdate() {
         Log.e(TAG, "checkConnection");
         try {
-            byte[] head = ("SOCKET /AjAxSocketIFC/versionUpdate/android" + _CRLF + "Content-Length: "
-                    + DB.APP_VERSION_ID.length() + _CRLF)
-                    .getBytes();
+            String head = ("SOCKET /AjAxSocketIFC/versionUpdate/android" + _CRLF + "Content-Length: "
+                    + DB.APP_VERSION_ID.length() + _CRLF);
             byte[] body = DB.APP_VERSION_ID
                     .getBytes();
 
             Log.v(TAG, "更新:" + DB.APP_VERSION_ID);
             Log.v(TAG, "更新:" + new String(head));
-            sendRequest(GzipUtil.byteCompress(head, DB.IS_GZIP), GzipUtil.byteCompress(body, DB.IS_GZIP));
+            sendRequest(head, body);
         } catch (Exception e) {
             e.printStackTrace();
         }
         Log.e(TAG, "checkConnection write over");
     }
 
-    private void sendRequest(byte[] head, byte[] body) {
+    private void checkLoginOut(Map<String, String> map) {
+        String head = map.get(HTTP_HEAD);
+        if (!TextUtils.isEmpty(head) && head.indexOf("LoginPage") != -1) {
+            Log.e(TAG, "注销: ");
+            // 页面为 登陆页 超时注销
+            Message msg = handler.obtainMessage(HandlerWhat.LOGIN_PAGE);
+            handler.sendMessage(msg);
+        }
+    }
+
+    private HttpPkg sendRequest(String head, byte[] body) {
         Log.e(TAG, "sendRequest");
         ISocketConnection connection = SocketFactory.getSSLSocket();
 
         Log.e(TAG, "sendRequest write begin");
         try {
-            connection.write(head);
-            connection.write(CRLF);
+            if (head != null) {
+                connection.write(head.getBytes());
+
+                if (head.indexOf(_CRLF2) == -1) {
+                    connection.write(CRLF);
+                }
+            }
+
             if (body != null) {
                 connection.write(body);
             }
-            Map<String, String> map = connection.getHttpHead2();
-            String contentLength = map.get("Content-Length");
+            //server socket InputStream read()==-1 标识流结束
+            connection.shutDownOutPut();
+
+            HashMap<String, String> map = connection.getHttpHead2();
+            Log.e(TAG, "get http response:" + map);
+            String contentLength = map.get(Content_Length);
+            byte[] content = null;
             if (!TextUtils.isEmpty(contentLength)) {
                 int len = Integer.valueOf(contentLength);
-                byte[] content = connection.getHttpBody(len);
-                responseWebView(map.get("httpHead").getBytes(), content);
+                content = connection.getHttpBody(len);
+                Log.e(TAG, "get server content over:" + (content != null ? content.length : 0));
+                responseWebView(map.get(HTTP_HEAD).getBytes(), content);
             } else {
-                responseWebView(map.get("httpHead").getBytes(), null);
+                Log.e(TAG, "get server content over");
+                responseWebView(map.get(HTTP_HEAD).getBytes(), null);
             }
-
+            return new HttpPkg(map, content);
         } catch (Exception e) {
             e.printStackTrace();
         }
         Log.e(TAG, "sendRequest write over");
+        return null;
     }
 
     private void responseWebView(byte[] head, byte[] body) {
         try {
             Log.e(TAG, "socket:" + webViewSocket);
-            OutputStream webView_os = webViewSocket.getOutputStream();
+            webView_os = webViewSocket.getOutputStream();
 
 //            Log.e("responseWebView", "head123:" + new String(head));
 

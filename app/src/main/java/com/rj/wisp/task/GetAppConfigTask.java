@@ -78,10 +78,10 @@ public class GetAppConfigTask extends AsyncTask<Void, Void, Void> {
             int contentLength = 5;
 
             HashMap<String, String> map = SocketStreamUtil.getHttpHead(is);
-            if (map.get("WISP-Content-Length") != null) {
+            if (map.get("Content-Length") != null) {
                 try {
                     contentLength = Integer.valueOf(map
-                            .get("WISP-Content-Length"));
+                            .get("Content-Length"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -91,7 +91,7 @@ public class GetAppConfigTask extends AsyncTask<Void, Void, Void> {
             byte[] body = SocketStreamUtil.getHttpBody(is, contentLength);
             String charset = map.get("charset");
             Log.v(TAG, "len:" + body.length);
-            s = new String(body, 0, contentLength, charset != null ? charset : "GBK");
+            s = new String(body, charset != null ? charset : "GBK");
             Log.v(TAG, "消息体：" + s);
 
             jsonData = s;

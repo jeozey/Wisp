@@ -232,6 +232,7 @@ public class SettingActivity extends Activity implements View.OnClickListener, P
         ArrayList<HashMap<String, String>> dataMapList = new ArrayList<HashMap<String, String>>();
         try {
             if (!TextUtils.isEmpty(jsonData)) {
+                jsonData = jsonData.replace("\r", "").replace("\n", "");
                 List<AppConfig> list = JSON.parseArray(jsonData, AppConfig.class);
                 int i = 0;
                 for (AppConfig config : list) {

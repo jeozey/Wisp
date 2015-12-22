@@ -208,7 +208,8 @@ public class OrdinarySocketConnection implements ISocketConnection {
                     }
                 }
             }
-            head.put("httpHead", httpHead.toString() + "\r\n");
+            head.put("httpHead", httpHead.toString());
+//            head.put("httpHead", httpHead.toString() + "\r\n");
             return head;
         } catch (Exception e) {
             e.printStackTrace();
@@ -307,5 +308,17 @@ public class OrdinarySocketConnection implements ISocketConnection {
         this.out = null;
         this.in = null;
         this.sslSocket = null;*/
+    }
+
+    @Override
+    public void shutDownOutPut() {
+        try {
+            if (socket != null) {
+                socket.shutdownOutput();
+            }
+        } catch (Exception e) {
+
+        }
+
     }
 }

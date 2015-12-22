@@ -40,8 +40,9 @@ public class LearnHttp {
 
 	private void writeRequest(OutputStream out, String host) throws IOException {
 		// 请求行
-		out.write("GET /wisp_aas/config/html/fgwlan/images/720/ico1.png HTTP/1.1".getBytes());
+//		out.write("GET /wisp_aas/config/html/fgwlan/images/720/ico1.png HTTP/1.1".getBytes());
 //		out.write("GET /por/images/default_logo.gif HTTP/1.1".getBytes());
+		out.write("GET /wisp_aas/adapter?open&_method=checkConnection&appcode=3cMa2CZnLGRkNGBuO9VkNGRwLWYZ09QrNGZmQWRmNGJjNHqnNXNoNWNqOG6jMDVc3DinP9Y/3WUkLGB= HTTP/1.1".getBytes());
 		out.write(CRLF);        // 请求头的每一行都是以CRLF结尾的
 
 		// 请求头

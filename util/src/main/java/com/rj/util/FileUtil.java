@@ -293,8 +293,8 @@ public class FileUtil {
     }
 
     // 以下为直接从sdCard读取
-    public static String readFile(File file) {
-        return readFile(file.getAbsoluteFile());
+    public static String readFile(File file) throws FileNotFoundException {
+        return readFile(file.getAbsolutePath());
     }
 
     public static String readFile(String fileName)

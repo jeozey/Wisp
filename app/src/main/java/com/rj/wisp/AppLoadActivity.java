@@ -6,13 +6,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rj.framework.DB;
@@ -20,18 +20,20 @@ import com.rj.sdkey.view.PhoneLoginView;
 import com.rj.view.ToastTool;
 import com.rj.wisp.activity.LoginActivity;
 import com.rj.wisp.base.BaseActivity;
-import com.rj.wisp.bean.MessageEvent;
+import com.rj.wisp.bean.ConnectionStatus;
+import com.rj.wisp.bean.HandlerWhat;
+import com.rj.wisp.bean.ResourceMessageEvent;
 import com.rj.wisp.core.InitUtil;
 import com.rj.wisp.core.LocalSocketRequestTool;
 import com.rj.wisp.core.WispCore;
-import com.rj.wisp.task.AjaxGetResourcesTask;
 import com.rj.wisp.ui.phone.SettingActivity;
 
 import de.greenrobot.event.EventBus;
 
 public class AppLoadActivity extends BaseActivity {
     private static final String TAG = AppLoadActivity.class.getName();
-
+    private static final int CheckConnectionTimeAll = 6;
+    private int checkConnectionTime = 0;
     private LocalSocketRequestTool localSocketRequestTool;
 
     @Override
@@ -40,31 +42,65 @@ public class AppLoadActivity extends BaseActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    public void onEvent(MessageEvent event) {
-        Log.e(TAG, "onEvent MessageEvent:" + (event.getEventContent() != null ? event.getEventContent() : ""));
+    private void showLoginView() {
+        ToastTool.show(getBaseContext(), "初始化成功", Toast.LENGTH_SHORT);
+        startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    // Called in Android UI's main thread
+    public void onEventMainThread(ResourceMessageEvent event) {
+        Log.e(TAG, "onEvent onEventMainThread:" + event.getEventType() + "--" + (event.getEventContent() != null ? event.getEventContent() : ""));
+
         if (event != null) {
             switch (event.getEventType()) {
-                case MessageEvent.RESOURCE_DOWN_START:
+                case ResourceMessageEvent.RESOURCE_DOWN_SUCC:
+                case ResourceMessageEvent.RESOURCE_DOWN_FAIL:
+                    updateDownResourceDialog();
+                    break;
+                case ResourceMessageEvent.RESOURCE_NO_UPDATE:
+                    showMessage("无更新资源文件");
+                    showLoginView();
+                    break;
+                case ResourceMessageEvent.RESOURCE_DOWN_END:
+                    if (event.getEventContent() != null) {
+                        int failResource = Integer.valueOf(event.getEventContent().toString());
+                        if (failResource > 0) {
+                            showMessage("下载失败" + failResource + "个资源文件");
+                        } else {
+
+                        }
+                    }
                     if (downLoadDialog != null) {
-                        Looper.prepare();
+                        downLoadDialog.dismiss();
+                    }
+                    showLoginView();
+                    break;
+                case ResourceMessageEvent.RESOURCE_DOWN_WRITE_FAIL_FAIL:
+                    ToastTool.show(getBaseContext(), "资源配置文件保存失败,请联系管理员", Toast.LENGTH_SHORT);
+                    break;
+                case ResourceMessageEvent.RESOURCE_GET_FAIL:
+                case ResourceMessageEvent.RESOURCE_CONFIG_FORMAT_FAIL:
+                    ToastTool.show(getBaseContext(), "获取资源列表出错,请重试", Toast.LENGTH_SHORT);
+                    break;
+                case ResourceMessageEvent.RESOURCE_DOWN_START:
+                    if (downLoadDialog != null) {
                         downLoadDialog.setMax(Integer.valueOf(event.getEventContent().toString()));
                         downLoadDialog.show();
                     }
                     break;
-                case MessageEvent.RESOURCE_DOWN_SUCC:
-                case MessageEvent.RESOURCE_DOWN_FAIL:
-                    if (downLoadDialog != null) {
-                        updateDownResourceDialog();
-                    }
+                default:
                     break;
             }
         }
     }
 
+    private TextView messageTxt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appload);
+        messageTxt = (TextView) findViewById(R.id.messageTxt);
 
         //注册EventBus
         EventBus.getDefault().register(this);
@@ -101,46 +137,22 @@ public class AppLoadActivity extends BaseActivity {
             // 初始化，识别SDKEY
             login.initPin(AppLoadActivity.this);
         } else {
-//            checkSetting();
+            checkSetting();
         }
 
-//for(int i = 0;i<1000;i++) {
-//    new Thread(new Runnable() {
-//        @Override
-//        public void run() {
-////                localSocketRequestTool.checkConnection(handler);
-//            StringBuilder sb = new StringBuilder();
-//            sb.append("GET /wisp_aas/config/html/law/css/bootstrap.min.css HTTP/1.1" + "\r\n");
-////            sb.append("Host: 127.0.0.1:" + DB.HTTPSERVER_PORT + "\r\n");
-////            sb.append("Method-Type: download" + "\r\n");
-//////        sb.append("File-Time: " + modified + "\r\n");
-//////        sb.append("File-Type: " + filetype + "\r\n");
-//////        sb.append("File-Name: " + filepath + "\r\n");
-////            sb.append("Accept: */*" + "\r\n");
-////            sb.append("Accept-Encoding: gzip, deflate" + "\r\n");
-////            sb.append("Accept-Language: zh-CN, en-US" + "\r\n");
-////            sb.append("Connection: Keep-Alive" + "\r\n");
-//            new LocalSocketRequestTool().getLocalSocketRequest(sb.toString().getBytes(), null);
-//
-//        }
-//    }).start();
-//    try {
-//        Thread.sleep(1000);
-//    } catch (InterruptedException e) {
-//        e.printStackTrace();
-//    }
-//}
+        initDownResourceDialog();
+
 
 //        for(int i = 0;i<1000;i++) {
 //
 //            new MyTAsyncTask().execute();
 //        }
 
-        initDownResourceDialog();
-        downLoadDialog.show();
-        AjaxGetResourcesTask ajaxGetResourcesTask = new AjaxGetResourcesTask(
-                AppLoadActivity.this, handler);
-        ajaxGetResourcesTask.execute();
+
+//        AjaxGetResourcesTask ajaxGetResourcesTask = new AjaxGetResourcesTask();
+//        ajaxGetResourcesTask.execute();
+
+//        new MyAsyncTask().execute(CHECK_RESOURCE);
     }
 
     private ProgressDialog downLoadDialog;
@@ -148,29 +160,33 @@ public class AppLoadActivity extends BaseActivity {
     //多线程更新Dialog
     private void updateDownResourceDialog() {
         synchronized (this) {
-            downLoadDialog.setProgress(downLoadDialog.getProgress() + 1);
+            if (downLoadDialog != null) {
+                downLoadDialog.setProgress(downLoadDialog.getProgress() + 1);
+            }
         }
     }
 
     private void initDownResourceDialog() {
-        downLoadDialog = new ProgressDialog(this);
-        downLoadDialog.setTitle("资源下载");
-        downLoadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        downLoadDialog.setIndeterminate(false);
-        downLoadDialog.setCancelable(false);
-        downLoadDialog.setButton(DialogInterface.BUTTON_POSITIVE, "重试",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
+        if (downLoadDialog == null) {
+            downLoadDialog = new ProgressDialog(this);
+            downLoadDialog.setTitle("资源下载");
+            downLoadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            downLoadDialog.setIndeterminate(false);
+            downLoadDialog.setCancelable(false);
+            downLoadDialog.setButton(DialogInterface.BUTTON_POSITIVE, "重试",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
 //                            resetButtonMethod();
-                    }
-                });
+                        }
+                    });
 
-        downLoadDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
+            downLoadDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
 //                            cancelButtonMethod();
-                    }
-                });
+                        }
+                    });
+        }
     }
 
     class MyTAsyncTask extends AsyncTask<Void, Void, Void> {
@@ -187,8 +203,19 @@ public class AppLoadActivity extends BaseActivity {
             ToastTool.show(getBaseContext(), "没有获取到应用", Toast.LENGTH_SHORT);
             startActivity(new Intent(this, SettingActivity.class));
         } else {
-            ToastTool.show(getBaseContext(), "初始化成功", Toast.LENGTH_SHORT);
-            startActivity(new Intent(this, LoginActivity.class));
+            new MyAsyncTask().execute(CHECK_NETWORK);
+        }
+    }
+
+    private void showMessage(String message) {
+        try {
+            if (!TextUtils.isEmpty(message)) {
+                Log.e(TAG, "showMessage message:" + message);
+                messageTxt.setText(message);
+                ToastTool.show(getBaseContext(), message, Toast.LENGTH_SHORT);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -198,11 +225,44 @@ public class AppLoadActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             Log.e(TAG, "msg.what:" + msg.what);
             switch (msg.what) {
+                case HandlerWhat.UPDATE_MESSAGE:
+                    String message = String.valueOf(msg.obj);
+                    if (!TextUtils.isEmpty(message)) {
+                        showMessage(message);
+                    }
+                    break;
+                case HandlerWhat.NO_NEW_VERSION:
+                    showMessage("无最新版本");
+                    new MyAsyncTask().execute(CHECK_RESOURCE);
+                    break;
+                case HandlerWhat.HAS_NEW_VERSION:
+                    break;
+                case HandlerWhat.GET_NEW_VERSION_FAIL:
+                    showMessage("获取版本更新失败");
+                    new MyAsyncTask().execute(CHECK_RESOURCE);
+                    break;
+                case HandlerWhat.GET_CONNECTION_SUCC:
+                    ConnectionStatus status = (ConnectionStatus) msg.obj;
+                    Log.e(TAG, "status:" + status);
+                    new MyAsyncTask().execute(CHECK_VERSION);
+                    break;
+                case HandlerWhat.GET_CONNECTION_FAIL:
+                    if (checkConnectionTime++ > CheckConnectionTimeAll) {
+                        showMessage("无法连接服务器,请检查网络配置是否正确!");
+                    } else {
+                        new MyAsyncTask().execute(CHECK_NETWORK);
+                    }
+                    break;
 
             }
         }
     };
 
+
+    private static final int CHECK_NETWORK = 1;
+    private static final int CHECK_VERSION = 2;
+    private static final int DOWN_NEW_VERSION = 3;
+    private static final int CHECK_RESOURCE = 4;
 
     class MyAsyncTask extends AsyncTask<Object, Integer, Void> {
 
@@ -210,30 +270,29 @@ public class AppLoadActivity extends BaseActivity {
         protected Void doInBackground(Object... params) {
             try {
                 Message msg = new Message();
-                msg.what = 5;
-                if (Integer.parseInt(params[0].toString()) == 5) {// 检测socket是否通
+                msg.what = HandlerWhat.UPDATE_MESSAGE;
+                if (Integer.parseInt(params[0].toString()) == CHECK_NETWORK) {// 检测socket是否通
                     msg.obj = "连接服务器...";
                     handler.sendMessage(msg);
                     localSocketRequestTool.checkConnection(handler);
-                } else if (Integer.parseInt(params[0].toString()) == 1) {// 获取更新信息
+                } else if (Integer.parseInt(params[0].toString()) == CHECK_VERSION) {// 获取更新信息
                     msg.obj = "获取更新信息...";
                     handler.sendMessage(msg);
                     localSocketRequestTool.checkNewVersion(handler);
-                } else if (Integer.parseInt(params[0].toString()) == 2) {// 更新数据包
+                } else if (Integer.parseInt(params[0].toString()) == DOWN_NEW_VERSION) {// 更新数据包
                     msg.obj = "更新数据包...";
                     handler.sendMessage(msg);
                     localSocketRequestTool.updateVersion(params[1].toString());
-                } else if (Integer.parseInt(params[0].toString()) == 3) {// 更新资源
+                } else if (Integer.parseInt(params[0].toString()) == CHECK_RESOURCE) {// 更新资源
                     msg.obj = "更新资源...";
                     handler.sendMessage(msg);
-//                    AjaxGetResourcesTask ajaxGetResourcesTask = new AjaxGetResourcesTask(
-//                            AppLoadActivity.this, handler);
+                    localSocketRequestTool.checkResources();
+//                    AjaxGetResourcesTask ajaxGetResourcesTask = new AjaxGetResourcesTask();
 //                    ajaxGetResourcesTask.execute();
                 }
-                handler.sendMessage(msg);
+
             } catch (Exception e) {
                 e.printStackTrace();
-                handler.sendEmptyMessage(-1);
             }
 
             return null;

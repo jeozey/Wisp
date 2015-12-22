@@ -54,4 +54,9 @@ public class SDKeySocketConnection implements ISocketConnection {
     public byte[] getHttpBody(int size, DownLoadInvoke downLoadInvoke) {
         return new byte[0];
     }
+
+    @Override
+    public void shutDownOutPut() {
+
+    }
 }

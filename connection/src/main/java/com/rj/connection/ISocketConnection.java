@@ -27,4 +27,6 @@ public interface ISocketConnection {
     byte[] getHttpBody(int len);
 
     byte[] getHttpBody(int size, DownLoadInvoke downLoadInvoke);
+
+    void shutDownOutPut();
 }
