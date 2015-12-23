@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -77,15 +79,16 @@ public class HttpServer implements Runnable {
         }
     }
 
+    // 2 5 3
     private ThreadPoolExecutor threadPool = new ThreadPoolExecutor(
-            2,      //corePoolSize
-            5,      //maximumPoolSize
-            3,      //keepAliveTime
+            1,      //corePoolSize
+            1,      //maximumPoolSize
+            1,      //keepAliveTime
             TimeUnit.SECONDS,   //unit
             new ArrayBlockingQueue<Runnable>(3),  //workQueue
             new ThreadPoolExecutor.DiscardOldestPolicy()//
     );
-    private int i = 0;
+    private ExecutorService executorService = Executors.newFixedThreadPool(1);
     public void run() {
         try {
             Socket webViewSocket = null;
@@ -98,8 +101,8 @@ public class HttpServer implements Runnable {
                     webViewSocket.setSoTimeout(60000); // 超时设置
 //					webViewSocket.setKeepAlive(true);
 
-                    threadPool.execute(new ServiceThread(webViewSocket, handler, context));
-                    i++;
+                    executorService.execute(new ServiceThread(webViewSocket, handler, context));
+//                    threadPool.execute(new ServiceThread(webViewSocket, handler, context));
 //                    new Thread(new ServiceThread(webViewSocket, handler, context)).start();
 
                 } catch (Exception e) {

@@ -13,15 +13,14 @@ import com.rj.util.GzipUtil;
 import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.bean.HttpPkg;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.Reader;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +30,8 @@ import java.util.Map;
  */
 public class ServiceThread extends Thread {
     private static final String TAG = ServiceThread.class.getName();
+    private static final String CONTENT_TYPE = "Content-Type";
+    private static final String CHARSET = "charset";
     private static final String HTTP_HEAD = "httpHead";
     private static final String Content_Length = "Content-Length";
     private static final String NOT_FOUND = "404 Not Found";
@@ -41,7 +42,8 @@ public class ServiceThread extends Thread {
     private static final String _CRLF2 = "\r\n\r\n";
     private Socket webViewSocket;
     private Handler handler;
-    private BufferedReader webView_reader;
+    private DataInputStream webView_reader;
+    //    private BufferedReader webView_reader;
     private OutputStream webView_os;
     private Context context;
 
@@ -56,12 +58,14 @@ public class ServiceThread extends Thread {
     public void run() {
         super.run();
         try {
+            Log.e(TAG, "run...");
             if (webViewSocket != null) {
                 HttpPkg httpPkg = getWebViewRequest();
                 if (httpPkg == null) {
                     return;
                 }
-                Log.e(TAG, "httpPkg.getHead():" + httpPkg.getHead());
+                Log.v(TAG, "httpPkg content-length:" + httpPkg.getHead().get(Content_Length));
+//                Log.e(TAG, "httpPkg.getHead():" + httpPkg.getHead());
                 handleHttpPkg(httpPkg);
             }
         } catch (Exception e) {
@@ -111,6 +115,7 @@ public class ServiceThread extends Thread {
                 Log.e(TAG, "head_line is null");
                 return;
             }
+            Log.e(TAG, "handleHttpPkg:" + head_line);
             if (head_line.indexOf("/config/html/") != -1) {// 资源类下载
                 if ("down".equals(httpPkg.getHead().get("Method-Type"))) {
                     downResource(httpPkg, false);
@@ -119,7 +124,7 @@ public class ServiceThread extends Thread {
                 }
             } else if (head_line.indexOf("AjAxSocketIFC") != -1) {
                 // ajax请求
-                handleAjaxRequest(head_line);
+                handleAjaxRequest(httpPkg);
             } else if (head_line.indexOf("@@LocalSocket") != -1) {
                 handleLocalSocketRequest(head_line);
             } else {
@@ -138,13 +143,14 @@ public class ServiceThread extends Thread {
         }
     }
 
-    private void handleAjaxRequest(String head_line) throws Exception {
+    private void handleAjaxRequest(HttpPkg httpPkg) throws Exception {
+        String head_line = httpPkg.getHeadLine();
         Log.e(TAG, "handleAjaxRequest:" + head_line);
         //需要有返回给webview,否则ajax会等待超时报错
         responseEmptyToWebView();
         // 同步界面组件添加
         if (head_line.indexOf("addWebUI") != -1) {
-            addWebUi();
+            addWebUi(httpPkg);
         } else if (head_line.indexOf("addWebBtnNum") != -1) {
             addWebBtnNum();
         } else if (head_line.indexOf("@@ShowProgressDialog@@") != -1) {
@@ -159,7 +165,7 @@ public class ServiceThread extends Thread {
     public static final int DISMISS_LOADING = 4;
 
     private void responseEmptyToWebView() {
-        responseWebView(CRLF, "".getBytes());
+        responseWebView("HTTP/1.0 200 OK\r\n", "".getBytes());
     }
 
     private void addWebBtnNum() {
@@ -183,10 +189,38 @@ public class ServiceThread extends Thread {
         }
     }
 
-    private void addWebUi() throws IOException {
+    private static final String CHAR_SET = "utf-8";
+    private static ArrayList<String> charsets = new ArrayList<String>();
+
+    static {
+        charsets.add("gbk");
+        charsets.add("gb2312");
+        charsets.add("utf8");
+        charsets.add("utf-8");
+    }
+
+    private String getCharSet(HttpPkg httpPkg) {
+        try {
+            String contentType = httpPkg.getHead().get(CONTENT_TYPE);
+            int i = contentType.indexOf("charset=");
+            if (i != -1) {
+                String c = contentType.substring(i + 8);
+                if (charsets.contains(c.toLowerCase())) {
+                    Log.e(TAG, "c:" + c);
+                    return c;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return CHAR_SET;
+
+    }
+
+    private void addWebUi(HttpPkg httpPkg) throws IOException {
         Log.e(TAG, "addWebUi:" + handler);
         if (handler != null) {
-            String jsonStr = getJsonFromWebview();
+            String jsonStr = new String(httpPkg.getBody(), getCharSet(httpPkg));
 
             Log.v(TAG, "addWebUi:" + jsonStr);
             Message msg = handler.obtainMessage(ADD_WEB_UI);
@@ -204,14 +238,14 @@ public class ServiceThread extends Thread {
                 head_line.indexOf("config/html"), head_line.length() - 9);
         File filePath = new File(DB.RESOURCE_PATH
                 + filename);
-        Log.e(TAG, "filePath:" + filePath.getAbsolutePath());
+//        Log.e(TAG, "filePath:" + filePath.getAbsolutePath());
         try {
             //缓存被删后，重新下载 并写入webview
             if (filePath.exists()) {
-                Log.e(TAG, "resource file exist");
+//                Log.e(TAG, "resource file exist");
                 writeCacheToWebView(filename);
             } else {
-                Log.e(TAG, "resource file not exist");
+//                Log.e(TAG, "resource file not exist");
                 downResource(httpPkg, true);
             }
 
@@ -251,7 +285,7 @@ public class ServiceThread extends Thread {
                 byte[] body = connection.getHttpBody(contentLength);
 
                 Log.e(TAG, "body.length:" + body.length + " contentLength:" + contentLength);
-                responseWebView(head_sb.get("httpHead").getBytes(), body);
+                responseWebView(head_sb.get("httpHead"), body);
 
                 Log.e(TAG, "writeFile:" + writeFile);
                 if (writeFile) {
@@ -266,7 +300,7 @@ public class ServiceThread extends Thread {
 //            //通知订阅者下载完一个资源
 //            EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_SUCC, filename));
             } else {
-                responseWebView("HTTP/1.0 200 OK\r\n".getBytes(), null);
+                responseEmptyToWebView();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -294,6 +328,7 @@ public class ServiceThread extends Thread {
 
             StringBuilder sb = new StringBuilder();
             sb.append("HTTP/1.0 200 OK\r\n");//返回应答消息,并结束应答
+            sb.append("File-Path:" + requestfilename + "\r\n");//返回应答消息,并结束应答
 //			sb.append("Content-Type: application/octet-stream\r\n".getBytes());
             sb.append(("Content-Length: " + cacheFile.length() + "\r\n"));// 返回内容字节数
 
@@ -305,7 +340,7 @@ public class ServiceThread extends Thread {
                 len += j;
             }
 
-            responseWebView(sb.toString().getBytes(), byteArrayOutputStream.toByteArray());
+            responseWebView(sb.toString(), byteArrayOutputStream.toByteArray());
             Log.e(TAG, "cacheFile.length():" + cacheFile.length());
             Log.e(TAG, "file len:" + len);
             security_is.close();
@@ -382,9 +417,9 @@ public class ServiceThread extends Thread {
 
         try {
             HttpPkg pkg = new HttpPkg();
-            Reader reader = new InputStreamReader(webViewSocket.getInputStream());
-            webView_reader = new BufferedReader(reader, 1024);
-//            webView_reader = new DataInputStream(webViewSocket.getInputStream());
+//            Reader reader = new InputStreamReader(webViewSocket.getInputStream());
+//            webView_reader = new BufferedReader(reader, 1024);
+            webView_reader = new DataInputStream(webViewSocket.getInputStream());
 
             String firstLine = webView_reader.readLine();
 
@@ -396,15 +431,21 @@ public class ServiceThread extends Thread {
                 map.put(HTTP_HEAD, firstLine + _CRLF + head);
             }
             pkg.setHead(map);
+
+//            if(firstLine.indexOf("AjAxSocketIFC")!=-1){
+//                return pkg;
+//            }
+
             String contentLength = map.get(Content_Length);
             if (!TextUtils.isEmpty(contentLength)) {
-                Log.e(TAG, "contentLength:" + contentLength);
+                Log.e(TAG, "contentLength:" + contentLength + " head.length:" + head.length());
                 int len = Integer.valueOf(contentLength);
                 //为什么这句在POST的时候会卡住
 //                byte[] body = SocketStreamUtil.getHttpBody(webViewSocket.getInputStream(), len);
                 byte[] body = SocketStreamUtil.getHttpBody(webView_reader, len);
                 pkg.setBody(body);
             }
+            Log.e(TAG, "getWebViewRequest over:" + firstLine);
             return pkg;
         } catch (Exception e) {
             e.printStackTrace();
@@ -494,6 +535,9 @@ public class ServiceThread extends Thread {
             }
 
             if (body != null) {
+                if (head.indexOf("config/html") == -1) {
+                    Log.d(TAG, "sendRequest to server:" + new String(body));
+                }
                 connection.write(body);
             }
             //server socket InputStream read()==-1 标识流结束
@@ -507,10 +551,10 @@ public class ServiceThread extends Thread {
                 int len = Integer.valueOf(contentLength);
                 content = connection.getHttpBody(len);
                 Log.e(TAG, "get server content over:" + (content != null ? content.length : 0));
-                responseWebView(map.get(HTTP_HEAD).getBytes(), content);
+                responseWebView(map.get(HTTP_HEAD), content);
             } else {
                 Log.e(TAG, "get server content over");
-                responseWebView(map.get(HTTP_HEAD).getBytes(), null);
+                responseWebView(map.get(HTTP_HEAD), null);
             }
             return new HttpPkg(map, content);
         } catch (Exception e) {
@@ -520,16 +564,25 @@ public class ServiceThread extends Thread {
         return null;
     }
 
-    private void responseWebView(byte[] head, byte[] body) {
+    private void responseWebView(String head, byte[] body) {
         try {
             Log.e(TAG, "socket:" + webViewSocket);
             webView_os = webViewSocket.getOutputStream();
 
 //            Log.e("responseWebView", "head123:" + new String(head));
+            if (head != null) {
+                webView_os.write(head.getBytes());
 
-            webView_os.write(head);
-            webView_os.write(CRLF);
+                if (head.indexOf(_CRLF2) == -1) {
+                    webView_os.write(CRLF);
+                }
+            }
+
+
             if (body != null) {
+//                if(head.indexOf("config/html")==-1) {
+//                    Log.e(TAG, "response to web:" + new String(body));
+//                }
                 webView_os.write(body);
             }
             webView_os.close();
@@ -537,6 +590,7 @@ public class ServiceThread extends Thread {
 
         } catch (IOException e) {
             e.printStackTrace();
+            Log.e(TAG, "error:" + head);
         }
     }
 

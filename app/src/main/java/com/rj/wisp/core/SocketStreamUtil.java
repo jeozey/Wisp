@@ -1,6 +1,7 @@
 package com.rj.wisp.core;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -141,43 +142,102 @@ public class SocketStreamUtil {
 
     public static byte[] getHttpBody(BufferedReader in, int contentLength) {
         try {
-            int readBytes = 0;
-            char[] b = new char[contentLength];//可改成任何需要的值
-            int len = b.length;
-            while (readBytes < len) {
-                int read = in.read(b, readBytes, len - readBytes);
+            int len = 0;
+            char[] b = new char[1024];//可改成任何需要的值
+            StringBuilder sb = new StringBuilder();
+            while (len < contentLength) {
+                int read = in.read(b, 0, 1024);
                 //判断是不是读到了数据流的末尾 ，防止出现死循环。
-                if (read == -1) {
+                if (read == -1 || read < 1024) {
                     break;
                 }
-                readBytes += read;
+                len += read;
+                Log.e(TAG, "readBytes:" + len);
+                Log.d(TAG, "here:" + new String(b, 0, read));
+                sb.append(new String(b, 0, read));
+                if (len >= contentLength) {
+                    break;
+                }
+
             }
-            return new String(b).getBytes();
+            return sb.toString().getBytes();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+
+        //顶上方法在addWebUI上面有问题，Content-Length和实际的数据长度不一致
+//        try {
+//            char[] b = new char[1024];
+//            int i = 0;
+//            StringBuilder sb = new StringBuilder();
+//            while ((i = in.read(b, 0, b.length)) > 0) {
+////                bos.write(b, 0, i);
+//                sb.append(new String(b,0,i));
+//                if (i < 1024)
+//                    break;
+//            }
+//            return sb.toString().getBytes();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
     }
 
     public static byte[] getHttpBody(InputStream in, int contentLength) {
-
         try {
-            int readBytes = 0;
-            byte[] b = new byte[contentLength];//可改成任何需要的值
-            int len = b.length;
-            while (readBytes < len) {
-                int read = in.read(b, readBytes, len - readBytes);
-                //判断是不是读到了数据流的末尾 ，防止出现死循环。
-                if (read == -1) {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            int b = 0;
+            int i = 0;
+            while ((b = in.read()) != -1) {
+                bos.write(b);
+                i++;
+//                Log.e(TAG,"contentLength:"+contentLength+" i:"+i);
+                if (i >= contentLength) {
+                    Log.e(TAG, "contentLength:" + contentLength + " i:" + i + " break");
                     break;
                 }
-                readBytes += read;
             }
-            return b;
+            return bos.toByteArray();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+
+//        try {
+//            int readBytes = 0;
+//            byte[] b = new byte[contentLength];//可改成任何需要的值
+//            int len = b.length;
+//            while (readBytes < len) {
+//                int read = in.read(b, readBytes, len - readBytes);
+//                //判断是不是读到了数据流的末尾 ，防止出现死循环。
+//                if (read == -1) {
+//                    break;
+//                }
+//                readBytes += read;
+//            }
+//            return b;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+
+        //顶上方法在addWebUI上面有问题，Content-Length和实际的数据长度不一致
+//        try {
+//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//            byte[] b = new byte[1024];
+//            int i = 0;
+//            while ((i = in.read(b, 0, b.length)) > 0) {
+//                bos.write(b, 0, i);
+//                if (i < 1024)
+//                    break;
+//            }
+//            Log.e(TAG,"contentLength:"+contentLength+" bos.toByteArray().length:"+bos.toByteArray().length);
+//            return bos.toByteArray();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
     }
 
 

@@ -116,10 +116,10 @@ public class SSLSocketConnection implements ISocketConnection {
         }
 
         if (data != null) {
-            Log.e(TAG, "write begin");
+//            Log.e(TAG, "write begin");
             out.write(data);
             out.flush();
-            Log.e(TAG, "write over");
+//            Log.e(TAG, "write over");
         }
     }
 

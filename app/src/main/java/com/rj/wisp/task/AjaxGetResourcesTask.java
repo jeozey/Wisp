@@ -43,7 +43,32 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
 //        return getAllSource();
-        return params[0];
+//        return params[0];
+
+
+        final String result = params[0];
+        if (result != null) {
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+            try {
+                getData(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                new File(resourceJsonPath).delete();
+                EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_CONFIG_FORMAT_FAIL, null));
+            } catch (Exception e) {
+                e.printStackTrace();
+                EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_GET_FAIL, null));
+            }
+//                }
+//            }).start();
+        } else {
+            EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_GET_FAIL, null));
+
+        }
+
+        return null;
     }
 
 //    private String getAllSource() {
@@ -76,27 +101,27 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(final String result) {
-
-        if (result != null) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        getData(result);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        new File(resourceJsonPath).delete();
-                        EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_CONFIG_FORMAT_FAIL, null));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_GET_FAIL, null));
-                    }
-                }
-            }).start();
-        } else {
-            EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_GET_FAIL, null));
-
-        }
+//
+//        if (result != null) {
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        getData(result);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                        new File(resourceJsonPath).delete();
+//                        EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_CONFIG_FORMAT_FAIL, null));
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                        EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_GET_FAIL, null));
+//                    }
+//                }
+//            }).start();
+//        } else {
+//            EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_GET_FAIL, null));
+//
+//        }
 
         super.onPostExecute(result);
     }
@@ -111,7 +136,7 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
     }
 
     private void checkFileOrFolder(ResourceFile remote) {
-        Log.e(TAG, "checkFileOrFolder:" + remote.getFiletype());
+//        Log.e(TAG, "checkFileOrFolder:" + remote.getFiletype());
         if ("folder".equals(remote.getFiletype())) {
             File file = new File(DB.RESOURCE_PATH
                     + remote.getFilepath());
@@ -175,6 +200,7 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
 
     private Object object = new Object();
 
+    private int hasDownCount = 0;
     //订阅消息
     public void onEvent(ResourceMessageEvent event) {
         Log.e(TAG, "onEvent ResourceMessageEvent:" + (event.getEventContent() != null ? event.getEventContent() : ""));
@@ -191,9 +217,9 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
                                     downFailResources.put(fileName, resourceFile);
                                 }
                                 localResources.put(fileName, resourceFile);
-                                needDownLoadResources.remove(fileName);
+                                hasDownCount++;
                                 Log.e(TAG, "needDownLoadResources.size():" + needDownLoadResources.size());
-                                if (needDownLoadResources.size() == 0) {
+                                if (hasDownCount == needDownLoadResources.size()) {
                                     Log.e(TAG, "write begin");
                                     String json = com.alibaba.fastjson.JSON.toJSONString(localResources.values());
                                     try {
@@ -219,23 +245,29 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
         //注册订阅
         EventBus.getDefault().register(this);
         ExecutorService executor = Executors.newFixedThreadPool(5);
-        Iterator<String> iterator = allNeedDownLoadResources.keySet().iterator();
+        Iterator iterator = allNeedDownLoadResources.entrySet().iterator();
+        Log.e(TAG, "allNeedDownLoadResources.size():" + allNeedDownLoadResources.size());
         while (iterator.hasNext()) {
-            String key = iterator.next();
-            final ResourceFile value = allNeedDownLoadResources.get(key);
+            final Map.Entry entry = (Map.Entry) iterator.next();
+            final ResourceFile value = (ResourceFile) entry.getValue();
+
+            final String filePath = value.getFilepath();
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    downResource(value);
+                    downResource(filePath);
                 }
             });
         }
+        executor.shutdown();
 
     }
 
-    private void downResource(ResourceFile resource) {
+    int i = 0;
+
+    private void downResource(final String filepath) {
         StringBuilder sb = new StringBuilder();
-        sb.append("GET /wisp_aas/" + resource.getFilepath().replace(" ", "") + " HTTP/1.1" + "\r\n");
+        sb.append("GET /wisp_aas/" + filepath.replace(" ", "") + " HTTP/1.1" + "\r\n");
         sb.append("Host: 127.0.0.1:" + DB.HTTPSERVER_PORT + "\r\n");
         sb.append("Method-Type: download" + "\r\n");
 //        sb.append("File-Time: " + modified + "\r\n");
@@ -248,8 +280,8 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
 
         HttpPkg httpPkg = new LocalSocketRequestTool().getLocalSocketRequest(sb.toString().getBytes(), null);
 
-        String resourcePath = resource.getFilepath();
-        String filename = resource.getFilepath();
+        String resourcePath = filepath;
+        String filename = filepath;
         if (httpPkg != null) {
 
             File file = new File(DB.RESOURCE_PATH
@@ -269,6 +301,5 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
             //通知订阅者下载失败一个资源
             EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_FAIL, filename));
         }
-
     }
 }
