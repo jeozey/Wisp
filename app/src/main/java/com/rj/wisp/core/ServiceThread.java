@@ -160,9 +160,7 @@ public class ServiceThread extends Thread {
         }
     }
 
-    public static final int ADD_WEB_UI = 2;
-    public static final int SHOW_LOADING = 3;
-    public static final int DISMISS_LOADING = 4;
+
 
     private void responseEmptyToWebView() {
         responseWebView("HTTP/1.0 200 OK\r\n", "".getBytes());
@@ -175,7 +173,7 @@ public class ServiceThread extends Thread {
 
         Log.e(TAG, "dismissProgressDialog:" + handler);
         if (handler != null) {
-            Message msg = handler.obtainMessage(SHOW_LOADING);
+            Message msg = handler.obtainMessage(HandlerWhat.SHOW_LOADING);
             handler.sendMessage(msg);
         }
     }
@@ -183,7 +181,7 @@ public class ServiceThread extends Thread {
     private void dismissProgressDialog() throws IOException {
         Log.e(TAG, "dismissProgressDialog:" + handler);
         if (handler != null) {
-            Message msg = handler.obtainMessage(DISMISS_LOADING);
+            Message msg = handler.obtainMessage(HandlerWhat.DISMISS_LOADING);
             handler.sendMessage(msg);
 
         }
@@ -223,7 +221,7 @@ public class ServiceThread extends Thread {
             String jsonStr = new String(httpPkg.getBody(), getCharSet(httpPkg));
 
             Log.v(TAG, "addWebUi:" + jsonStr);
-            Message msg = handler.obtainMessage(ADD_WEB_UI);
+            Message msg = handler.obtainMessage(HandlerWhat.ADD_WEB_UI);
             msg.obj = jsonStr;
             handler.sendMessage(msg);
 

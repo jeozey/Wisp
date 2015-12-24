@@ -13,9 +13,13 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 
+import com.rj.framework.DB;
 import com.rj.view.loading.CustomProgressDialog;
 import com.rj.view.loading.CutsomProgressDialog;
 import com.rj.view.loading.ProgressDialogTool;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class WebViewCtrolImpl implements WebViewCtrol {
     private static final String TAG = "WebViewCtrolImpl";
@@ -29,7 +33,15 @@ public class WebViewCtrolImpl implements WebViewCtrol {
         return failingUrl;
     }
 
-    public WebViewCtrolImpl(Activity activity, CutsomProgressDialog cutsomProgressDialog) {
+    @Override
+    public void destoryWebViewCtrol() {
+        dismiss();
+        loadDialog = null;
+        cutsomProgressDialog = null;
+    }
+
+    public WebViewCtrolImpl(Activity activity,
+                            CutsomProgressDialog cutsomProgressDialog) {
         this.activity = activity;
         this.cutsomProgressDialog = cutsomProgressDialog;
     }
@@ -42,7 +54,8 @@ public class WebViewCtrolImpl implements WebViewCtrol {
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         try {
-            Log.e(TAG, "onPageStarted");
+            currentUrl = url;
+            Log.e(TAG, "onPageStarted:" + url);
             if (loadDialog != null && !loadDialog.isShowing()) {
                 loadDialog.show();
             }
@@ -55,16 +68,35 @@ public class WebViewCtrolImpl implements WebViewCtrol {
         }
     }
 
+    private String currentUrl;
+
+    private void dismiss() {
+        if (loadDialog != null && loadDialog.isShowing())
+            loadDialog.dismiss();
+        if (cutsomProgressDialog != null && cutsomProgressDialog.isShowing())
+            cutsomProgressDialog.dismiss();
+    }
+
     @Override
-    public void onPageFinished(WebView view, String url) {
+    public void onPageFinished(WebView view, final String url) {
         Log.v("request", "onPageFinished:" + url);
-        try {
-            if (loadDialog != null)
-                loadDialog.dismiss();
-            if (cutsomProgressDialog != null)
-                cutsomProgressDialog.dismiss();
-        } catch (Exception e) {
-        }
+
+        new Timer().schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                if (url.equals(currentUrl)) {
+                    try {
+                        Log.e(TAG, "url == currentUrl,dismiss loading");
+                        dismiss();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }, 3000);
+
     }
 
     @Override
@@ -96,16 +128,18 @@ public class WebViewCtrolImpl implements WebViewCtrol {
         Log.v("bug", "onJsConfirm");
         // TODO Auto-generated method stub
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("提示").setMessage(message)
+        builder.setTitle(DB.APP_NAME).setMessage(message)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
                         result.confirm();
                     }
                 })
                 .setNeutralButton("取消", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
                         result.cancel();
                     }
                 });
@@ -124,7 +158,7 @@ public class WebViewCtrolImpl implements WebViewCtrol {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(
                         activity);
 
-                builder.setTitle("提示")
+                builder.setTitle(DB.APP_NAME)
                         .setMessage(message)
                         .setPositiveButton("确定",
                                 new DialogInterface.OnClickListener() {
@@ -156,20 +190,18 @@ public class WebViewCtrolImpl implements WebViewCtrol {
 
     }
 
-
     @Override
     public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-        Log.e(TAG, "onReceivedError:" + request + "--" + error);
         view.stopLoading();
         if (failingUrl.indexOf("refreshWebView") == -1) {
             failingUrl = failingUrl;
         }
-//		if (DB.isPhone) {
-//			view.loadUrl("file:///android_asset/phoneErrorPage.html");
-//		} else {
-        view.loadUrl("file:///android_asset/errorPage.html");
-//		}
-
+        if (DB.isPhone) {
+            view.loadUrl("file:///android_asset/phoneErrorPage.html");
+        } else {
+            view.loadUrl("file:///android_asset/errorPage.html");
+        }
     }
+
 
 }

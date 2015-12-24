@@ -326,8 +326,11 @@ public class AppLoadActivity extends BaseActivity {
     protected void onTapMenuSelect(int position) {
         switch (position) {
             case 0:
+                new MyAsyncTask().execute(CHECK_NETWORK);
+                break;
             case 1:
 //                init();
+                new MyAsyncTask().execute(CHECK_NETWORK);
                 break;
             case 2:
                 showSetting();

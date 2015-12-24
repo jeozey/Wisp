@@ -61,7 +61,6 @@ import com.rj.wisp.R;
 import com.rj.wisp.activity.LoginActivity;
 import com.rj.wisp.base.WispApplication;
 import com.rj.wisp.bean.HandlerWhat;
-import com.rj.wisp.core.ServiceThread;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.service.NetConnectService;
 
@@ -124,13 +123,13 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                     case HandlerWhat.LOG_OUT:
                         logOut();
                         break;
-                    case ServiceThread.ADD_WEB_UI:
+                    case HandlerWhat.ADD_WEB_UI:
                         addWebUI(msg);
                         break;
-                    case ServiceThread.SHOW_LOADING:
+                    case HandlerWhat.SHOW_LOADING:
                         showProgressDialog();
                         break;
-                    case ServiceThread.DISMISS_LOADING:
+                    case HandlerWhat.DISMISS_LOADING:
                         dismissProgressDialog();
                         break;
                     default:
@@ -677,9 +676,9 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
         try {
-            Log.v(TAG, "onPageStarted");
+            Log.v(TAG, "onPageStarted:" + url);
             if (loadDialog != null && !loadDialog.isShowing()) {
-                loadDialog.show();
+//                loadDialog.show();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -861,5 +860,8 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
     private PopupWindow popupWindow;
     private WebView popWebView;
 
+    @Override
+    public void destoryWebViewCtrol() {
 
+    }
 }

@@ -23,7 +23,7 @@ public class SocketFactory {
             }
             Log.e(TAG, "SECURITY_HOST:" + DB.SECURITY_HOST + " SECURITY_PORT:" + DB.SECURITY_PORT);
             ISocketConnection connection = connectionPool.getConnection(
-                    DB.SECURITY_HOST, DB.SECURITY_PORT, SocketConnectionPool.SOCKET_TYPE.ORIDINARY_SOCKET);
+                    DB.SECURITY_HOST, DB.SECURITY_PORT, SocketConnectionPool.SOCKET_TYPE.SSL_SOCKET);
             return connection;
         } catch (Exception e) {
             e.printStackTrace();

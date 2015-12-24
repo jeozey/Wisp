@@ -9,64 +9,65 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="onPageStarted" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
     <option name="TOOL_WINDOW_REGEXP_FILTER" value="false" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="4e0e8356-148b-461a-81b8-554faca27584" name="Default" comment="local socket is ok">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/center.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/center_p.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/left1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/left2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/left3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/left4.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/left_p1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/left_p2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/left_p3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/left_p4.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/pnetwork0.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/pnetwork1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/pnetwork2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/pnetwork3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/pnetwork4.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/pnetwork5.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/right1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/right2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/right3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/right4.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/right_p1.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/right_p2.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/right_p3.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/right_p4.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/java/com/rj/view/FloatView.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/service/NetConnectService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/NotificationUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/view/src/main/res/layout/float_layout.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/assets/test.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/assets/test2.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/assets/timer.html" />
-      <change type="DELETED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\src\main\java\com\rj\wisp\core\NetConnectService.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+    <list default="true" readonly="true" id="4e0e8356-148b-461a-81b8-554faca27584" name="Default" comment="NetConnectionService is ok">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/drawable-hdpi/default_ptr_flip.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/drawable-mdpi/default_ptr_flip.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/drawable-xhdpi/default_ptr_flip.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/drawable-hdpi/default_ptr_rotate.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/drawable-mdpi/default_ptr_rotate.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/drawable-xhdpi/default_ptr_rotate.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/drawable-hdpi/indicator_arrow.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/drawable-mdpi/indicator_arrow.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/drawable-xhdpi/indicator_arrow.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/EmptyViewMethodAccessor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/FlipLoadingLayout.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/ILoadingLayout.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/IPullToRefresh.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/IndicatorLayout.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/LoadingLayout.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/LoadingLayoutProxy.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/OverscrollHelper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshAdapterViewBase.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshBase.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshExpandableListView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshGridView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshHorizontalScrollView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshListView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshScrollView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshWebView.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/extras/PullToRefreshWebView2.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/Pullable.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/RotateLoadingLayout.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/extras/SoundPullEventListener.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/Utils.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/ViewCompat.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/values/attrs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/values/ids.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/drawable/indicator_bg_bottom.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/drawable/indicator_bg_top.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/values/pull_refresh_strings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/layout/pull_to_refresh_header_horizontal.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/layout/pull_to_refresh_header_vertical.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/anim/slide_in_from_bottom.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/anim/slide_in_from_top.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/anim/slide_out_to_bottom.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/res/anim/slide_out_to_top.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/AppLoadActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/AppLoadActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/base/BaseActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/base/BaseActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/bean/HandlerWhat.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/bean/HandlerWhat.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/activity/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/activity/LoginActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneLeftFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneLeftFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneMainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneMainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RJWebView.java" afterPath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RJWebView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RjWebViewClient.java" afterPath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RjWebViewClient.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/ServiceThread.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/ServiceThread.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/SocketFactory.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/SocketFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/SocketStreamUtil.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/SocketStreamUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/connection/build.gradle" afterPath="$PROJECT_DIR$/connection/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/build.gradle" afterPath="$PROJECT_DIR$/framework/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/otherlib/build.gradle" afterPath="$PROJECT_DIR$/otherlib/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sdkey/build.gradle" afterPath="$PROJECT_DIR$/sdkey/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/build.gradle" afterPath="$PROJECT_DIR$/util/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/build.gradle" afterPath="$PROJECT_DIR$/view/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vpn/build.gradle" afterPath="$PROJECT_DIR$/vpn/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/view/src/main/res/values/colors.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewCtrol.java" afterPath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewCtrol.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewCtrolImpl.java" afterPath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewCtrolImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewFactory.java" afterPath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/framework/src/main/res/values/dimens.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Wisp.iws" />
@@ -99,22 +100,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PhoneLeftFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneLeftFragment.java">
+      <file leaf-file-name="LocalSocketRequestTool.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/LocalSocketRequestTool.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="73" column="27" selection-start-line="73" selection-start-column="27" selection-end-line="73" selection-end-column="27" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WispApplication.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/base/WispApplication.java">
+      <file leaf-file-name="WebViewFactory.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="-3.6111112">
+              <caret line="72" column="9" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -122,22 +125,20 @@
       <file leaf-file-name="PhoneMainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneMainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.8055556">
-              <caret line="474" column="19" selection-start-line="474" selection-start-column="19" selection-end-line="474" selection-end-column="19" />
+            <state vertical-scroll-proportion="-1.7361112">
+              <caret line="676" column="73" selection-start-line="676" selection-start-column="73" selection-end-line="676" selection-end-column="73" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3778#4646#0" expanded="true" />
-                <element signature="e#4645#4646#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/activity/LoginActivity.java">
+      <file leaf-file-name="PhoneLeftFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneLeftFragment.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="171" column="56" selection-start-line="171" selection-start-column="56" selection-end-line="171" selection-end-column="56" />
+              <caret line="191" column="47" selection-start-line="191" selection-start-column="39" selection-end-line="191" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -146,19 +147,23 @@
       <file leaf-file-name="SocketFactory.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/SocketFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.11666667">
-              <caret line="25" column="105" selection-start-line="25" selection-start-column="105" selection-end-line="25" selection-end-column="105" />
+            <state vertical-scroll-proportion="1.2706767">
+              <caret line="25" column="99" selection-start-line="25" selection-start-column="99" selection-end-line="25" selection-end-column="99" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RjWebChromeClient.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RjWebChromeClient.java">
+      <file leaf-file-name="LoginActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/activity/LoginActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
-              <folding />
+            <state vertical-scroll-proportion="-2.2222223">
+              <caret line="275" column="47" selection-start-line="275" selection-start-column="47" selection-end-line="275" selection-end-column="47" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#5102#5366#0" expanded="true" />
+                <element signature="e#5365#5366#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -167,8 +172,58 @@
         <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewCtrolImpl.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="80" column="16" selection-start-line="80" selection-start-column="16" selection-end-line="80" selection-end-column="16" />
+              <caret line="57" column="43" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1062#1063#0" expanded="true" />
+                <element signature="e#1095#1096#0" expanded="true" />
+                <element signature="e#2600#3006#0" expanded="true" />
+                <element signature="e#3005#3006#0" expanded="true" />
+                <element signature="e#3986#4244#0" expanded="true" />
+                <element signature="e#4243#4244#0" expanded="true" />
+                <element signature="e#4286#4543#0" expanded="true" />
+                <element signature="e#4542#4543#0" expanded="true" />
+                <element signature="e#5174#5492#0" expanded="true" />
+                <element signature="e#5491#5492#0" expanded="true" />
+                <element signature="e#5536#5772#0" expanded="true" />
+                <element signature="e#5771#5772#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RjWebViewClient.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RjWebViewClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="27" column="28" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+              <folding>
+                <element signature="e#440#441#0" expanded="true" />
+                <element signature="e#488#489#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WebViewCtrol.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewCtrol.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NetConnectService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/service/NetConnectService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="334" column="41" selection-start-line="334" selection-start-column="41" selection-end-line="334" selection-end-column="41" />
+              <folding>
+                <element signature="e#5828#7764#0" expanded="true" />
+                <element signature="e#7763#7764#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -6474,32 +6529,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/task/Test.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/bean/MessageEvent.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/bean/ReSourceMessageEvent.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/task/SourceFileUtil.java" />
-        <option value="$PROJECT_DIR$/util/src/main/java/com/rj/util/FileUtil.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/bean/ResourceFile.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/bean/ConnectionStatus.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_appload.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/bean/HttpPkg.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/SettingActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/task/GetAppConfigTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/InitUtil.java" />
-        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/DB.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/LearnHttp.java" />
-        <option value="$PROJECT_DIR$/connection/src/main/java/com/rj/connection/ISocketConnection.java" />
-        <option value="$PROJECT_DIR$/connection/src/main/java/com/rj/connection/SDKeySocketConnection.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/LocalSocketRequestTool.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/task/AjaxGetResourcesTask.java" />
-        <option value="$PROJECT_DIR$/connection/src/main/java/com/rj/connection/SSLSocketConnection.java" />
-        <option value="$PROJECT_DIR$/connection/src/main/java/com/rj/connection/OrdinarySocketConnection.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/HttpServer.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/bean/ResourceMessageEvent.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/ServiceThread.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/SocketStreamUtil.java" />
-        <option value="$PROJECT_DIR$/view/src/main/res/values/colors.xml" />
-        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/NotificationUtil.java" />
         <option value="$PROJECT_DIR$/framework/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/NetConnectService.java" />
@@ -6512,17 +6541,43 @@
         <option value="$PROJECT_DIR$/sdkey/build.gradle" />
         <option value="$PROJECT_DIR$/vpn/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/base/BaseActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/AppLoadActivity.java" />
         <option value="$PROJECT_DIR$/framework/src/main/assets/test2.html" />
         <option value="$PROJECT_DIR$/framework/src/main/assets/test.html" />
         <option value="$PROJECT_DIR$/framework/src/main/assets/timer.html" />
         <option value="$PROJECT_DIR$/view/src/main/java/com/rj/view/FloatView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/service/NetConnectService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneLeftFragment.java" />
-        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewFactory.java" />
         <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RJWebView.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/activity/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/Pullable.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/PullableWebView.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/PullToRefreshBase.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/pullRefresh/PullToRefreshWebView.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/pullRefresh/ILoadingLayout.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/res/values/dimens.xml" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/pullRefresh/internal/LoadingLayout.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/pullRefresh/internal/IPullToRefresh.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/pullRefresh/internal/Utils.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/pullRefresh/PullToRefreshBase.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/pullRefresh/IPullToRefresh.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshBase.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/LoadingLayout.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/IndicatorLayout.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/RotateLoadingLayout.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/FlipLoadingLayout.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshAdapterViewBase.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshGridView.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshHorizontalScrollView.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshScrollView.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshListView.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshWebView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/AppLoadActivity.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewFactory.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/bean/HandlerWhat.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/ServiceThread.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewCtrol.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/activity/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewCtrolImpl.java" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RjWebViewClient.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneMainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/SocketFactory.java" />
       </list>
@@ -7469,6 +7524,64 @@
               <option name="myItemId" value="framework" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wisp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wisp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wisp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="anim" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -7484,8 +7597,12 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="framework" />
+              <option name="myItemId" value="com" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -7502,12 +7619,100 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="framework" />
+              <option name="myItemId" value="com" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="webview" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wisp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wisp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="internal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wisp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="library" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="extras" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wisp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -7739,11 +7944,11 @@
       <recent name="com.rj.wisp.base" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\WISP_SAFE_ANDROID_4.0\Wisp\framework\src\main\assets" />
-      <recent name="F:\WISP_SAFE_ANDROID_4.0\Wisp\view\src\main\res\mipmap-mdpi" />
-      <recent name="F:\WISP_SAFE_ANDROID_4.0\Wisp\view\src\main\res\layout" />
-      <recent name="F:\WISP_SAFE_ANDROID_4.0\Wisp\view\src\main\java\com\rj\view" />
-      <recent name="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\src\main\java\com\rj\wisp\service" />
+      <recent name="F:\WISP_SAFE_ANDROID_4.0\Wisp\framework\src\main\res\values" />
+      <recent name="F:\WISP_SAFE_ANDROID_4.0\Wisp\framework\src\main\res" />
+      <recent name="F:\WISP_SAFE_ANDROID_4.0\Wisp\framework\src\main\java" />
+      <recent name="F:\WISP_SAFE_ANDROID_4.0\Wisp\framework\src\main\java\com\rj\framework\pullRefresh" />
+      <recent name="F:\WISP_SAFE_ANDROID_4.0\Wisp\framework\src\main\java\com\rj\framework\pullRefresh\internal" />
     </key>
     <key name="android.template.packageName">
       <recent name="com.rj.wisp.ui.pad" />
@@ -8139,7 +8344,13 @@
       <option name="project" value="LOCAL" />
       <updated>1450874090918</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="NetConnectionService is ok">
+      <created>1450947956115</created>
+      <option name="number" value="00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1450947956115</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TodoView">
@@ -8155,13 +8366,14 @@
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.32976446" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="1111" y="57" width="725" height="87" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.32976446" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="1101" y="35" width="725" height="83" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28538284" sideWeight="0.78051394" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6148492" sideWeight="0.4550321" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.7540603" sideWeight="0.82280517" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39443156" sideWeight="0.4550321" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.65429235" sideWeight="0.82280517" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.4676409" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26334107" sideWeight="0.8940043" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946634" sideWeight="0.15899357" order="7" side_tool="true" content_ui="tabs" />
@@ -8169,7 +8381,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31670535" sideWeight="0.45289078" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37470996" sideWeight="0.17719486" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21895075" sideWeight="0.55" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5835267" sideWeight="0.65685225" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1937355" sideWeight="0.65685225" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946634" sideWeight="0.4850107" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -8180,7 +8392,6 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -8248,7 +8459,8 @@
     <MESSAGE value="Resource downLoad" />
     <MESSAGE value="Socket getBody() function fix" />
     <MESSAGE value="local socket is ok" />
-    <option name="LAST_COMMIT_MESSAGE" value="local socket is ok" />
+    <MESSAGE value="NetConnectionService is ok" />
+    <option name="LAST_COMMIT_MESSAGE" value="NetConnectionService is ok" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -8257,19 +8469,19 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewCtrolImpl.java</url>
-          <line>162</line>
+          <line>163</line>
           <properties />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RjWebViewClient.java</url>
-          <line>38</line>
+          <line>42</line>
           <properties />
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RjWebViewClient.java</url>
-          <line>37</line>
+          <line>41</line>
           <properties />
           <option name="timeStamp" value="6" />
         </line-breakpoint>
@@ -8287,7 +8499,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneMainActivity.java</url>
-          <line>491</line>
+          <line>490</line>
           <properties />
           <option name="timeStamp" value="24" />
         </line-breakpoint>
@@ -8335,7 +8547,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/ServiceThread.java</url>
-          <line>425</line>
+          <line>423</line>
           <properties />
           <option name="timeStamp" value="147" />
         </line-breakpoint>
@@ -8358,261 +8570,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/connection/src/main/java/com/rj/connection/SSLSocketConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="122" column="9" selection-start-line="122" selection-start-column="9" selection-end-line="122" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/connection/src/main/java/com/rj/connection/OrdinarySocketConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="324" column="0" selection-start-line="324" selection-start-column="0" selection-end-line="324" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Android/sdk/sources/android-23/java/io/InputStream.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="177" column="37" selection-start-line="177" selection-start-column="28" selection-end-line="177" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/LearnHttp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="60" selection-start-line="40" selection-start-column="60" selection-end-line="40" selection-end-column="60" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2705#2721#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Android/sdk/sources/android-23/java/util/ArrayList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="11" selection-start-line="80" selection-start-column="11" selection-end-line="80" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/HttpServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="103" column="96" selection-start-line="103" selection-start-column="96" selection-end-line="103" selection-end-column="96" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/bean/ResourceMessageEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/ServiceThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.636364">
-          <caret line="400" column="57" selection-start-line="400" selection-start-column="57" selection-end-line="400" selection-end-column="57" />
-          <folding>
-            <element signature="e#5519#5520#0" expanded="false" />
-            <element signature="e#5588#5589#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/SocketStreamUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="235" column="36" selection-start-line="235" selection-start-column="36" selection-end-line="235" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="49" selection-start-line="20" selection-start-column="49" selection-end-line="20" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/NotificationUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Android/sdk/sources/android-23/android/app/Notification.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.3173759">
-          <caret line="79" column="13" selection-start-line="79" selection-start-column="13" selection-end-line="79" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="31" column="50" selection-start-line="31" selection-start-column="50" selection-end-line="31" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/res/layout/float_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.1047618">
-          <caret line="29" column="34" selection-start-line="29" selection-start-column="34" selection-end-line="29" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/connection/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.4545455">
-          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.4545455">
-          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/util/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.4545455">
-          <caret line="7" column="24" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.030303">
-          <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/otherlib/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.030303">
-          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sdkey/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.6969697">
-          <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vpn/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62025315">
-          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/base/BaseActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="142" column="60" selection-start-line="142" selection-start-column="60" selection-end-line="142" selection-end-column="60" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#3671#3672#0" expanded="false" />
-            <element signature="e#3734#3735#0" expanded="false" />
-            <element signature="e#5475#5476#0" expanded="false" />
-            <element signature="e#5507#5508#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/AppLoadActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="244" column="92" selection-start-line="244" selection-start-column="92" selection-end-line="244" selection-end-column="92" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/LocalSocketRequestTool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="91" column="83" selection-start-line="91" selection-start-column="52" selection-end-line="91" selection-end-column="83" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/pnetwork1.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/src/main/res/mipmap-mdpi/left_p1.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://D:/Android/sdk/sources/android-23/android/os/Looper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="177" column="0" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RjWebChromeClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewCtrol.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewCtrolImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="16" selection-start-line="80" selection-start-column="16" selection-end-line="80" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/framework/src/main/assets/css/chucuo.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.17107943">
@@ -8685,35 +8642,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/service/NetConnectService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.4583333">
-          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-          <folding>
-            <element signature="e#2280#2473#0" expanded="true" />
-            <element signature="e#2472#2473#0" expanded="true" />
-            <element signature="e#5842#7778#0" expanded="true" />
-            <element signature="e#7777#7778#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Android/sdk/sources/android-23/android/view/View.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="8170" column="0" selection-start-line="8170" selection-start-column="0" selection-end-line="8170" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RJWebView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -8722,46 +8650,394 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneLeftFragment.java">
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/Pullable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
+        <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/framework/build/generated/source/r/debug/com/rj/framework/R.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.43548387">
+          <caret line="14" column="53" selection-start-line="14" selection-start-column="53" selection-end-line="14" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/res/values/dimens.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.08993576">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/res/values/attrs.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/res/layout/pull_to_refresh_header_vertical.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/extras/PullToRefreshWebView2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="89" column="16" selection-start-line="89" selection-start-column="16" selection-end-line="89" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/EmptyViewMethodAccessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/LoadingLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="43" column="22" selection-start-line="43" selection-start-column="22" selection-end-line="43" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/ViewCompat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/ILoadingLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/LoadingLayoutProxy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/RotateLoadingLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/res/values/ids.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.44954127">
+          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshListView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3119266">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshScrollView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="59" column="20" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshHorizontalScrollView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshGridView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="61" column="12" selection-start-line="61" selection-start-column="12" selection-end-line="61" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/res/anim/slide_out_to_top.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/IndicatorLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="49" column="57" selection-start-line="49" selection-start-column="57" selection-end-line="49" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshAdapterViewBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.96330273">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/internal/FlipLoadingLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3058104">
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Android/sdk/sources/android-23/android/view/View.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5233786">
+          <caret line="15277" column="16" selection-start-line="15277" selection-start-column="16" selection-end-line="15277" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/IPullToRefresh.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="101" column="13" selection-start-line="101" selection-start-column="13" selection-end-line="101" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7446808">
+          <caret line="183" column="19" selection-start-line="183" selection-start-column="19" selection-end-line="183" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#5897#5898#0" expanded="false" />
+            <element signature="e#5927#5928#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshWebView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.3992095">
+          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2853#2854#0" expanded="true" />
+            <element signature="e#2887#2888#0" expanded="true" />
+            <element signature="e#4357#4358#0" expanded="true" />
+            <element signature="e#4387#4388#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Android/sdk/sources/android-23/android/app/AlertDialog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.328">
+          <caret line="950" column="0" selection-start-line="950" selection-start-column="0" selection-end-line="950" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RjWebChromeClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.12568305">
+          <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/service/NetConnectService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="334" column="41" selection-start-line="334" selection-start-column="41" selection-end-line="334" selection-end-column="41" />
+          <folding>
+            <element signature="e#5828#7764#0" expanded="true" />
+            <element signature="e#7763#7764#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/bean/HandlerWhat.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.556701">
-          <caret line="18" column="40" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6" column="24" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/AppLoadActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.138889">
+          <caret line="248" column="73" selection-start-line="248" selection-start-column="73" selection-end-line="248" selection-end-column="73" />
+          <folding>
+            <element signature="e#7936#9407#0" expanded="true" />
+            <element signature="e#9406#9407#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/ServiceThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3882979">
+          <caret line="183" column="60" selection-start-line="183" selection-start-column="60" selection-end-line="183" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/LocalSocketRequestTool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="73" column="27" selection-start-line="73" selection-start-column="27" selection-end-line="73" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/activity/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.2222223">
+          <caret line="275" column="47" selection-start-line="275" selection-start-column="47" selection-end-line="275" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5102#5366#0" expanded="true" />
+            <element signature="e#5365#5366#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneLeftFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="191" column="47" selection-start-line="191" selection-start-column="39" selection-end-line="191" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.6111112">
+          <caret line="72" column="9" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewCtrolImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="57" column="43" selection-start-line="57" selection-start-column="43" selection-end-line="57" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1062#1063#0" expanded="true" />
+            <element signature="e#1095#1096#0" expanded="true" />
+            <element signature="e#2600#3006#0" expanded="true" />
+            <element signature="e#3005#3006#0" expanded="true" />
+            <element signature="e#3986#4244#0" expanded="true" />
+            <element signature="e#4243#4244#0" expanded="true" />
+            <element signature="e#4286#4543#0" expanded="true" />
+            <element signature="e#4542#4543#0" expanded="true" />
+            <element signature="e#5174#5492#0" expanded="true" />
+            <element signature="e#5491#5492#0" expanded="true" />
+            <element signature="e#5536#5772#0" expanded="true" />
+            <element signature="e#5771#5772#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RjWebViewClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="27" column="28" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+          <folding>
+            <element signature="e#440#441#0" expanded="true" />
+            <element signature="e#488#489#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewCtrol.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneMainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.8055556">
-          <caret line="474" column="19" selection-start-line="474" selection-start-column="19" selection-end-line="474" selection-end-column="19" />
+        <state vertical-scroll-proportion="-1.7361112">
+          <caret line="676" column="73" selection-start-line="676" selection-start-column="73" selection-end-line="676" selection-end-column="73" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3778#4646#0" expanded="true" />
-            <element signature="e#4645#4646#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/activity/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="171" column="56" selection-start-line="171" selection-start-column="56" selection-end-line="171" selection-end-column="56" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/SocketFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11666667">
-          <caret line="25" column="105" selection-start-line="25" selection-start-column="105" selection-end-line="25" selection-end-column="105" />
+        <state vertical-scroll-proportion="1.2706767">
+          <caret line="25" column="99" selection-start-line="25" selection-start-column="99" selection-end-line="25" selection-end-column="99" />
           <folding />
         </state>
       </provider>

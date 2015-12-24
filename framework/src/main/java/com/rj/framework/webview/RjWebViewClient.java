@@ -11,6 +11,7 @@ public class RjWebViewClient extends WebViewClient {
     private static final String TAG = "RjWebViewClient";
     WebViewCtrol webViewCtrol;
 
+
     public RjWebViewClient(WebViewCtrol webViewCtrol) {
         this.webViewCtrol = webViewCtrol;
     }
@@ -23,7 +24,7 @@ public class RjWebViewClient extends WebViewClient {
 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
-        Log.e(TAG, "onPageStarted:" + url);
+//        Log.e(TAG, "onPageStarted:" + url);
         webViewCtrol.onPageStarted(view, url, favicon);
     }
 
@@ -31,6 +32,9 @@ public class RjWebViewClient extends WebViewClient {
     public void onPageFinished(WebView view, String url) {
         Log.e(TAG, "onPageFinished:" + url);
         webViewCtrol.onPageFinished(view, url);
+        if (!view.getSettings().getLoadsImagesAutomatically()) {
+            view.getSettings().setLoadsImagesAutomatically(true);
+        }
     }
 
     @Override

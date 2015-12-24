@@ -15,6 +15,8 @@ import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshWebView;
 import com.rj.framework.DB;
 import com.rj.framework.webview.RjWebChromeClient;
 import com.rj.framework.webview.RjWebViewClient;
@@ -25,15 +27,16 @@ import com.rj.view.ToastTool;
 import com.rj.wisp.R;
 import com.rj.wisp.base.BaseActivity;
 import com.rj.wisp.base.WispApplication;
-import com.rj.wisp.core.ServiceThread;
+import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.ui.pad.PadMainActivity;
 import com.rj.wisp.ui.phone.PhoneMainActivity;
 import com.rj.wisp.ui.phone.SettingActivity;
 
 public class LoginActivity extends BaseActivity {
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = LoginActivity.class.getName();
     private WebView webView;
+    private WebViewCtrol webViewCtrol;
     private String popHomePageUrl = "";
     // private LoginSuccessBroadcastReceiver receiver;
 
@@ -101,7 +104,7 @@ public class LoginActivity extends BaseActivity {
         public boolean handleMessage(Message msg) {
             Log.e(TAG, "msg.what:" + msg.what);
             switch (msg.what) {
-                case ServiceThread.ADD_WEB_UI:
+                case HandlerWhat.ADD_WEB_UI:
                     if (msg.obj != null) {
                         String jsonStr = msg.obj.toString();
                         Log.e(TAG, "jsonStr:" + jsonStr);
@@ -146,22 +149,51 @@ public class LoginActivity extends BaseActivity {
             e.printStackTrace();
             return;
         }
-        // AppSystemTool.clearWebViewCookie(getBaseContext());
-        Log.e(TAG, "DB.LOGINPAGE_URL:" + DB.LOGINPAGE_URL);
+        final PullToRefreshWebView pullRefreshWebView = new PullToRefreshWebView(getBaseContext());
+        pullRefreshWebView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<WebView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<WebView> refreshView) {
+                webView.reload();
+                pullRefreshWebView.onRefreshComplete();
+            }
+        });
+        webView = pullRefreshWebView.getRefreshableView();
+        WebViewFactory.initWebView(getBaseContext(), webView);
+
+        webViewCtrol = new WebViewCtrolImpl(LoginActivity.this);
+        webView.setWebViewClient(new RjWebViewClient(webViewCtrol));
+        webView.setWebChromeClient(new RjWebChromeClient(LoginActivity.this, webViewCtrol));
+
+//        // AppSystemTool.clearWebViewCookie(getBaseContext());
+//        Log.e(TAG, "DB.LOGINPAGE_URL:" + DB.LOGINPAGE_URL);
+//        try {
+//            String url = getIntent().getStringExtra("url");
+////			url = "http://baidu.com";
+//            if (!TextUtils.isEmpty(url)) {
+//                webView = WebViewFactory.getNewWebView(LoginActivity.this, url);
+//
+//            } else
+////				webView = WebViewFactory.getNewWebView(LoginActivity.this, "http://127.0.0.1:8011/wisp_aas/ClientInfo.jsp?url=http%3A%2F%2F192.168.1.12%2Fhomepage.nsf");
+////                webView = WebViewFactory.getNewWebView(LoginActivity.this, "http://image.baidu.com/search/index?tn=baiduimage&ps=1&ct=201326592&lm=-1&cl=2&nc=1&ie=utf-8&word=图片");
+////                webView = WebViewFactory.getNewWebView(LoginActivity.this, "file:///android_asset/timer.html");
+//                webView = WebViewFactory.getNewWebView(LoginActivity.this, DB.PRE_URL + DB.LOGINPAGE_URL);
+//            clearCache(webView, true);// 清除下缓存
+//        } catch (Exception e) {
+//            webView = WebViewFactory.getNewWebView(LoginActivity.this, DB.PRE_URL + DB.LOGINPAGE_URL);
+//        }
+
+
         try {
             String url = getIntent().getStringExtra("url");
 //			url = "http://baidu.com";
             if (!TextUtils.isEmpty(url)) {
-                webView = WebViewFactory.getNewWebView(LoginActivity.this, url);
+                webView.loadUrl(url);
 
             } else
-//				webView = WebViewFactory.getNewWebView(LoginActivity.this, "http://127.0.0.1:8011/wisp_aas/ClientInfo.jsp?url=http%3A%2F%2F192.168.1.12%2Fhomepage.nsf");
-//                webView = WebViewFactory.getNewWebView(LoginActivity.this, "http://image.baidu.com/search/index?tn=baiduimage&ps=1&ct=201326592&lm=-1&cl=2&nc=1&ie=utf-8&word=图片");
-//                webView = WebViewFactory.getNewWebView(LoginActivity.this, "file:///android_asset/timer.html");
-                webView = WebViewFactory.getNewWebView(LoginActivity.this, DB.PRE_URL + DB.LOGINPAGE_URL);
+                webView.loadUrl(DB.PRE_URL + DB.LOGINPAGE_URL);
             clearCache(webView, true);// 清除下缓存
         } catch (Exception e) {
-            webView = WebViewFactory.getNewWebView(LoginActivity.this, DB.PRE_URL + DB.LOGINPAGE_URL);
+            webView.loadUrl(DB.PRE_URL + DB.LOGINPAGE_URL);
         }
 
 
@@ -181,15 +213,12 @@ public class LoginActivity extends BaseActivity {
             }, 1000);
         }
 
-        // webView = WebViewFactory.getNewWebView(LoginActivity.this,
-        // "http://jeozey.sinaapp.com/readme.html");
-        WebViewCtrol webViewCtrol = new WebViewCtrolImpl(LoginActivity.this);
-        webView.setWebViewClient(new RjWebViewClient(webViewCtrol));
-        webView.setWebChromeClient(new RjWebChromeClient(LoginActivity.this, webViewCtrol));
+
 
         LinearLayout leftLinearLayout = (LinearLayout) findViewById(R.id.loginLinearLayout);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        leftLinearLayout.addView(webView, layoutParams);
+//        leftLinearLayout.addView(webView, layoutParams);
+        leftLinearLayout.addView(pullRefreshWebView, layoutParams);
 
     }
 
@@ -242,6 +271,9 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        if (webViewCtrol != null) {
+            webViewCtrol.destoryWebViewCtrol();
+        }
         // if (receiver != null) {
         // unregisterReceiver(receiver);
         // }

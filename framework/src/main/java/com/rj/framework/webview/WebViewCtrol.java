@@ -25,4 +25,6 @@ public interface WebViewCtrol {
                      JsResult result);
 
     void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error);
+
+    void destoryWebViewCtrol();
 }

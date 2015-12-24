@@ -1,8 +1,8 @@
 package com.rj.framework.webview;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -13,67 +13,65 @@ import com.rj.framework.DB;
 public class WebViewFactory {
 
     private static int API = android.os.Build.VERSION.SDK_INT;
-    private static String mDefaultUserAgent;
-    private static WebSettings mSettings;
 
-    @SuppressLint("NewApi")
-    public static WebView getNewWebView(Activity activity, String url) {
+    public static WebView getNewWebView(Context context, String url) {
         Log.e("browser", "getNewWebView()");
-        WebView mWebView = new WebView(activity);
-        mWebView.setDrawingCacheBackgroundColor(0x00000000);
-        mWebView.setFocusableInTouchMode(true);
-        mWebView.setFocusable(true);
-        mWebView.setAnimationCacheEnabled(false);
-        mWebView.setDrawingCacheEnabled(true);
-        mWebView.setBackgroundColor(activity.getResources().getColor(
-                android.R.color.white));
-/*		if (API > 15) {
-            mWebView.getRootView().setBackground(null);
-		} else {*/
-        mWebView.getRootView().setBackgroundDrawable(null);
-//		}
-        mWebView.setWillNotCacheDrawing(false);
-        mWebView.setAlwaysDrawnWithCacheEnabled(true);
-        mWebView.setScrollbarFadingEnabled(true);
-        mWebView.setHorizontalScrollBarEnabled(false);
-        mWebView.setVerticalScrollBarEnabled(true);
-        mWebView.setSaveEnabled(true);
-        mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        WebView mWebView = new WebView(context);
+        initWebView(mWebView);
 
-        mDefaultUserAgent = mWebView.getSettings().getUserAgentString();
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        mWebView.getSettings().setUserAgentString(mDefaultUserAgent + DB.USER_AGENT);
-        mWebView.getSettings().setSupportMultipleWindows(true);
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        mWebView.getSettings().setSavePassword(false);
-        mWebView.getSettings().setSaveFormData(false);
-        mSettings = mWebView.getSettings();
-        initializeSettings(mWebView.getSettings(), activity);
+        initWebView(context, mWebView);
 
-//		Log.e("browser", "url:" + url);
-        if (url != null) {
-            if (!url.equals("")) {
-                mWebView.loadUrl(url);
-            }
-        } else {
-            //load home page
+        if (!TextUtils.isEmpty(url)) {
+            mWebView.loadUrl(url);
         }
+
         mWebView.requestFocus();
         return mWebView;
     }
 
-    @SuppressLint({"SetJavaScriptEnabled", "NewApi"})
+    private static void initWebView(WebView webView) {
+        if (Build.VERSION.SDK_INT >= 19) {
+            webView.getSettings().setLoadsImagesAutomatically(true);
+        } else {
+            webView.getSettings().setLoadsImagesAutomatically(false);
+        }
+    }
+
+    public static void initWebView(Context context, WebView mWebView) {
+        if (mWebView != null) {
+            mWebView.setDrawingCacheBackgroundColor(0x00000000);
+            mWebView.setFocusableInTouchMode(true);
+            mWebView.setFocusable(true);
+            mWebView.setAnimationCacheEnabled(false);
+            mWebView.setDrawingCacheEnabled(true);
+            mWebView.setBackgroundColor(context.getResources().getColor(
+                    android.R.color.white));
+            mWebView.getRootView().setBackgroundDrawable(null);
+            mWebView.setWillNotCacheDrawing(false);
+            mWebView.setAlwaysDrawnWithCacheEnabled(true);
+            mWebView.setScrollbarFadingEnabled(true);
+            mWebView.setHorizontalScrollBarEnabled(false);
+            mWebView.setVerticalScrollBarEnabled(true);
+            mWebView.setSaveEnabled(true);
+            mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+
+            initializeSettings(mWebView.getSettings(), context);
+        }
+    }
+
     public static void initializeSettings(WebSettings settings, Context context) {
+        settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setUserAgentString(settings.getUserAgentString() + DB.USER_AGENT);
+        settings.setSupportMultipleWindows(true);
+        settings.setSaveFormData(false);
+        settings.setSavePassword(false);//设置为true,系统会弹出AlertDialog确认框
         if (API < 18) {
             settings.setAppCacheMaxSize(Long.MAX_VALUE);
         }
         if (API < 17) {
             settings.setEnableSmoothTransition(true);
         }
-/*		if (API > 16) {
-            settings.setMediaPlaybackRequiresUserGesture(true);
-		}*/
         if (API < 19) {
             settings.setDatabasePath(context.getFilesDir().getAbsolutePath()
                     + "/databases");
@@ -96,70 +94,4 @@ public class WebViewFactory {
 			settings.setAllowUniversalAccessFromFileURLs(false);
 		}*/
     }
-//	public class LightningWebClient extends WebViewClient {
-//
-//		Context mActivity;
-//
-//		public LightningWebClient(Context context) {
-//			mActivity = context;
-//		}
-//		
-//		// 加载错误时要做的工作
-//		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-//			view.loadUrl("file:///android_asset/errorPage.html");
-//			DB.ERROR_URL = failingUrl;
-//		}
-//
-//		@Override
-//		public void onPageFinished(WebView view, String url) {
-//		}
-//
-//		@Override
-//		public void onPageStarted(WebView view, String url, Bitmap favicon) {
-//		}
-//
-//
-//		@Override
-//		public void onScaleChanged(WebView view, float oldScale, float newScale) {
-//			if (view.isShown()) {
-//				view.invalidate();
-//			}
-//		}
-//
-//
-//		@Override
-//		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//			Log.v("bug", "rjweb:" + url);
-//			if(url.indexOf("_method=attachment") != -1){ //附件下载拦截
-//				view.stopLoading(); //下载拦截，停止页面跳转
-////				DownLoadDialogTool.allowDownload = true;
-//				url = url.replace("_method=attachment", "_method=attachment&client=android");
-//				view.loadUrl(url);
-//				//更新视图
-//// 				DownLoadDialogTool.setContent(activity);
-////				DownLoadDialogTool.sendMsg(3,"-1"); //下载对话框
-//				return true;
-//			} else if (url.contains("tel:") || TextUtils.isDigitsOnly(url)) {
-//				mActivity.startActivity(new Intent(Intent.ACTION_DIAL, Uri
-//						.parse(url)));
-//				return true;
-//			} else if (url.startsWith("intent://")) {
-//				Intent intent = null;
-//				try {
-//					intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
-//				} catch (URISyntaxException ex) {
-//					return false;
-//				}
-//				if (intent != null) {
-//					try {
-//						mActivity.startActivity(intent);
-//					} catch (ActivityNotFoundException e) {
-//						Log.e("MyWebView", "ActivityNotFoundException");
-//					}
-//					return true;
-//				}
-//			}
-//			return super.shouldOverrideUrlLoading(view, url);
-//		}
-//	}
 }
