@@ -15,4 +15,6 @@ public class HandlerWhat {
     //connection
     public static final int GET_CONNECTION_SUCC = 4;
     public static final int GET_CONNECTION_FAIL = 5;
+
+    public static final int LOG_OUT = 30;
 }

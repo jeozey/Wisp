@@ -360,51 +360,6 @@ public class ServiceThread extends Thread {
     }
 
 
-    /*****
-     * 读取包体信息 返回json字符串 读取流 返回json字符串
-     *
-     * @return
-     * @throws NumberFormatException
-     * @throws IOException
-     */
-    public String getJsonFromWebview() throws NumberFormatException,
-            IOException {
-
-       /* StringBuilder sb = new StringBuilder();
-        String jsonData = "";
-        int contentLength = 0;
-        String line = "";
-        while ((line = webView_reader.readLine()) != null) {
-            Log.e("request", "line:" + line);
-            if ("".equals(line)) {
-                break;
-            } else if (line.indexOf("Content-Length") != -1) {
-                contentLength = Integer.parseInt(line.substring(line
-                        .indexOf("Content-Length") + 16));
-            }
-            sb.append(line + "\r\n");
-        }
-
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        CharArrayWriter charArrayWriter = new CharArrayWriter();
-        char[] b = new char[1024];
-        int i = 0;
-        while ((i = webView_reader.read(b, 0, b.length)) > 0) {
-//            bos.write(b, 0, i);
-            charArrayWriter.write(b, 0, i);
-            if (i < 1024)
-                break;
-        }
-//        bos.close();
-        charArrayWriter.flush();
-        jsonData = charArrayWriter.toString();
-        charArrayWriter.close();
-        Log.e("request", "getJsonFromWebview:" + contentLength + "---"
-                + jsonData.length());
-        Log.e("request", "getJsonFromWebview:" + jsonData);
-        return jsonData;*/
-        return "";
-    }
 
 
     /**
@@ -438,12 +393,15 @@ public class ServiceThread extends Thread {
 
             String contentLength = map.get(Content_Length);
             if (!TextUtils.isEmpty(contentLength)) {
-                Log.e(TAG, "contentLength:" + contentLength + " head.length:" + head.length());
+
                 int len = Integer.valueOf(contentLength);
-                //为什么这句在POST的时候会卡住
+                if (len > 0) {
+                    Log.e(TAG, "contentLength:" + contentLength);
 //                byte[] body = SocketStreamUtil.getHttpBody(webViewSocket.getInputStream(), len);
-                byte[] body = SocketStreamUtil.getHttpBody(webView_reader, len);
-                pkg.setBody(body);
+                    byte[] body = SocketStreamUtil.getHttpBody(webView_reader, len);
+                    Log.e(TAG, "contentLength:" + contentLength + " body.length:" + body.length);
+                    pkg.setBody(body);
+                }
             }
             Log.e(TAG, "getWebViewRequest over:" + firstLine);
             return pkg;

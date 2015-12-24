@@ -169,6 +169,7 @@ public class PhoneLeftFragment extends Fragment {
             Log.e(TAG, "DB.LOGINPAGE_URL" + DB.LOGINPAGE_URL);
             Log.e(TAG, "DB.HOMEPAGE_URL" + DB.HOMEPAGE_URL);
             if (webView == null) {
+//                webView = WebViewFactory.getNewWebView(activity, "file:///android_asset/test.html");
                 webView = WebViewFactory.getNewWebView(activity, DB.PRE_URL
                         + DB.HOMEPAGE_URL);
                 // webView = WebViewFactory.getNewWebView(activity,

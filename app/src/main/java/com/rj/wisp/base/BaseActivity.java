@@ -20,8 +20,8 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.rj.view.TabMenu;
 import com.rj.wisp.R;
-import com.rj.wisp.core.NetConnectService;
 import com.rj.wisp.core.WispCore;
+import com.rj.wisp.service.NetConnectService;
 
 
 public class BaseActivity extends Activity {

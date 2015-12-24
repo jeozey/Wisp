@@ -60,9 +60,10 @@ import com.rj.view.loading.ProgressDialogTool;
 import com.rj.wisp.R;
 import com.rj.wisp.activity.LoginActivity;
 import com.rj.wisp.base.WispApplication;
-import com.rj.wisp.core.NetConnectService;
+import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.core.ServiceThread;
 import com.rj.wisp.core.WispCore;
+import com.rj.wisp.service.NetConnectService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +121,9 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
             try {
                 Log.e(TAG, "msg.what:" + msg.what);
                 switch (msg.what) {
+                    case HandlerWhat.LOG_OUT:
+                        logOut();
+                        break;
                     case ServiceThread.ADD_WEB_UI:
                         addWebUI(msg);
                         break;
@@ -228,6 +232,10 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
     }
 
+    private void showSetting() {
+        startActivity(new Intent(PhoneMainActivity.this,
+                SettingActivity.class));
+    }
     protected void onTapMenuSelect(int position) {
         switch (position) {
             case 0:
@@ -241,8 +249,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                         LoginActivity.class));
                 break;
             case 2:
-                startActivity(new Intent(PhoneMainActivity.this,
-                        SettingActivity.class));
+                showSetting();
                 break;
             case 3:
                 exitApp();
@@ -424,9 +431,6 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                 });
 
             } else {
-//				settingMenuBtn.setText("● ● ●");
-//				settingMenuBtn.setGravity(Gravity.CENTER);
-//				settingMenuBtn.setTextColor(Color.WHITE);
 
                 settingPopMenu = new PopMenu(PhoneMainActivity.this, handler,
                         new PopMenu.PopMenuOnItemClickListener() {
@@ -435,10 +439,10 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                             public void onItemClick(int index) {
                                 switch (index) {
                                     case 0:
-                                        handler.sendEmptyMessage(35);
+                                        handler.sendEmptyMessage(HandlerWhat.LOG_OUT);
                                         break;
                                     case 1:
-                                        handler.sendEmptyMessage(31);
+                                        showSetting();
                                         break;
 
                                     default:

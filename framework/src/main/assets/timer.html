@@ -1,0 +1,39 @@
+<div class="jf_register" xmlns:fmt="http://www.w3.org/1999/XSL/Transform">
+    <h2>您好，欢迎光临
+        <fmt:message key="b2cShowName"/>
+        ！<a class="blue" href="<%=path%>/LoginRegist_turnToLogin">请登录</a></h2>
+</div>
+<div class="jf_register_banner">注册成功</div>
+<div class="jf_password">
+    <ul>
+        <li> 感谢您选择
+            <fmt:message key="b2cShowName"/>
+            ，
+        </li>
+        <li>您的账号<span>
+<font color=red><strong>${param.bussinessId}</strong></font></span>已经注册成功。
+        </li>
+        <li>系统将会在<strong id="endtime"></strong>秒后跳转到登录页！
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a class="blue" href="<%=path%>/LoginRegist_turnToLogin">直接登录</a></li>
+    </ul>
+</div>
+<div class="jf_loginfooter">
+    <fmt:message key="copyright"/>
+    &nbsp;版权所有&nbsp;|
+    <a href="Login_loginHelpTips">联系我们</a>
+    <fmt:message key="copyrightIcp"/>
+</div>
+
+<script type="text/javascript">  
+var i = 20;  
+function remainTime(){  
+    if(i==0){  
+        location.href='<%=path%>';  
+    }  
+    document.getElementById('endtime').innerHTML=i--;  
+    setTimeout("remainTime()",1000);  
+}  
+remainTime();  
+
+</script>

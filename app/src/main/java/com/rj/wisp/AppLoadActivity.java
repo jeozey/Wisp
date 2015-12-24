@@ -20,12 +20,12 @@ import com.rj.sdkey.view.PhoneLoginView;
 import com.rj.view.ToastTool;
 import com.rj.wisp.activity.LoginActivity;
 import com.rj.wisp.base.BaseActivity;
-import com.rj.wisp.bean.ConnectionStatus;
 import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.bean.ResourceMessageEvent;
 import com.rj.wisp.core.InitUtil;
 import com.rj.wisp.core.LocalSocketRequestTool;
 import com.rj.wisp.core.WispCore;
+import com.rj.wisp.service.NetConnectService;
 import com.rj.wisp.ui.phone.SettingActivity;
 
 import de.greenrobot.event.EventBus;
@@ -242,8 +242,7 @@ public class AppLoadActivity extends BaseActivity {
                     new MyAsyncTask().execute(CHECK_RESOURCE);
                     break;
                 case HandlerWhat.GET_CONNECTION_SUCC:
-                    ConnectionStatus status = (ConnectionStatus) msg.obj;
-                    Log.e(TAG, "status:" + status);
+                    startService(new Intent(AppLoadActivity.this, NetConnectService.class));
                     new MyAsyncTask().execute(CHECK_VERSION);
                     break;
                 case HandlerWhat.GET_CONNECTION_FAIL:

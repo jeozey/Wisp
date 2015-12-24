@@ -185,24 +185,24 @@ public class SocketStreamUtil {
     }
 
     public static byte[] getHttpBody(InputStream in, int contentLength) {
-        try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            int b = 0;
-            int i = 0;
-            while ((b = in.read()) != -1) {
-                bos.write(b);
-                i++;
-//                Log.e(TAG,"contentLength:"+contentLength+" i:"+i);
-                if (i >= contentLength) {
-                    Log.e(TAG, "contentLength:" + contentLength + " i:" + i + " break");
-                    break;
-                }
-            }
-            return bos.toByteArray();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+//        try {
+//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//            int b = 0;
+//            int i = 0;
+//            while ((b = in.read()) != -1) {
+//                bos.write(b);
+//                i++;
+////                Log.e(TAG,"contentLength:"+contentLength+" i:"+i);
+//                if (i >= contentLength) {
+//                    Log.e(TAG, "contentLength:" + contentLength + " i:" + i + " break");
+//                    break;
+//                }
+//            }
+//            return bos.toByteArray();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
 
 //        try {
 //            int readBytes = 0;
@@ -223,21 +223,33 @@ public class SocketStreamUtil {
 //        return null;
 
         //顶上方法在addWebUI上面有问题，Content-Length和实际的数据长度不一致
-//        try {
-//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//            byte[] b = new byte[1024];
-//            int i = 0;
-//            while ((i = in.read(b, 0, b.length)) > 0) {
-//                bos.write(b, 0, i);
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            int size = 1024;
+            if (contentLength > 4096) {
+                size = 10240;
+            } else if (contentLength > 2048) {
+                size = 4096;
+            } else if (contentLength > 1024) {
+                size = 2048;
+            }
+            byte[] b = new byte[size];
+            int i = 0;
+            while ((i = in.read(b)) != -1) {
+                bos.write(b, 0, i);
+//                Log.e(TAG,"i:"+i);
+                //这句话不对,不一定都是满的1024,所以不能此处退出
 //                if (i < 1024)
 //                    break;
-//            }
+                if (i >= contentLength)
+                    break;
+            }
 //            Log.e(TAG,"contentLength:"+contentLength+" bos.toByteArray().length:"+bos.toByteArray().length);
-//            return bos.toByteArray();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return null;
+            return bos.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

@@ -16,4 +16,8 @@
     <color name="custom">#ff0099CC</color>
     <color name="sticky">#ffffcd5a</color>
 
+    <!--connection float-->
+    <color name="float_textView1">#0795de</color>
+    <color name="float_textView2">#06b917</color>
+
 </resources>

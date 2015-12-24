@@ -28,7 +28,8 @@
             android:name=".ui.phone.SettingActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
-        <activity
+
+        <activityppl
             android:name=".ui.pad.PadMainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
@@ -39,6 +40,16 @@
             android:name=".ui.phone.PhoneMainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
+
+        <!--service-->
+        <service
+            android:name="com.rj.wisp.service.NetConnectService"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.rj.core.TrafficService" />
+            </intent-filter>
+        </service>
+        <!--service-->
     </application>
 
 </manifest>

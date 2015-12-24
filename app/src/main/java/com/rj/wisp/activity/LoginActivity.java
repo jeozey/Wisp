@@ -107,6 +107,7 @@ public class LoginActivity extends BaseActivity {
                         Log.e(TAG, "jsonStr:" + jsonStr);
                         // 有注销按钮则说明登陆成功
                         if (!TextUtils.isEmpty(jsonStr) && jsonStr.indexOf("logout") != -1) {
+                            webView.stopLoading();
                             loginSuccess(jsonStr);
                         }
                     }
@@ -155,6 +156,8 @@ public class LoginActivity extends BaseActivity {
 
             } else
 //				webView = WebViewFactory.getNewWebView(LoginActivity.this, "http://127.0.0.1:8011/wisp_aas/ClientInfo.jsp?url=http%3A%2F%2F192.168.1.12%2Fhomepage.nsf");
+//                webView = WebViewFactory.getNewWebView(LoginActivity.this, "http://image.baidu.com/search/index?tn=baiduimage&ps=1&ct=201326592&lm=-1&cl=2&nc=1&ie=utf-8&word=图片");
+//                webView = WebViewFactory.getNewWebView(LoginActivity.this, "file:///android_asset/timer.html");
                 webView = WebViewFactory.getNewWebView(LoginActivity.this, DB.PRE_URL + DB.LOGINPAGE_URL);
             clearCache(webView, true);// 清除下缓存
         } catch (Exception e) {
@@ -246,6 +249,36 @@ public class LoginActivity extends BaseActivity {
         // 清除缓存
         clearCache(webView, true);
         super.onDestroy();
+    }
+
+
+    private String logoutEvent;
+
+    private void logOut() {
+        Log.e(TAG, "logOut WispApplication.isLogin:" + WispApplication.isLogin);
+        Log.e(TAG, "logOut logoutEvent:" + logoutEvent);
+        if (!WispApplication.isLogin) {
+            return;
+        }
+        if (!TextUtils.isEmpty(logoutEvent)) {
+            try {
+                WispCore.getWISPSO().CloseService();
+
+//                stopNoticeScorll();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Intent data = new Intent();
+            data.putExtra("logoutEvent", logoutEvent);
+            // setResult(1, data);
+            data.putExtra("isUserOff", true);
+            data.setClass(getBaseContext(), LoginActivity.class);
+            startActivity(data);
+            finish();
+        } else {
+            ToastTool.show(getBaseContext(), "未获取到注销事件!", Toast.LENGTH_SHORT);
+            Log.e(TAG, "注销事件为空");
+        }
     }
 
 
