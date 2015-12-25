@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONException;
 import com.rj.framework.DB;
 import com.rj.util.FileUtil;
 import com.rj.wisp.bean.HttpPkg;
+import com.rj.wisp.bean.ResourceConfigSaveEvent;
 import com.rj.wisp.bean.ResourceFile;
 import com.rj.wisp.bean.ResourceMessageEvent;
 import com.rj.wisp.core.Commons;
@@ -38,7 +39,12 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
     private Map<String, ResourceFile> needDownLoadResources = new HashMap<>();
     private Map<String, ResourceFile> downFailResources = new HashMap<>();
 
+    public void onEvent(ResourceConfigSaveEvent event) {
+        saveConfigFile();
+    }
+
     public AjaxGetResourcesTask() {
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -49,9 +55,6 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
 
         final String result = params[0];
         if (result != null) {
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
             try {
                 getData(result);
             } catch (JSONException e) {
@@ -62,8 +65,6 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
                 EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_GET_FAIL, null));
             }
-//                }
-//            }).start();
         } else {
             EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_GET_FAIL, null));
 
@@ -102,28 +103,6 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(final String result) {
-//
-//        if (result != null) {
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        getData(result);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                        new File(resourceJsonPath).delete();
-//                        EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_CONFIG_FORMAT_FAIL, null));
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                        EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_GET_FAIL, null));
-//                    }
-//                }
-//            }).start();
-//        } else {
-//            EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_GET_FAIL, null));
-//
-//        }
-
         super.onPostExecute(result);
     }
 
@@ -221,15 +200,7 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
                                 hasDownCount++;
                                 Log.e(TAG, "needDownLoadResources.size():" + needDownLoadResources.size());
                                 if (hasDownCount == needDownLoadResources.size()) {
-                                    Log.e(TAG, "write begin");
-                                    String json = com.alibaba.fastjson.JSON.toJSONString(localResources.values());
-                                    try {
-                                        FileUtil.writeFile(new File(resourceJsonPath), json.getBytes());
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                        EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_WRITE_FAIL_FAIL, null));
-                                    }
-                                    Log.e(TAG, "write over");
+                                    saveConfigFile();
                                     EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_END, downFailResources.size()));
                                 }
                             }
@@ -240,11 +211,25 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
         }
     }
 
+    private void saveConfigFile() {
+        if (localResources != null && localResources.size() > 0) {
+            Log.e(TAG, "write begin");
+            String json = com.alibaba.fastjson.JSON.toJSONString(localResources.values());
+            try {
+                FileUtil.writeFile(new File(resourceJsonPath), json.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+                EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_WRITE_FAIL_FAIL, null));
+            }
+            Log.e(TAG, "write over");
+        }
+        //注销订阅
+        EventBus.getDefault().unregister(this);
+    }
     private void downResource(Map<String, ResourceFile> allNeedDownLoadResources) {
         //下载开始
         EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_START, allNeedDownLoadResources.size()));
-        //注册订阅
-        EventBus.getDefault().register(this);
+
         ExecutorService executor = Executors.newFixedThreadPool(5);
         Iterator iterator = allNeedDownLoadResources.entrySet().iterator();
         Log.e(TAG, "allNeedDownLoadResources.size():" + allNeedDownLoadResources.size());

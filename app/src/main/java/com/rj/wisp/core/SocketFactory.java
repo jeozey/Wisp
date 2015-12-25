@@ -17,13 +17,14 @@ public class SocketFactory {
 
     public static ISocketConnection getSSLSocket() {
         try {
+            Log.e(TAG, "SECURITY_HOST:" + DB.SECURITY_HOST + " SECURITY_PORT:" + DB.SECURITY_PORT);
             if (connectionPool == null) {
                 connectionPool = SocketConnectionManager
                         .getInstance().getSocketConnectionPool();
             }
-            Log.e(TAG, "SECURITY_HOST:" + DB.SECURITY_HOST + " SECURITY_PORT:" + DB.SECURITY_PORT);
+
             ISocketConnection connection = connectionPool.getConnection(
-                    DB.SECURITY_HOST, DB.SECURITY_PORT, SocketConnectionPool.SOCKET_TYPE.SSL_SOCKET);
+                    DB.SECURITY_HOST, DB.SECURITY_PORT, SocketConnectionPool.SOCKET_TYPE.ORIDINARY_SOCKET);
             return connection;
         } catch (Exception e) {
             e.printStackTrace();

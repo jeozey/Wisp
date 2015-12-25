@@ -27,7 +27,7 @@ public class HttpServer implements Runnable {
         return hasStart;
     }
 
-    public void stopHttpServer() {
+    public static void stopHttpServer() {
         Log.e(TAG, "stopHttpServer0");
         hasStart = false;
         stopFlg = true;
@@ -108,7 +108,9 @@ public class HttpServer implements Runnable {
                     executorService.execute(new ServiceThread(webViewSocket, handler, context));
 //                    threadPool.execute(new ServiceThread(webViewSocket, handler, context));
 //                    new Thread(new ServiceThread(webViewSocket, handler, context)).start();
-
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    break;
                 } catch (Exception e) {
                     e.printStackTrace();
                     try {

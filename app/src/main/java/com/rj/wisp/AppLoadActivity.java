@@ -20,6 +20,7 @@ import com.rj.sdkey.view.PhoneLoginView;
 import com.rj.view.ToastTool;
 import com.rj.wisp.base.BaseActivity;
 import com.rj.wisp.bean.HandlerWhat;
+import com.rj.wisp.bean.ResourceConfigSaveEvent;
 import com.rj.wisp.bean.ResourceMessageEvent;
 import com.rj.wisp.core.InitUtil;
 import com.rj.wisp.core.LocalSocketRequestTool;
@@ -35,6 +36,12 @@ public class AppLoadActivity extends BaseActivity {
     private static final int CheckConnectionTimeAll = 6;
     private int checkConnectionTime = 0;
     private LocalSocketRequestTool localSocketRequestTool;
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().post(new ResourceConfigSaveEvent());
+    }
 
     @Override
     public void onDestroy() {

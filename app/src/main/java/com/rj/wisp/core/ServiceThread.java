@@ -8,7 +8,9 @@ import android.util.Log;
 
 import com.rj.connection.ISocketConnection;
 import com.rj.framework.DB;
+import com.rj.framework.WISPComponentsParser;
 import com.rj.util.FileUtil;
+import com.rj.view.button.ButtonNum;
 import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.bean.HttpPkg;
 
@@ -116,12 +118,34 @@ public class ServiceThread extends Thread {
                 handleAjaxRequest(httpPkg);
             } else if (head_line.indexOf("@@LocalSocket") != -1) {
                 handleLocalSocketRequest(head_line);
+            } else if (head_line.indexOf("newAttachment") != -1) {
+                handleAttachment(httpPkg);
             } else {
                 httpRequest(httpPkg);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void handleAttachment(HttpPkg httpPkg) {
+        //因为是ajax请求,所以要返回
+        responseEmptyToWebView();
+
+        String head_line = httpPkg.getHeadLine();
+        Log.e(TAG, "handleAttachment:" + head_line);
+
+        if (head_line.indexOf("type%3Durl") != -1 || head_line.indexOf("type=Durl") != -1) {
+            checkForAttachmentChange(httpPkg);
+        } else {
+            checkForAttachmentChange(httpPkg);
+        }
+    }
+
+    //附件转换
+    private void checkForAttachmentChange(HttpPkg httpPkg) {
+        HttpPkg pkg = sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), httpPkg.getBody());
+        Log.e(TAG, "checkForAttachmentChange:" + pkg.getHead());
     }
 
     private void handleLocalSocketRequest(String head_line) throws Exception {
@@ -141,7 +165,7 @@ public class ServiceThread extends Thread {
         if (head_line.indexOf("addWebUI") != -1) {
             addWebUi(httpPkg);
         } else if (head_line.indexOf("addWebBtnNum") != -1) {
-            addWebBtnNum();
+            addWebBtnNum(httpPkg);
         } else if (head_line.indexOf("@@ShowProgressDialog@@") != -1) {
             showProgressDialog();
         } else if (head_line.indexOf("@@DismissProgressDialog@@") != -1) {
@@ -155,7 +179,28 @@ public class ServiceThread extends Thread {
         responseWebView("HTTP/1.0 200 OK\r\n", "".getBytes());
     }
 
-    private void addWebBtnNum() {
+    private void addWebUi(HttpPkg httpPkg) throws IOException {
+        Log.e(TAG, "addWebUi:" + handler);
+        if (handler != null) {
+            String jsonStr = new String(httpPkg.getBody(), getCharSet(httpPkg));
+
+            Log.v(TAG, "addWebUi:" + jsonStr);
+            Message msg = handler.obtainMessage(HandlerWhat.ADD_WEB_UI);
+            msg.obj = jsonStr;
+            handler.sendMessage(msg);
+
+        }
+    }
+
+    private void addWebBtnNum(HttpPkg httpPkg) throws IOException {
+        Log.e(TAG, "addWebBtnNum:" + httpPkg.getHead());
+        String jsonStr = new String(httpPkg.getBody(), getCharSet(httpPkg));
+
+        ButtonNum buttonNum = WISPComponentsParser
+                .getButtonNumber(jsonStr);
+        Message msg = handler.obtainMessage(HandlerWhat.ADD_WEB_BTN_NUM);
+        msg.obj = buttonNum;
+        handler.sendMessage(msg);
     }
 
     private void showProgressDialog() throws IOException {
@@ -204,18 +249,7 @@ public class ServiceThread extends Thread {
 
     }
 
-    private void addWebUi(HttpPkg httpPkg) throws IOException {
-        Log.e(TAG, "addWebUi:" + handler);
-        if (handler != null) {
-            String jsonStr = new String(httpPkg.getBody(), getCharSet(httpPkg));
 
-            Log.v(TAG, "addWebUi:" + jsonStr);
-            Message msg = handler.obtainMessage(HandlerWhat.ADD_WEB_UI);
-            msg.obj = jsonStr;
-            handler.sendMessage(msg);
-
-        }
-    }
 
     private void getResource(HttpPkg httpPkg) throws Exception {
         String head_line = httpPkg.getHeadLine();
@@ -279,8 +313,6 @@ public class ServiceThread extends Thread {
 //            //通知订阅者下载完一个资源
 //            EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_SUCC, filename));
                 }
-            } else {
-                responseEmptyToWebView();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -501,35 +533,38 @@ public class ServiceThread extends Thread {
 
     private void responseWebView(String head, byte[] body) {
         try {
-            Log.e(TAG, "socket:" + webViewSocket);
-            webView_os = webViewSocket.getOutputStream();
+            //检测是否关闭
+            if (!webViewSocket.isClosed()) {
+                Log.e(TAG, "socket:" + webViewSocket);
+                webView_os = webViewSocket.getOutputStream();
 
-            //是否为注销页面（影响效率,考虑是否在webview直接判断）
-            checkLoginOut(head);
+                //是否为注销页面（影响效率,考虑是否在webview直接判断）
+                checkLoginOut(head);
 
 //            Log.e("responseWebView", "head123:" + new String(head));
-            if (head != null) {
-                webView_os.write(head.getBytes());
+                if (head != null) {
+                    webView_os.write(head.getBytes());
 
-                if (head.endsWith(Commons.CRLF2_STR)) {
+                    if (head.endsWith(Commons.CRLF2_STR)) {
 
-                } else if (head.endsWith(Commons.CRLF_STR)) {
-                    webView_os.write(Commons.CRLF_BYTE);
-                } else {
-                    webView_os.write(Commons.CRLF2_BYTE);
+                    } else if (head.endsWith(Commons.CRLF_STR)) {
+                        webView_os.write(Commons.CRLF_BYTE);
+                    } else {
+                        webView_os.write(Commons.CRLF2_BYTE);
+                    }
+
                 }
 
-            }
 
-
-            if (body != null) {
+                if (body != null) {
 //                if(head.indexOf("config/html")==-1) {
 //                    Log.e(TAG, "response to web:" + new String(body));
 //                }
-                webView_os.write(body);
+                    webView_os.write(body);
+                }
+                webView_os.close();
+                Log.e("responseWebView", "responseWebView over");
             }
-            webView_os.close();
-            Log.e("responseWebView", "responseWebView over");
 
         } catch (IOException e) {
             e.printStackTrace();

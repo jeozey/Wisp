@@ -1,6 +1,6 @@
 package com.rj.wisp.ui.phone;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -34,7 +34,7 @@ import java.util.Map;
 
 public class PhoneWebChromeClient extends WebChromeClient {
     private static final String TAG = "PhoneWebChromeClient";
-    private Activity activity;
+    private Context context;
     private RelativeLayout childLayout;
     private RelativeLayout browserLayout;
     private PhoneHorizontalBtns horizontalBtns;
@@ -86,9 +86,9 @@ public class PhoneWebChromeClient extends WebChromeClient {
         }
     }
 
-    public PhoneWebChromeClient(Activity activity, RelativeLayout wrappingLayout,
+    public PhoneWebChromeClient(Context context, RelativeLayout wrappingLayout,
                                 RelativeLayout browserLayout) {
-        this.activity = activity;
+        this.context = context;
         this.childLayout = wrappingLayout;
         this.browserLayout = browserLayout;
         webViews = new LinkedList<WebView>();
@@ -118,7 +118,7 @@ public class PhoneWebChromeClient extends WebChromeClient {
             initializeTabs(tablist, tabWidget);
             tabButtons.put(webView.hashCode(), tablist);// 保存form页面的tab按钮
 
-//			horizontalBtns = (PhoneHorizontalBtns) activity
+//			horizontalBtns = (PhoneHorizontalBtns) context
 //					.findViewById(R.id.form_bottom_navigate_bar);
             ArrayList<CustomWidgetButton> list = new ArrayList<CustomWidgetButton>();
             CustomWidgetButton info;
@@ -128,17 +128,17 @@ public class PhoneWebChromeClient extends WebChromeClient {
                     backBtn = new CustomWidgetButton();
                     backBtn.setType(CustomWidgetButton.ButtonType.LeftBtn);
                     backBtn.setTitle(customButton.getButtontext());
-//					backBtn.setBeforeImg(activity.getResources().getDrawable(
+//					backBtn.setBeforeImg(context.getResources().getDrawable(
 //							R.drawable.return_icon60));
-                    backBtn.setBeforeImg(ButtonFactory.getDrawable(activity, customButton.getBeforeimg()));
-                    backBtn.setAfterImg(ButtonFactory.getDrawable(activity, customButton.getAfterimg()));
+                    backBtn.setBeforeImg(ButtonFactory.getDrawable(context, customButton.getBeforeimg()));
+                    backBtn.setAfterImg(ButtonFactory.getDrawable(context, customButton.getAfterimg()));
                     backBtn.setCallBack(customButton.getClickevent());
                     list.add(backBtn);
                 } else if ("operationbtn".equalsIgnoreCase(customButton.getType())) {
                     info = new CustomWidgetButton();
-                    info.setBeforeImg(ButtonFactory.getDrawable(activity,
+                    info.setBeforeImg(ButtonFactory.getDrawable(context,
                             customButton.getBeforeimg()));
-                    info.setAfterImg(ButtonFactory.getDrawable(activity, customButton.getAfterimg()));
+                    info.setAfterImg(ButtonFactory.getDrawable(context, customButton.getAfterimg()));
                     try {
                         info.setNum(Integer.parseInt(customButton.getNumber()));
                     } catch (Exception e) {
@@ -167,7 +167,7 @@ public class PhoneWebChromeClient extends WebChromeClient {
     public void initializeTabs(List<CustomButton> tablist, TopTabLayoutWidget tabWidget) {
         try {
             this.tabWidget = tabWidget;
-//			final TopTabLayoutWidget tabWidget = (TopTabLayoutWidget) activity.findViewById(R.id.tabLayoutWidget);
+//			final TopTabLayoutWidget tabWidget = (TopTabLayoutWidget) context.findViewById(R.id.tabLayoutWidget);
             Log.e(TAG, "initializeTabs");
             tabWidget.setVisibility(View.VISIBLE);
             List<CustomWidgetButton> buttons = new ArrayList<CustomWidgetButton>();
@@ -180,14 +180,16 @@ public class PhoneWebChromeClient extends WebChromeClient {
                 btn.setIsclick(button.getIsclick());
                 buttons.add(btn);
             }
-            DisplayMetrics mDisplayMetrics = new DisplayMetrics();
-            activity.getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
+//            DisplayMetrics mDisplayMetrics = new DisplayMetrics();
+//            context.getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
+
+            DisplayMetrics mDisplayMetrics = context.getResources().getDisplayMetrics();
 
             tabWidget.init(mDisplayMetrics.widthPixels, buttons, new TopTabLayoutWidget.ITabLayoutWidget() {
 
                 @Override
                 public void callBack(String callBack) {
-//					Toast.makeText(activity, callBack, Toast.LENGTH_SHORT).show();
+//					Toast.makeText(context, callBack, Toast.LENGTH_SHORT).show();
                     if (!TextUtils.isEmpty(callBack)) {
                         loadUrl(callBack);
                     }
@@ -227,7 +229,7 @@ public class PhoneWebChromeClient extends WebChromeClient {
     @Override
     public boolean onJsAlert(WebView view, String url, String message,
                              JsResult result) {
-        WebViewCtrol a = (WebViewCtrol) activity;
+        WebViewCtrol a = (WebViewCtrol) context;
         a.onJsAlert(view, url, message, result);
         return true;
     }
@@ -235,38 +237,46 @@ public class PhoneWebChromeClient extends WebChromeClient {
     @Override
     public void onCloseWindow(WebView window) {
         Log.e("NNN", "onCloseWindow");
-        if (webViews.size() > 1) {
-            Log.e("NNN", "back to parent:" + webViews.size());
-            WebView wb = webViews.pop();
-            browserLayout.removeAllViews();
-            ViewGroup parent = (ViewGroup) wb.getParent();
-            if (parent != null) {
-                parent.removeAllViews();
-            }
-            browserLayout.addView(wb);
+        closeCurrentWebView();
+        super.onCloseWindow(window);
+    }
+
+    public void closeCurrentWebView() {
+        try {
+            if (webViews.size() > 1) {
+                Log.e("NNN", "back to parent:" + webViews.size());
+                WebView wb = webViews.pop();
+                browserLayout.removeAllViews();
+                ViewGroup parent = (ViewGroup) wb.getParent();
+                if (parent != null) {
+                    parent.removeAllViews();
+                }
+                browserLayout.addView(wb);
 
 
-            //恢复底部按钮
-            ArrayList<CustomWidgetButton> buttons = formButtons.get(wb.hashCode());
-            if (buttons != null) {
-                initHorizontalBtns(horizontalBtns, buttons);
-            }
-            //恢复tab标签
-            ArrayList<CustomButton> tabBtns = tabButtons.get(wb
-                    .hashCode());
-            if (tabBtns != null) {
-                initializeTabs(tabBtns, tabWidget);
-            }
-            //给当前webview赋值
-            webView = wb;
+                //恢复底部按钮
+                ArrayList<CustomWidgetButton> buttons = formButtons.get(wb.hashCode());
+                if (buttons != null) {
+                    initHorizontalBtns(horizontalBtns, buttons);
+                }
+                //恢复tab标签
+                ArrayList<CustomButton> tabBtns = tabButtons.get(wb
+                        .hashCode());
+                if (tabBtns != null) {
+                    initializeTabs(tabBtns, tabWidget);
+                }
+                //给当前webview赋值
+                webView = wb;
 //			if(wb!=null){
 //				//重新生成顶部和底部的按钮栏（用于返回上一步  但是全部window.close的时候也调用了一次 浪费了 ）
 //				wb.reload();
 //			}
-        } else {
-            closeChild();
+            } else {
+                closeChild();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        super.onCloseWindow(window);
     }
 
     @Override
@@ -286,9 +296,9 @@ public class PhoneWebChromeClient extends WebChromeClient {
 
 
         // now create a new web view
-        webView = WebViewFactory.getNewWebView(activity, null);
+        webView = WebViewFactory.getNewWebView(context, null);
         webView.setWebChromeClient(this);
-        webView.setWebViewClient(new RjWebViewClient((WebViewCtrol) activity));
+        webView.setWebViewClient(new RjWebViewClient((WebViewCtrol) context));
         // add the new web view to the layout
         webView.setLayoutParams(new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -300,9 +310,9 @@ public class PhoneWebChromeClient extends WebChromeClient {
         resultMsg.sendToTarget();
 
         // let's be cool and slide the new web view up into view
-        Animation slideUp = AnimationUtils.loadAnimation(activity,
-                R.anim.slide_left);
-        childLayout.startAnimation(slideUp);
+//        Animation slideUp = AnimationUtils.loadAnimation(context,
+//                R.anim.slide_left);
+//        childLayout.startAnimation(slideUp);
         return true;
     }
 
@@ -310,7 +320,7 @@ public class PhoneWebChromeClient extends WebChromeClient {
      * Lower the child web view down
      */
     public void closeChild() {
-        Animation slideDown = AnimationUtils.loadAnimation(activity,
+        Animation slideDown = AnimationUtils.loadAnimation(context,
                 R.anim.slide_right);
         childLayout.startAnimation(slideDown);
         slideDown.setAnimationListener(new Animation.AnimationListener() {

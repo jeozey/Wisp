@@ -28,13 +28,14 @@ import com.rj.wisp.base.WispApplication;
 
 public class PhoneLeftFragment extends Fragment {
     private static final String TAG = "PhoneLeftFragment";
-    private Activity activity;
+    private Context context;
     private WebView webView;
     PhoneWebChromeClient phoneWebChromeClient;
 
     public void closeFormView() {
         if (phoneWebChromeClient != null && phoneWebChromeClient.isChildOpen()) {
-            phoneWebChromeClient.closeChild();
+            phoneWebChromeClient.closeCurrentWebView();
+//            phoneWebChromeClient.closeChild();
         }
     }
 
@@ -75,9 +76,7 @@ public class PhoneLeftFragment extends Fragment {
 //	}
     public void updateBottomTabBar(String data) {
         if (phoneWebChromeClient != null) {
-            final PhoneHorizontalBtns horizontalBtns = (PhoneHorizontalBtns) activity
-                    .findViewById(R.id.form_bottom_navigate_bar);
-            final TopTabLayoutWidget tabWidget = (TopTabLayoutWidget) activity.findViewById(R.id.tabLayoutWidget);
+
             phoneWebChromeClient.updateBottomTabBar(data, horizontalBtns, tabWidget);
         }
 
@@ -123,11 +122,14 @@ public class PhoneLeftFragment extends Fragment {
      * Fragment第一次附属于Activity时调用,在onCreate之前调用
      */
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         System.out.println("LeftFragment--->onAttach");
 
-        this.activity = activity;
+        this.context = context;
+        horizontalBtns = (PhoneHorizontalBtns) ((Activity) context)
+                .findViewById(R.id.form_bottom_navigate_bar);
+        tabWidget = (TopTabLayoutWidget) ((Activity) context).findViewById(R.id.tabLayoutWidget);
     }
 
     @Override
@@ -136,11 +138,15 @@ public class PhoneLeftFragment extends Fragment {
         System.out.println("LeftFragment--->onCreate");
     }
 
+    private PhoneHorizontalBtns horizontalBtns;
+    private TopTabLayoutWidget tabWidget;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         System.out.println("LeftFragment--->onCreateView");
-        return inflater.inflate(R.layout.phone_left_fragment, container, false);
+        View view = inflater.inflate(R.layout.phone_left_fragment, container, false);
+
+        return view;
     }
 
     /**
@@ -172,14 +178,8 @@ public class PhoneLeftFragment extends Fragment {
             Log.e(TAG, "DB.HOMEPAGE_URL" + DB.HOMEPAGE_URL);
             if (webView == null) {
 //                webView = WebViewFactory.getNewWebView(activity, "file:///android_asset/test.html");
-                webView = WebViewFactory.getNewWebView(activity, DB.PRE_URL
+                webView = WebViewFactory.getNewWebView(context, DB.PRE_URL
                         + DB.HOMEPAGE_URL);
-                // webView = WebViewFactory.getNewWebView(activity,
-                // "http://jeozey.sinaapp.com/readme.html");
-                // webView.setWebViewClient(new
-                // RjWebViewClient(leftFragmentWebViewCtrol));
-                // webView.setWebChromeClient(new RjWebChromeClient(activity,
-                // leftFragmentWebViewCtrol));
 
                 RelativeLayout browserLayout = (RelativeLayout) getActivity()
                         .findViewById(R.id.mainBrowserLayout);
@@ -187,11 +187,11 @@ public class PhoneLeftFragment extends Fragment {
                         .findViewById(R.id.right_fragment_layout);
 
                 //设置webview
-                phoneWebChromeClient = new PhoneWebChromeClient(activity,
+                phoneWebChromeClient = new PhoneWebChromeClient(context,
                         childLayout, browserLayout);
                 webView.setWebChromeClient(phoneWebChromeClient);
                 webView.setWebViewClient(new RjWebViewClient(
-                        (WebViewCtrol) activity));
+                        (WebViewCtrol) context));
 
 
                 LinearLayout leftLinearLayout = (LinearLayout) getActivity()

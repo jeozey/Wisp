@@ -51,6 +51,7 @@ import com.rj.util.PixelTool;
 import com.rj.view.PopMenu;
 import com.rj.view.TabMenu;
 import com.rj.view.ToastTool;
+import com.rj.view.button.ButtonNum;
 import com.rj.view.button.CustomButton;
 import com.rj.view.button.CustomWidgetButton;
 import com.rj.view.button.NoticeBean;
@@ -130,6 +131,9 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                     case HandlerWhat.ADD_WEB_UI:
                         addWebUI(msg);
                         break;
+                    case HandlerWhat.ADD_WEB_BTN_NUM:
+                        addWebBtnNum(msg);
+                        break;
                     case HandlerWhat.SHOW_LOADING:
                         showProgressDialog();
                         break;
@@ -146,23 +150,6 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         }
     };
 
-    //动态添加界面按钮
-    private void addWebUI(Message msg) {
-        topTitleBar.setVisibility(View.VISIBLE);
-
-        if (leftFragment != null && leftFragment.isFormViewOpen()) {
-            Log.e(TAG, "msgD" + msg.obj);
-            leftFragment.updateBottomTabBar(msg.obj.toString());
-        } else {
-            Log.e(TAG, "msgD1" + msg.obj.toString());
-            String data = msg.obj.toString();
-            // 只有注销按钮的情况也要获取注销事件
-            if (data != null && (data.indexOf("menubtn") != -1)
-                    || (data.indexOf("logout") != -1)) {
-                updateBottomButtonBar(data);
-            }
-        }
-    }
 
 
     private void logOut() {
@@ -334,6 +321,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e(TAG, "onCreate");
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.phone_main);
         topTitleBar = (LinearLayout) findViewById(R.id.top_navigate_bar);
@@ -500,7 +488,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
             //noinspection unchecked
             collectionlist = map.get("collectionlist");
-            @SuppressWarnings("unchecked") List<CustomButton> buttonlist = map.get("bottombtnlist");
+            List<CustomButton> buttonlist = map.get("bottombtnlist");
 
             /***
              * 添加顶部公告栏
@@ -613,10 +601,33 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
     // }
     // }
 
+
+    //动态添加界面按钮
+    private void addWebUI(Message msg) {
+        topTitleBar.setVisibility(View.VISIBLE);
+
+        if (leftFragment != null && leftFragment.isFormViewOpen()) {
+            Log.e(TAG, "msgD" + msg.obj);
+            leftFragment.updateBottomTabBar(msg.obj.toString());
+        } else {
+            Log.e(TAG, "msgD1" + msg.obj.toString());
+            String data = msg.obj.toString();
+            // 只有注销按钮的情况也要获取注销事件
+            if (data != null && (data.indexOf("menubtn") != -1)
+                    || (data.indexOf("logout") != -1)) {
+                updateBottomButtonBar(data);
+            }
+        }
+    }
+
+
     // 更新条数
-    public void updateButtonNumAsynchronous(String type, String buttonText,
-                                            String number) {
+    public void addWebBtnNum(Message msg) {
         try {
+            ButtonNum btnNum = (ButtonNum) msg.obj;
+            String type = btnNum.getType();
+            String buttonText = btnNum.getButtonText();
+            String number = btnNum.getNumber();
             Log.e(TAG, "type:" + type);
             //更多里面的条数
             if ("appbtn".equals(type)) {
