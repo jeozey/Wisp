@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        layout="@layout/phone_main_top_layout" />
+        layout="@layout/phone_main_top_layout"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/left_fragment_layout"
@@ -38,7 +39,8 @@
         android:id="@+id/bottom_navigate_bar"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
 
     <include
         android:layout_width="match_parent"

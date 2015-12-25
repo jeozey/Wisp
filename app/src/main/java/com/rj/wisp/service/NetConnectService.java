@@ -201,6 +201,7 @@ public class NetConnectService extends Service {
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            Log.e(TAG, "msg.what:" + msg.what);
             ConnectionStatus status = (ConnectionStatus) msg.obj;
             if (status == null)
                 return;

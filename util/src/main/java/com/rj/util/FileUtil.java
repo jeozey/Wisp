@@ -104,6 +104,9 @@ public class FileUtil {
 
     public static final void writeFile(File file, byte[] content)
             throws IOException {
+        if (content == null) {
+            return;
+        }
         File folder = file.getParentFile();
         if (!folder.isDirectory() && !folder.exists()) {
             Log.e(TAG, "mkdirs:" + folder.getAbsolutePath());

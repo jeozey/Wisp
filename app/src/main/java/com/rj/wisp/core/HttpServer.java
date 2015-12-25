@@ -27,7 +27,7 @@ public class HttpServer implements Runnable {
         return hasStart;
     }
 
-    public static void stopHttpServer() {
+    public void stopHttpServer() {
         Log.e(TAG, "stopHttpServer0");
         hasStart = false;
         stopFlg = true;
@@ -43,6 +43,25 @@ public class HttpServer implements Runnable {
         Log.e(TAG, "stopHttpServer1");
     }
 
+    public void startHttpServer() throws IOException {
+        Log.e(TAG, "开启服务线程");
+        if (serverSocket == null) {
+//				serverSocket = new ServerSocket();
+//				int size = serverSocket.getReceiveBufferSize();
+//				if (size < 131072)
+//					serverSocket.setReceiveBufferSize(131072); // 把缓冲区的大小设为128K
+//				Log.e(TAG, "bind:"+DB.HTTPSERVER_HOST+":"+DB.HTTPSERVER_PORT);
+//				serverSocket.bind(new InetSocketAddress(DB.HTTPSERVER_PORT)); // 与端口绑定
+//				serverSocket.setSoTimeout(30000); // 超时设置
+            serverSocket = new ServerSocket(DB.HTTPSERVER_PORT);
+        }
+        // 启动线程
+        Thread thread = new Thread(HttpServer.this);
+        thread.setDaemon(true);// 守护线程
+        thread.start();
+        Log.e(TAG, "启动HttpServer成功！端口为：" + DB.HTTPSERVER_PORT);
+    }
+
     public void changeHttpServer(Handler handler, Context context) {
         this.handler = handler;
         this.context = context;
@@ -56,23 +75,8 @@ public class HttpServer implements Runnable {
             }
             this.handler = handler;
             this.context = context;
-            Log.e(TAG, "开启服务线程");
-            if (serverSocket == null) {
-//				serverSocket = new ServerSocket();
-//				int size = serverSocket.getReceiveBufferSize();
-//				if (size < 131072)
-//					serverSocket.setReceiveBufferSize(131072); // 把缓冲区的大小设为128K
-//				Log.e(TAG, "bind:"+DB.HTTPSERVER_HOST+":"+DB.HTTPSERVER_PORT);
-//				serverSocket.bind(new InetSocketAddress(DB.HTTPSERVER_PORT)); // 与端口绑定
-//				serverSocket.setSoTimeout(30000); // 超时设置
-                serverSocket = new ServerSocket(DB.HTTPSERVER_PORT);
-            }
-            // 启动线程
-            Thread thread = new Thread(this);
-            thread.setDaemon(true);// 守护线程
-            thread.start();
-            Log.e(TAG, "启动HttpServer成功！端口为：" + DB.HTTPSERVER_PORT);
 
+            startHttpServer();
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

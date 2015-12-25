@@ -120,6 +120,10 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
             try {
                 Log.e(TAG, "msg.what:" + msg.what);
                 switch (msg.what) {
+                    case HandlerWhat.LOGIN_PAGE:
+                        topTitleBar.setVisibility(View.GONE);
+                        bottomMenus.setVisibility(View.GONE);
+                        break;
                     case HandlerWhat.LOG_OUT:
                         logOut();
                         break;
@@ -144,6 +148,8 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
     //动态添加界面按钮
     private void addWebUI(Message msg) {
+        topTitleBar.setVisibility(View.VISIBLE);
+
         if (leftFragment != null && leftFragment.isFormViewOpen()) {
             Log.e(TAG, "msgD" + msg.obj);
             leftFragment.updateBottomTabBar(msg.obj.toString());
@@ -162,24 +168,25 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
     private void logOut() {
         Log.e(TAG, "logOut WispApplication.isLogin:" + WispApplication.isLogin);
         Log.e(TAG, "logOut logoutEvent:" + logoutEvent);
-        if (!WispApplication.isLogin) {
-            return;
-        }
+//        if (!WispApplication.isLogin) {
+//            return;
+//        }
         if (!TextUtils.isEmpty(logoutEvent)) {
-            try {
-                WispCore.getWISPSO().CloseService();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return;
-            }
-            Intent data = new Intent();
-            data.putExtra("logoutEvent", logoutEvent);
-            // setResult(1, data);
-            data.putExtra("isUserOff", true);
-            data.setClass(getBaseContext(), LoginActivity.class);
-            startActivity(data);
-            finish();
+//            try {
+//                WispCore.getWISPSO().CloseService();
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return;
+//            }
+//            Intent data = new Intent();
+//            data.putExtra("logoutEvent", logoutEvent);
+//            // setResult(1, data);
+//            data.putExtra("isUserOff", true);
+//            data.setClass(getBaseContext(), LoginActivity.class);
+//            startActivity(data);
+//            finish();
+            leftFragment.loadUrl(logoutEvent);
         } else {
             ToastTool.show(PhoneMainActivity.this, "未获取到注销事件!", Toast.LENGTH_SHORT);
             Log.e(TAG, "注销事件为空");
@@ -319,6 +326,8 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         super.onDestroy();
     }
 
+    private LinearLayout topTitleBar;
+    private PhoneHorizontalBtns bottomMenus;
     /**
      * Called when the activity is first created.
      */
@@ -327,6 +336,9 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.phone_main);
+        topTitleBar = (LinearLayout) findViewById(R.id.top_navigate_bar);
+        bottomMenus = (PhoneHorizontalBtns) findViewById(R.id.bottom_navigate_bar);
+
         System.out.println("Activity--->onCreate");
         // 如果不是正常调转到主页面 则退出
         if (TextUtils.isEmpty(DB.SECURITY_HOST)
@@ -335,7 +347,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
             finish();
         }
 
-        if (TextUtils.isEmpty(DB.HOMEPAGE_URL)) {
+        if (TextUtils.isEmpty(DB.LOGINPAGE_URL)) {
             ToastTool.show(PhoneMainActivity.this, "主页面地址不存在,请联系管理员解决 ", 1);
         }
 
@@ -467,8 +479,8 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         if (!TextUtils.isEmpty(buttonsJson)) {
             updateBottomButtonBar(buttonsJson);
         }
-        Log.e(TAG, "DB.HOMEPAGE_URL:" + DB.HOMEPAGE_URL);
-        leftFragment.loadUrl(DB.PRE_URL + DB.HOMEPAGE_URL);
+        Log.e(TAG, "DB.LOGINPAGE_URL:" + DB.LOGINPAGE_URL);
+        leftFragment.loadUrl(DB.PRE_URL + DB.LOGINPAGE_URL);
     }
 
     private String logoutEvent = "";
@@ -678,7 +690,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         try {
             Log.v(TAG, "onPageStarted:" + url);
             if (loadDialog != null && !loadDialog.isShowing()) {
-//                loadDialog.show();
+                loadDialog.show();
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -27,7 +27,7 @@ public class LocalSocketRequestTool {
     private static final byte[] CRLF = {CR, LF};
     private static final String _CRLF = "\r\n";
     private static final int TIME_OUT = 60000;
-    private static final int CONNECTION_TIME_OUT = 10000;//检测网络连接,时间较短
+    private static final int CONNECTION_TIME_OUT = 20000;//检测网络连接,时间较短
     private static final String CHECK_CONNECTION = "SOCKET /@@LocalSocket/checkConnection\r\n";
     private static final String VERSION_UPDATE = "SOCKET /@@LocalSocket/versionUpdate/android\r\n";
     private static final String THE_NEW_VERSION = "THE_NEW_VERSION";

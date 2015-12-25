@@ -18,14 +18,14 @@ import android.widget.Toast;
 import com.rj.framework.DB;
 import com.rj.sdkey.view.PhoneLoginView;
 import com.rj.view.ToastTool;
-import com.rj.wisp.activity.LoginActivity;
 import com.rj.wisp.base.BaseActivity;
 import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.bean.ResourceMessageEvent;
 import com.rj.wisp.core.InitUtil;
 import com.rj.wisp.core.LocalSocketRequestTool;
 import com.rj.wisp.core.WispCore;
-import com.rj.wisp.service.NetConnectService;
+import com.rj.wisp.ui.pad.PadMainActivity;
+import com.rj.wisp.ui.phone.PhoneMainActivity;
 import com.rj.wisp.ui.phone.SettingActivity;
 
 import de.greenrobot.event.EventBus;
@@ -43,9 +43,25 @@ public class AppLoadActivity extends BaseActivity {
     }
 
     private void showLoginView() {
-        ToastTool.show(getBaseContext(), "初始化成功", Toast.LENGTH_SHORT);
-        startActivity(new Intent(this, LoginActivity.class));
+//        startActivity(new Intent(this, PhoneMainActivity.class));
+
+        WispCore.getWISPSO().CloseService();
+
+        if (DB.isPhone) {
+            Intent intent = new Intent(this, PhoneMainActivity.class);
+            intent.putExtra("success", "true");
+            intent.putExtra("popHomePageUrl", "");
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, PadMainActivity.class);
+            intent.putExtra("success", "true");
+            intent.putExtra("popHomePageUrl", "");
+            startActivity(intent);
+        }
+
+        finish();
     }
+
 
     // Called in Android UI's main thread
     public void onEventMainThread(ResourceMessageEvent event) {
@@ -123,7 +139,7 @@ public class AppLoadActivity extends BaseActivity {
                 @Override
                 public void loginSuccess() {
                     ToastTool.show(AppLoadActivity.this, "验证成功", Toast.LENGTH_LONG);
-                    startActivity(new Intent(AppLoadActivity.this, LoginActivity.class));
+                    showLoginView();
                 }
 
                 @Override
@@ -242,7 +258,7 @@ public class AppLoadActivity extends BaseActivity {
                     new MyAsyncTask().execute(CHECK_RESOURCE);
                     break;
                 case HandlerWhat.GET_CONNECTION_SUCC:
-                    startService(new Intent(AppLoadActivity.this, NetConnectService.class));
+//                    startService(new Intent(AppLoadActivity.this, NetConnectService.class));
                     new MyAsyncTask().execute(CHECK_VERSION);
                     break;
                 case HandlerWhat.GET_CONNECTION_FAIL:

@@ -29,6 +29,7 @@ import com.rj.wisp.AppLoadActivity;
 import com.rj.wisp.R;
 import com.rj.wisp.bean.AppConfig;
 import com.rj.wisp.core.InitUtil;
+import com.rj.wisp.core.WispCore;
 import com.rj.wisp.task.GetAppConfigTask;
 import com.rj.wisp.ui.adapter.PhoneSettingAdapter;
 
@@ -330,7 +331,7 @@ public class SettingActivity extends Activity implements View.OnClickListener, P
         //重启新的HTTP Server监听
 //                WispCore.getWISPSO().CloseService();
 //                WispCore.getWISPSO().StartService(new Handler(), getBaseContext());
-//        WispCore.getWISPSO().changeHttpServer();
+        WispCore.getWISPSO().restartHttpServer();
 
         // 回调到activity处理
         final GetAppConfigTask getAppConfigTask = new GetAppConfigTask(

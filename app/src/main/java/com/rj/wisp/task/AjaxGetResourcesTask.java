@@ -10,6 +10,7 @@ import com.rj.util.FileUtil;
 import com.rj.wisp.bean.HttpPkg;
 import com.rj.wisp.bean.ResourceFile;
 import com.rj.wisp.bean.ResourceMessageEvent;
+import com.rj.wisp.core.Commons;
 import com.rj.wisp.core.LocalSocketRequestTool;
 
 import java.io.File;
@@ -280,23 +281,29 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
 
         HttpPkg httpPkg = new LocalSocketRequestTool().getLocalSocketRequest(sb.toString().getBytes(), null);
 
-        String resourcePath = filepath;
         String filename = filepath;
-        if (httpPkg != null) {
 
-            File file = new File(DB.RESOURCE_PATH
-                    + filename);
+        if (httpPkg.getHead().get(Commons.HTTP_HEAD).indexOf(Commons.NOT_FOUND) == -1) {
 
-            try {
-                FileUtil.writeFile(file, httpPkg.getBody());
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (httpPkg != null && httpPkg.getBody() != null) {
+
+                File file = new File(DB.RESOURCE_PATH
+                        + filename);
+
+                try {
+                    FileUtil.writeFile(file, httpPkg.getBody());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    //通知订阅者下载失败一个资源
+                    EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_FAIL, filename));
+                }
+
+                //通知订阅者下载完成一个资源
+                EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_SUCC, filename));
+            } else {
                 //通知订阅者下载失败一个资源
                 EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_FAIL, filename));
             }
-
-            //通知订阅者下载完成一个资源
-            EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_SUCC, filename));
         } else {
             //通知订阅者下载失败一个资源
             EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_FAIL, filename));

@@ -9,7 +9,6 @@ import android.util.Log;
 import com.rj.connection.ISocketConnection;
 import com.rj.framework.DB;
 import com.rj.util.FileUtil;
-import com.rj.util.GzipUtil;
 import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.bean.HttpPkg;
 
@@ -22,7 +21,6 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 作者：志文 on 2015/11/18 0018 15:19
@@ -30,16 +28,7 @@ import java.util.Map;
  */
 public class ServiceThread extends Thread {
     private static final String TAG = ServiceThread.class.getName();
-    private static final String CONTENT_TYPE = "Content-Type";
-    private static final String CHARSET = "charset";
-    private static final String HTTP_HEAD = "httpHead";
-    private static final String Content_Length = "Content-Length";
-    private static final String NOT_FOUND = "404 Not Found";
-    private static final byte CR = '\r';
-    private static final byte LF = '\n';
-    private static final byte[] CRLF = {CR, LF};
-    private static final String _CRLF = "\r\n";
-    private static final String _CRLF2 = "\r\n\r\n";
+
     private Socket webViewSocket;
     private Handler handler;
     private DataInputStream webView_reader;
@@ -64,7 +53,7 @@ public class ServiceThread extends Thread {
                 if (httpPkg == null) {
                     return;
                 }
-                Log.v(TAG, "httpPkg content-length:" + httpPkg.getHead().get(Content_Length));
+                Log.v(TAG, "httpPkg content-length:" + httpPkg.getHead().get(Commons.Content_Length));
 //                Log.e(TAG, "httpPkg.getHead():" + httpPkg.getHead());
                 handleHttpPkg(httpPkg);
             }
@@ -199,7 +188,7 @@ public class ServiceThread extends Thread {
 
     private String getCharSet(HttpPkg httpPkg) {
         try {
-            String contentType = httpPkg.getHead().get(CONTENT_TYPE);
+            String contentType = httpPkg.getHead().get(Commons.CONTENT_TYPE);
             int i = contentType.indexOf("charset=");
             if (i != -1) {
                 String c = contentType.substring(i + 8);
@@ -262,50 +251,39 @@ public class ServiceThread extends Thread {
         Log.v(TAG, "下载资源:" + head_line);
 
         // 对中间件发送数据包
-        Log.v(TAG, "下载资源---请求中间件:");
-        ISocketConnection connection = null;
         try {
-            /** *2.与中间件交互** */
-            connection = SocketFactory.getSSLSocket();
 
-            //到时候Gzip全部去掉
-            byte[] content = GzipUtil.byteCompress(httpPkg.getHead().get(HTTP_HEAD).getBytes(), DB.IS_GZIP);
-
-            connection.write(content);
-            connection.write(CRLF);
+            HttpPkg pkg = sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), null);
 
 
-            HashMap<String, String> head_sb = connection.getHttpHead2();
+            HashMap<String, String> head_sb = pkg.getHead();
             Log.e(TAG, "head_sb:" + "@" + head_line + "@" + head_sb);
 
-            if (head_sb.get(HTTP_HEAD).indexOf(NOT_FOUND) == -1) {
-                int contentLength = Integer.valueOf(head_sb.get("Content-Length"));
-                byte[] body = connection.getHttpBody(contentLength);
+            if (head_sb.get(Commons.HTTP_HEAD).indexOf(Commons.NOT_FOUND) == -1) {
+                byte[] body = pkg.getBody();
+                if (body != null) {
 
-                Log.e(TAG, "body.length:" + body.length + " contentLength:" + contentLength);
-                responseWebView(head_sb.get("httpHead"), body);
+                    Log.e(TAG, "body.length:" + body.length);
+//                    responseWebView(head_sb.get(Commons.HTTP_HEAD), body);
 
-                Log.e(TAG, "writeFile:" + writeFile);
-                if (writeFile) {
-                    String filename = head_line.substring(
-                            head_line.indexOf("config/html"), head_line.length() - 9);
-                    File file = new File(DB.RESOURCE_PATH
-                            + filename);
-                    FileUtil.writeFile(file, body);
-                }
+                    Log.e(TAG, "writeFile:" + writeFile);
+                    if (writeFile) {
+                        String filename = head_line.substring(
+                                head_line.indexOf("config/html"), head_line.length() - 9);
+                        File file = new File(DB.RESOURCE_PATH
+                                + filename);
+                        FileUtil.writeFile(file, body);
+                    }
 //
 //            Log.e(TAG, "下载完毕,发送通知");
 //            //通知订阅者下载完一个资源
 //            EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_SUCC, filename));
+                }
             } else {
                 responseEmptyToWebView();
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                connection.close();
-            }
         }
     }
 
@@ -379,9 +357,9 @@ public class ServiceThread extends Thread {
             Log.e(TAG, "firstLine:" + firstLine);
             pkg.setHeadLine(firstLine);
             HashMap<String, String> map = SocketStreamUtil.getHttpHead(webView_reader);
-            String head = map.get(HTTP_HEAD);
+            String head = map.get(Commons.HTTP_HEAD);
             if (!TextUtils.isEmpty(head)) {
-                map.put(HTTP_HEAD, firstLine + _CRLF + head);
+                map.put(Commons.HTTP_HEAD, firstLine + Commons.CRLF_STR + head);
             }
             pkg.setHead(map);
 
@@ -389,7 +367,7 @@ public class ServiceThread extends Thread {
 //                return pkg;
 //            }
 
-            String contentLength = map.get(Content_Length);
+            String contentLength = map.get(Commons.Content_Length);
             if (!TextUtils.isEmpty(contentLength)) {
 
                 int len = Integer.valueOf(contentLength);
@@ -424,25 +402,23 @@ public class ServiceThread extends Thread {
 //        byte[] head = null;
 //        byte[] body = null;
 //        if(httpPkg.getHead()!=null){
-//            head = GzipUtil.byteCompress(httpPkg.getHead().get(HTTP_HEAD).getBytes(), DB.IS_GZIP);
-////            head = GzipUtil.byteCompress((httpPkg.getHead().get(HTTP_HEAD)+_CRLF).getBytes(), DB.IS_GZIP);
+//            head = GzipUtil.byteCompress(httpPkg.getHead().get(Commons.HTTP_HEAD).getBytes(), DB.IS_GZIP);
+////            head = GzipUtil.byteCompress((httpPkg.getHead().get(Commons.HTTP_HEAD)+Commons.CRLF_STR).getBytes(), DB.IS_GZIP);
 //        }
 //        if(httpPkg.getBody()!=null){
 //            body = GzipUtil.byteCompress(httpPkg.getBody(), DB.IS_GZIP);
 //        }
 //        sendRequest(head, body);
-        sendRequest(httpPkg.getHead().get(HTTP_HEAD), httpPkg.getBody());
+        sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), httpPkg.getBody());
         Log.e(TAG, "httpRequest 请求数据发起成功:");
     }
 
     public void checkConnection() {
         Log.e(TAG, "checkConnection");
         try {
-            String head = "GET /wisp_aas/adapter?open&_method=checkConnection&appcode=" + DB.APP_CODE + _CRLF;
+            String head = "GET /wisp_aas/adapter?open&_method=checkConnection&appcode=" + DB.APP_CODE + Commons.CRLF_STR;
             HttpPkg httpPkg = sendRequest(head, null);
             Log.e(TAG, "checkConnection:" + httpPkg.getHead());
-            //是否为注销页面（影响效率,考虑是否在webview直接判断）
-//            checkLoginOut(httpPkg.getHead());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -452,8 +428,8 @@ public class ServiceThread extends Thread {
     public void versionUpdate() {
         Log.e(TAG, "checkConnection");
         try {
-            String head = ("SOCKET /AjAxSocketIFC/versionUpdate/android" + _CRLF + "Content-Length: "
-                    + DB.APP_VERSION_ID.length() + _CRLF);
+            String head = ("SOCKET /AjAxSocketIFC/versionUpdate/android" + Commons.CRLF_STR + "Content-Length: "
+                    + DB.APP_VERSION_ID.length() + Commons.CRLF_STR);
             byte[] body = DB.APP_VERSION_ID
                     .getBytes();
 
@@ -466,8 +442,7 @@ public class ServiceThread extends Thread {
         Log.e(TAG, "checkConnection write over");
     }
 
-    private void checkLoginOut(Map<String, String> map) {
-        String head = map.get(HTTP_HEAD);
+    private void checkLoginOut(String head) {
         if (!TextUtils.isEmpty(head) && head.indexOf("LoginPage") != -1) {
             Log.e(TAG, "注销: ");
             // 页面为 登陆页 超时注销
@@ -485,8 +460,12 @@ public class ServiceThread extends Thread {
             if (head != null) {
                 connection.write(head.getBytes());
 
-                if (head.indexOf(_CRLF2) == -1) {
-                    connection.write(CRLF);
+                if (head.endsWith(Commons.CRLF2_STR)) {
+
+                } else if (head.endsWith(Commons.CRLF_STR)) {
+                    connection.write(Commons.CRLF_BYTE);
+                } else {
+                    connection.write(Commons.CRLF2_BYTE);
                 }
             }
 
@@ -501,16 +480,16 @@ public class ServiceThread extends Thread {
 
             HashMap<String, String> map = connection.getHttpHead2();
             Log.e(TAG, "get http response:" + map);
-            String contentLength = map.get(Content_Length);
+            String contentLength = map.get(Commons.Content_Length);
             byte[] content = null;
             if (!TextUtils.isEmpty(contentLength)) {
                 int len = Integer.valueOf(contentLength);
                 content = connection.getHttpBody(len);
                 Log.e(TAG, "get server content over:" + (content != null ? content.length : 0));
-                responseWebView(map.get(HTTP_HEAD), content);
+                responseWebView(map.get(Commons.HTTP_HEAD), content);
             } else {
                 Log.e(TAG, "get server content over");
-                responseWebView(map.get(HTTP_HEAD), null);
+                responseWebView(map.get(Commons.HTTP_HEAD), null);
             }
             return new HttpPkg(map, content);
         } catch (Exception e) {
@@ -525,13 +504,21 @@ public class ServiceThread extends Thread {
             Log.e(TAG, "socket:" + webViewSocket);
             webView_os = webViewSocket.getOutputStream();
 
+            //是否为注销页面（影响效率,考虑是否在webview直接判断）
+            checkLoginOut(head);
+
 //            Log.e("responseWebView", "head123:" + new String(head));
             if (head != null) {
                 webView_os.write(head.getBytes());
 
-                if (head.indexOf(_CRLF2) == -1) {
-                    webView_os.write(CRLF);
+                if (head.endsWith(Commons.CRLF2_STR)) {
+
+                } else if (head.endsWith(Commons.CRLF_STR)) {
+                    webView_os.write(Commons.CRLF_BYTE);
+                } else {
+                    webView_os.write(Commons.CRLF2_BYTE);
                 }
+
             }
 
 

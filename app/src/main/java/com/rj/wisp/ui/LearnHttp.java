@@ -48,7 +48,7 @@ public class LearnHttp {
 		// 请求头
 		out.write(("Host: " + host).getBytes()); // 此请求头必须
 		out.write(CRLF);
-//		out.write(CRLF);out.write(CRLF);out.write(CRLF);
+//		out.write(CRLF_BYTE);out.write(CRLF_BYTE);out.write(CRLF_BYTE);
 		out.write(CRLF);        // 单独的一行CRLF表示请求头的结束
 
 		// 可选的请求体。GET方法没有请求体

@@ -109,9 +109,11 @@ public class PhoneLeftFragment extends Fragment {
 
     public void reload() {
         if (phoneWebChromeClient != null && phoneWebChromeClient.isChildOpen()) {
+            Log.e(TAG, "phoneWebChromeClient reload");
             phoneWebChromeClient.reload();
         } else {
             if (webView != null) {
+                Log.e(TAG, "webView reload");
                 webView.reload();
             }
         }
