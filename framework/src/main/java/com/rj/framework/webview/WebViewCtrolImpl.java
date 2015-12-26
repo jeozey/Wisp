@@ -9,8 +9,6 @@ import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.JsResult;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 
 import com.rj.framework.DB;
@@ -191,7 +189,7 @@ public class WebViewCtrolImpl implements WebViewCtrol {
     }
 
     @Override
-    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         view.stopLoading();
         if (failingUrl.indexOf("refreshWebView") == -1) {
             failingUrl = failingUrl;

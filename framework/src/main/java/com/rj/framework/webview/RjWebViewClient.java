@@ -2,8 +2,6 @@ package com.rj.framework.webview;
 
 import android.graphics.Bitmap;
 import android.util.Log;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -37,11 +35,11 @@ public class RjWebViewClient extends WebViewClient {
         }
     }
 
-    @Override
-    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-        super.onReceivedError(view, request, error);
-        webViewCtrol.onReceivedError(view, request, error);
-    }
 
+    @Override
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+        super.onReceivedError(view, errorCode, description, failingUrl);
+        webViewCtrol.onReceivedError(view, errorCode, description, failingUrl);
+    }
 
 }

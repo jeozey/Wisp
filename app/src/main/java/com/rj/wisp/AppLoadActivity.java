@@ -25,6 +25,7 @@ import com.rj.wisp.bean.ResourceMessageEvent;
 import com.rj.wisp.core.InitUtil;
 import com.rj.wisp.core.LocalSocketRequestTool;
 import com.rj.wisp.core.WispCore;
+import com.rj.wisp.service.NetConnectService;
 import com.rj.wisp.ui.pad.PadMainActivity;
 import com.rj.wisp.ui.phone.PhoneMainActivity;
 import com.rj.wisp.ui.phone.SettingActivity;
@@ -120,13 +121,19 @@ public class AppLoadActivity extends BaseActivity {
     private TextView messageTxt;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        //注册EventBus
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appload);
         messageTxt = (TextView) findViewById(R.id.messageTxt);
 
-        //注册EventBus
-        EventBus.getDefault().register(this);
+
 
         localSocketRequestTool = new LocalSocketRequestTool();
 
@@ -265,7 +272,7 @@ public class AppLoadActivity extends BaseActivity {
                     new MyAsyncTask().execute(CHECK_RESOURCE);
                     break;
                 case HandlerWhat.GET_CONNECTION_SUCC:
-//                    startService(new Intent(AppLoadActivity.this, NetConnectService.class));
+                    startService(new Intent(AppLoadActivity.this, NetConnectService.class));
                     new MyAsyncTask().execute(CHECK_VERSION);
                     break;
                 case HandlerWhat.GET_CONNECTION_FAIL:

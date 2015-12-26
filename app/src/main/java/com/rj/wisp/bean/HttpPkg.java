@@ -13,7 +13,21 @@ public class HttpPkg {
     private HashMap<String, String> head;
     private byte[] body;
 
+    private int contentLength;
+    private String charSet = "utf8";
+    private String contentType = "";
+
+    //下载附件进度
+    private int contentSize;
+
     public HttpPkg() {
+    }
+
+    public HttpPkg(int contentSize, String charSet, String contentType, int contentLength) {
+        setContentSize(contentSize);
+        setCharSet(charSet);
+        setContentType(contentType);
+        setContentLength(contentLength);
     }
 
     public HttpPkg(HashMap<String, String> head) {
@@ -47,5 +61,42 @@ public class HttpPkg {
 
     public void setBody(byte[] body) {
         this.body = body;
+    }
+
+    public String getCharSet() {
+        return charSet;
+    }
+
+    public void setCharSet(String charSet) {
+        this.charSet = charSet;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public int getContentLength() {
+        return contentLength;
+    }
+
+    public void setContentLength(int contentLength) {
+        this.contentLength = contentLength;
+    }
+
+    public int getContentSize() {
+        return contentSize;
+    }
+
+    public void setContentSize(int contentSize) {
+        this.contentSize = contentSize;
+    }
+
+    @Override
+    public String toString() {
+        return "firstLine:" + headLine + " contentLength:" + contentLength + " contentType:" + contentType + " charset:" + charSet;
     }
 }

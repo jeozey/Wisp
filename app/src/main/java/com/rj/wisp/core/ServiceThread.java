@@ -11,6 +11,8 @@ import com.rj.framework.DB;
 import com.rj.framework.WISPComponentsParser;
 import com.rj.util.FileUtil;
 import com.rj.view.button.ButtonNum;
+import com.rj.wisp.bean.Attachment;
+import com.rj.wisp.bean.AttachmentDownEvent;
 import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.bean.HttpPkg;
 
@@ -23,6 +25,8 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * 作者：志文 on 2015/11/18 0018 15:19
@@ -55,7 +59,7 @@ public class ServiceThread extends Thread {
                 if (httpPkg == null) {
                     return;
                 }
-                Log.v(TAG, "httpPkg content-length:" + httpPkg.getHead().get(Commons.Content_Length));
+                Log.v(TAG, "httpPkg content-length:" + httpPkg.getContentLength());
 //                Log.e(TAG, "httpPkg.getHead():" + httpPkg.getHead());
                 handleHttpPkg(httpPkg);
             }
@@ -129,6 +133,7 @@ public class ServiceThread extends Thread {
     }
 
     private void handleAttachment(HttpPkg httpPkg) {
+        handler.sendEmptyMessage(HandlerWhat.SHOW_LOADING);
         //因为是ajax请求,所以要返回
         responseEmptyToWebView();
 
@@ -136,16 +141,39 @@ public class ServiceThread extends Thread {
         Log.e(TAG, "handleAttachment:" + head_line);
 
         if (head_line.indexOf("type%3Durl") != -1 || head_line.indexOf("type=Durl") != -1) {
-            checkForAttachmentChange(httpPkg);
+            checkForAttachmentDown(httpPkg);
         } else {
-            checkForAttachmentChange(httpPkg);
+            checkForAttachmentDown(httpPkg);
         }
+        handler.sendEmptyMessage(HandlerWhat.DISMISS_LOADING);
     }
 
     //附件转换
-    private void checkForAttachmentChange(HttpPkg httpPkg) {
-        HttpPkg pkg = sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), httpPkg.getBody());
-        Log.e(TAG, "checkForAttachmentChange:" + pkg.getHead());
+    private void checkForAttachmentDown(final HttpPkg httpPkg) {
+        try {
+            final String firstLine = httpPkg.getHeadLine();
+            Attachment attachment = AttachmentCacheUtil.getAttachment(firstLine);
+            if (attachment != null) {
+                EventBus.getDefault().post(new AttachmentDownEvent(firstLine, attachment.getPath(), attachment.getContentType(), 0, (int) attachment.getSize(), Commons.ATTACHMENT_DOWN_CACHE));
+
+            } else {
+                String path = "";
+                File file = new File(path);
+                HttpPkg pkg = sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), httpPkg.getBody(), new DownCallBack() {
+                    @Override
+                    public void callBack(HttpPkg httpPkg) {
+                        Log.e(TAG, "callBack: size:" + httpPkg.getContentSize() + " length:" + httpPkg.getContentLength());
+                        EventBus.getDefault().post(new AttachmentDownEvent(firstLine, "", httpPkg.getContentType(), httpPkg.getContentSize(), httpPkg.getContentLength(), Commons.ATTACHMENT_DOWN_SUCC));
+                    }
+                });
+                EventBus.getDefault().post(new AttachmentDownEvent(firstLine, Commons.ATTACHMENT_DOWN_COMPLETE));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            EventBus.getDefault().post(new AttachmentDownEvent(Commons.ATTACHMENT_DOWN_FAIL));
+        }
+
+//        Log.e(TAG, "checkForAttachmentChange:" + pkg.getHead());
     }
 
     private void handleLocalSocketRequest(String head_line) throws Exception {
@@ -174,7 +202,6 @@ public class ServiceThread extends Thread {
     }
 
 
-
     private void responseEmptyToWebView() {
         responseWebView("HTTP/1.0 200 OK\r\n", "".getBytes());
     }
@@ -182,7 +209,7 @@ public class ServiceThread extends Thread {
     private void addWebUi(HttpPkg httpPkg) throws IOException {
         Log.e(TAG, "addWebUi:" + handler);
         if (handler != null) {
-            String jsonStr = new String(httpPkg.getBody(), getCharSet(httpPkg));
+            String jsonStr = new String(httpPkg.getBody(), httpPkg.getCharSet());
 
             Log.v(TAG, "addWebUi:" + jsonStr);
             Message msg = handler.obtainMessage(HandlerWhat.ADD_WEB_UI);
@@ -194,7 +221,7 @@ public class ServiceThread extends Thread {
 
     private void addWebBtnNum(HttpPkg httpPkg) throws IOException {
         Log.e(TAG, "addWebBtnNum:" + httpPkg.getHead());
-        String jsonStr = new String(httpPkg.getBody(), getCharSet(httpPkg));
+        String jsonStr = new String(httpPkg.getBody(), httpPkg.getCharSet());
 
         ButtonNum buttonNum = WISPComponentsParser
                 .getButtonNumber(jsonStr);
@@ -229,26 +256,51 @@ public class ServiceThread extends Thread {
         charsets.add("gb2312");
         charsets.add("utf8");
         charsets.add("utf-8");
+
     }
 
-    private String getCharSet(HttpPkg httpPkg) {
+    /**
+     * 获取charset和contentType和contentLength
+     *
+     * @param httpPkg
+     */
+    private void fixHttpPkg(HttpPkg httpPkg) {
+
         try {
-            String contentType = httpPkg.getHead().get(Commons.CONTENT_TYPE);
-            int i = contentType.indexOf("charset=");
-            if (i != -1) {
-                String c = contentType.substring(i + 8);
-                if (charsets.contains(c.toLowerCase())) {
-                    Log.e(TAG, "c:" + c);
-                    return c;
-                }
+            String contentLength = httpPkg.getHead().get(Commons.Content_Length);
+            if (!TextUtils.isEmpty(contentLength)) {
+                int len = Integer.valueOf(contentLength);
+                httpPkg.setContentLength(len);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return CHAR_SET;
-
+        String contentType = httpPkg.getHead().get(Commons.CONTENT_TYPE);
+        if (!TextUtils.isEmpty(contentType)) {
+            try {
+                int i = contentType.indexOf("charset=");
+                if (i != -1) {
+                    String c = contentType.substring(i + 8);
+                    if (charsets.contains(c.toLowerCase())) {
+                        Log.e(TAG, "c:" + c);
+                        httpPkg.setCharSet(c);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                int i = contentType.indexOf(";");
+                if (i != -1) {
+                    String type = contentType.substring(0, i);
+                    Log.e(TAG, "type:" + type);
+                    httpPkg.setContentType(type);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
-
 
 
     private void getResource(HttpPkg httpPkg) throws Exception {
@@ -287,7 +339,7 @@ public class ServiceThread extends Thread {
         // 对中间件发送数据包
         try {
 
-            HttpPkg pkg = sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), null);
+            HttpPkg pkg = sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), null, null);
 
 
             HashMap<String, String> head_sb = pkg.getHead();
@@ -368,8 +420,6 @@ public class ServiceThread extends Thread {
     }
 
 
-
-
     /**
      * 1.获取用户请求数据(无GZIP压缩)
      *
@@ -389,27 +439,26 @@ public class ServiceThread extends Thread {
             Log.e(TAG, "firstLine:" + firstLine);
             pkg.setHeadLine(firstLine);
             HashMap<String, String> map = SocketStreamUtil.getHttpHead(webView_reader);
+
             String head = map.get(Commons.HTTP_HEAD);
             if (!TextUtils.isEmpty(head)) {
                 map.put(Commons.HTTP_HEAD, firstLine + Commons.CRLF_STR + head);
             }
             pkg.setHead(map);
 
+            fixHttpPkg(pkg);
+
 //            if(firstLine.indexOf("AjAxSocketIFC")!=-1){
 //                return pkg;
 //            }
 
-            String contentLength = map.get(Commons.Content_Length);
-            if (!TextUtils.isEmpty(contentLength)) {
-
-                int len = Integer.valueOf(contentLength);
-                if (len > 0) {
-                    Log.e(TAG, "contentLength:" + contentLength);
+            int len = pkg.getContentLength();
+            if (len > 0) {
+                Log.e(TAG, "contentLength:" + len);
 //                byte[] body = SocketStreamUtil.getHttpBody(webViewSocket.getInputStream(), len);
-                    byte[] body = SocketStreamUtil.getHttpBody(webView_reader, len);
-                    Log.e(TAG, "contentLength:" + contentLength + " body.length:" + body.length);
-                    pkg.setBody(body);
-                }
+                byte[] body = SocketStreamUtil.getHttpBody(webView_reader, len);
+                Log.e(TAG, "contentLength:" + len + " body.length:" + body.length);
+                pkg.setBody(body);
             }
             Log.e(TAG, "getWebViewRequest over:" + firstLine);
             return pkg;
@@ -431,17 +480,7 @@ public class ServiceThread extends Thread {
         //这边还得补上keyInfo、userAgent等信息
         Log.v("request", "普通:" + httpPkg.getHeadLine());
 
-//        byte[] head = null;
-//        byte[] body = null;
-//        if(httpPkg.getHead()!=null){
-//            head = GzipUtil.byteCompress(httpPkg.getHead().get(Commons.HTTP_HEAD).getBytes(), DB.IS_GZIP);
-////            head = GzipUtil.byteCompress((httpPkg.getHead().get(Commons.HTTP_HEAD)+Commons.CRLF_STR).getBytes(), DB.IS_GZIP);
-//        }
-//        if(httpPkg.getBody()!=null){
-//            body = GzipUtil.byteCompress(httpPkg.getBody(), DB.IS_GZIP);
-//        }
-//        sendRequest(head, body);
-        sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), httpPkg.getBody());
+        sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), httpPkg.getBody(), null);
         Log.e(TAG, "httpRequest 请求数据发起成功:");
     }
 
@@ -449,7 +488,7 @@ public class ServiceThread extends Thread {
         Log.e(TAG, "checkConnection");
         try {
             String head = "GET /wisp_aas/adapter?open&_method=checkConnection&appcode=" + DB.APP_CODE + Commons.CRLF_STR;
-            HttpPkg httpPkg = sendRequest(head, null);
+            HttpPkg httpPkg = sendRequest(head, null, null);
             Log.e(TAG, "checkConnection:" + httpPkg.getHead());
         } catch (Exception e) {
             e.printStackTrace();
@@ -467,7 +506,7 @@ public class ServiceThread extends Thread {
 
             Log.v(TAG, "更新:" + DB.APP_VERSION_ID);
             Log.v(TAG, "更新:" + new String(head));
-            sendRequest(head, body);
+            sendRequest(head, body, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -483,7 +522,17 @@ public class ServiceThread extends Thread {
         }
     }
 
-    private HttpPkg sendRequest(String head, byte[] body) {
+    private interface DownCallBack {
+        void callBack(HttpPkg pkg);
+    }
+
+    /**
+     * @param head
+     * @param body
+     * @param downCallBack 下载进度回调
+     * @return
+     */
+    private HttpPkg sendRequest(String head, byte[] body, final DownCallBack downCallBack) {
         Log.e(TAG, "sendRequest");
         ISocketConnection connection = SocketFactory.getSSLSocket();
 
@@ -512,18 +561,35 @@ public class ServiceThread extends Thread {
 
             HashMap<String, String> map = connection.getHttpHead2();
             Log.e(TAG, "get http response:" + map);
-            String contentLength = map.get(Commons.Content_Length);
-            byte[] content = null;
-            if (!TextUtils.isEmpty(contentLength)) {
-                int len = Integer.valueOf(contentLength);
-                content = connection.getHttpBody(len);
-                Log.e(TAG, "get server content over:" + (content != null ? content.length : 0));
-                responseWebView(map.get(Commons.HTTP_HEAD), content);
+
+            HttpPkg p = new HttpPkg(map);
+            fixHttpPkg(p);
+
+            final String charSet = p.getCharSet();
+            final String contentType = p.getContentType();
+            //下载进度回调
+            if (downCallBack != null) {
+                final int len = p.getContentLength();
+                connection.getHttpBody(10240, new ISocketConnection.DownLoadInvoke() {
+                    @Override
+                    public void downLoadInvoke(byte[] data, int size) {
+                        downCallBack.callBack(new HttpPkg(size, charSet, contentType, len));
+                    }
+                });
+                Log.e(TAG, "connection getHttpBody invoke over");
             } else {
-                Log.e(TAG, "get server content over");
-                responseWebView(map.get(Commons.HTTP_HEAD), null);
+                byte[] content = null;
+                final int len = p.getContentLength();
+                if (len > 0) {
+                    content = connection.getHttpBody(len);
+                    Log.e(TAG, "get server content over:" + (content != null ? content.length : 0));
+                    responseWebView(map.get(Commons.HTTP_HEAD), content);
+                } else {
+                    Log.e(TAG, "get server content over");
+                    responseWebView(map.get(Commons.HTTP_HEAD), null);
+                }
+                return new HttpPkg(map, content);
             }
-            return new HttpPkg(map, content);
         } catch (Exception e) {
             e.printStackTrace();
         }

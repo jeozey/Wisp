@@ -6,6 +6,7 @@ package com.rj.wisp.ui.phone;
  */
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
@@ -29,8 +30,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.webkit.JsResult;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -61,14 +60,21 @@ import com.rj.view.loading.ProgressDialogTool;
 import com.rj.wisp.R;
 import com.rj.wisp.activity.LoginActivity;
 import com.rj.wisp.base.WispApplication;
+import com.rj.wisp.bean.Attachment;
+import com.rj.wisp.bean.AttachmentDownEvent;
 import com.rj.wisp.bean.HandlerWhat;
+import com.rj.wisp.core.AttachmentCacheUtil;
+import com.rj.wisp.core.Commons;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.service.NetConnectService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+
+import de.greenrobot.event.EventBus;
 
 
 public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol {
@@ -78,7 +84,6 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
     private PopMenu settingPopMenu;
     private static final String TAG = "PhoneMainActivity";
     private PhoneLeftFragment leftFragment;
-    private PhoneHorizontalBtns horizontalBtns;
     private CustomProgressDialog loadDialog = null;
     private boolean cancleDownLoad = false;// 取消本次下载
     private HorizontalScrollView noticeScroll = null;
@@ -115,6 +120,60 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         leftFragment.reload();
     }
 
+    private Map<String, AttachmentDownEvent> attachmentDownEvents;
+
+    public void onEventMainThread(AttachmentDownEvent event) {
+        Log.e(TAG, "onEvent AttachmentDownEvent");
+        if (event != null) {
+            switch (event.getDownResult()) {
+                case Commons.ATTACHMENT_DOWN_SUCC:
+                    handleAttachmentDowning(event);
+                    break;
+                case Commons.ATTACHMENT_DOWN_FAIL:
+                case Commons.ATTACHMENT_DOWN_COMPLETE:
+                    handleAttachmentDownOver(event);
+                    break;
+                case Commons.ATTACHMENT_DOWN_CACHE:
+                    Log.e(TAG, "ATTACHMENT_DOWN_CACHE:" + event);
+                    ToastTool.show(getBaseContext(), "已经下载过了", Toast.LENGTH_LONG);
+                    break;
+            }
+        }
+    }
+
+
+    private Object attachmentObj = new Object();
+
+    private void handleAttachmentDowning(AttachmentDownEvent event) {
+        synchronized (attachmentObj) {
+            String downUrl = event.getDownUrl();
+            if (!attachmentDownEvents.containsKey(downUrl)) {
+                attachmentDownEvents.put(downUrl, event);
+                downAttachmentProgress.setMax(event.getFileLength());
+                downAttachmentProgress.show();
+            }
+            downAttachmentProgress.setProgress(downAttachmentProgress.getProgress() + event.getHasDownLength());
+        }
+    }
+
+    private void handleAttachmentDownOver(AttachmentDownEvent event) {
+        String downUrl = event.getDownUrl();
+        if (attachmentDownEvents.containsKey(downUrl)) {
+
+            AttachmentCacheUtil.putAttachment(new Attachment(downUrl, event.getPath(), event.getContentType(), event.getFileLength()));
+
+            attachmentDownEvents.remove(downUrl);
+            downAttachmentProgress.dismiss();
+
+            if (Commons.ATTACHMENT_DOWN_COMPLETE == event.getDownResult()) {
+                ToastTool.show(getBaseContext(), "下载完毕", Toast.LENGTH_LONG);
+            } else {
+                ToastTool.show(getBaseContext(), "" + event.getDownFailMsg(), Toast.LENGTH_LONG);
+            }
+        }
+
+    }
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -149,7 +208,6 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
         }
     };
-
 
 
     private void logOut() {
@@ -229,6 +287,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         startActivity(new Intent(PhoneMainActivity.this,
                 SettingActivity.class));
     }
+
     protected void onTapMenuSelect(int position) {
         switch (position) {
             case 0:
@@ -315,19 +374,32 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
     private LinearLayout topTitleBar;
     private PhoneHorizontalBtns bottomMenus;
-    /**
-     * Called when the activity is first created.
-     */
+    private ProgressDialog downAttachmentProgress;
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         Log.e(TAG, "onCreate");
+        super.onCreate(savedInstanceState);
+
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.phone_main);
-        topTitleBar = (LinearLayout) findViewById(R.id.top_navigate_bar);
-        bottomMenus = (PhoneHorizontalBtns) findViewById(R.id.bottom_navigate_bar);
 
-        System.out.println("Activity--->onCreate");
+        init();
+
         // 如果不是正常调转到主页面 则退出
         if (TextUtils.isEmpty(DB.SECURITY_HOST)
                 || TextUtils.isEmpty(getIntent().getStringExtra("success"))) {
@@ -346,17 +418,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
             e.printStackTrace();
             return;
         }
-        horizontalBtns = (PhoneHorizontalBtns) findViewById(R.id.bottom_navigate_bar);
-        noticeScroll = (HorizontalScrollView) findViewById(R.id.top_notice_scroll);
-        topNotice = (LinearLayout) findViewById(R.id.top_notice);
 
-        tabMenu = new TabMenu(this, new BodyClickEvent(), 0);// 出现与消失的动画
-        tabMenu.update();
-        tabMenu.SetBodyAdapter(bodyAdapter);
-
-
-        loadDialog = new ProgressDialogTool()
-                .getProgressDialog(PhoneMainActivity.this);
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -369,6 +431,30 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
         initView();
 
+    }
+
+    private void init() {
+        topTitleBar = (LinearLayout) findViewById(R.id.top_navigate_bar);
+        bottomMenus = (PhoneHorizontalBtns) findViewById(R.id.bottom_navigate_bar);
+
+        noticeScroll = (HorizontalScrollView) findViewById(R.id.top_notice_scroll);
+        topNotice = (LinearLayout) findViewById(R.id.top_notice);
+
+        tabMenu = new TabMenu(this, new BodyClickEvent(), 0);// 出现与消失的动画
+        tabMenu.update();
+        tabMenu.SetBodyAdapter(bodyAdapter);
+
+
+        loadDialog = new ProgressDialogTool()
+                .getProgressDialog(PhoneMainActivity.this);
+
+        attachmentDownEvents = new HashMap<>();
+
+        downAttachmentProgress = new ProgressDialog(PhoneMainActivity.this);
+        downAttachmentProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        downAttachmentProgress.setMessage(getResources().getString(R.string.downloading));
+        downAttachmentProgress.setCancelable(false);
+//        downAttachmentProgress.setOnKeyListener(onKeyListener);
     }
 
     private DisplayMetrics dm;
@@ -562,10 +648,10 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
 
             if (list == null || list.size() == 0) {
-                horizontalBtns.setVisibility(View.GONE);
+                bottomMenus.setVisibility(View.GONE);
             } else {
-                horizontalBtns.setVisibility(View.VISIBLE);
-                horizontalBtns.init(list, new PhoneHorizontalBtns.HorizontalBtnsCallBack() {
+                bottomMenus.setVisibility(View.VISIBLE);
+                bottomMenus.init(list, new PhoneHorizontalBtns.HorizontalBtnsCallBack() {
                     @Override
                     public void callBack(CustomWidgetButton info) {
                         if (CustomWidgetButton.ButtonType.LeftBtn == info.getType() || "更多".equals(info.getTitle())) {
@@ -642,7 +728,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                 button.setTitle(buttonText);
                 button.setNum(Integer.valueOf(number));
 
-                horizontalBtns.updateBtn(button);
+                bottomMenus.updateBtn(button);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -794,7 +880,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
     private static String failingUrl;
 
     @Override
-    public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         Log.e(TAG, "onReceivedError:");
         view.stopLoading();
         if (failingUrl.indexOf("refreshWebView") == -1) {

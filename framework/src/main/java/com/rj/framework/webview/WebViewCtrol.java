@@ -3,8 +3,6 @@ package com.rj.framework.webview;
 import android.graphics.Bitmap;
 import android.os.Message;
 import android.webkit.JsResult;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 
 public interface WebViewCtrol {
@@ -24,7 +22,7 @@ public interface WebViewCtrol {
     void onJsConfirm(WebView view, String url, String message,
                      JsResult result);
 
-    void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error);
+    void onReceivedError(WebView view, int errorCode, String description, String failingUrl);
 
     void destoryWebViewCtrol();
 }

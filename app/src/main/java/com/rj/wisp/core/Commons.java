@@ -18,4 +18,10 @@ public class Commons {
     public static final byte[] CRLF2_BYTE = {CR, LF, CR, LF};
     public static final String CRLF_STR = "\r\n";
     public static final String CRLF2_STR = "\r\n\r\n";
+
+    public static final int ATTACHMENT_DOWN_SUCC = 1;
+    public static final int ATTACHMENT_DOWN_CACHE = 2;
+    public static final int ATTACHMENT_DOWN_COMPLETE = 3;
+    public static final int ATTACHMENT_DOWN_FAIL = 4;
+
 }
