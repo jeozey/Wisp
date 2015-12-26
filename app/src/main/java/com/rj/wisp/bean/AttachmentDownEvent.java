@@ -98,6 +98,6 @@ public class AttachmentDownEvent {
 
     @Override
     public String toString() {
-        return "downUrl:" + downUrl + " path:" + path;
+        return "downResult:" + downResult + "downUrl:" + downUrl + " path:" + path;
     }
 }

@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -137,8 +138,14 @@ public class ServiceThread extends Thread {
         //因为是ajax请求,所以要返回
         responseEmptyToWebView();
 
+        HashMap<String, String> map = httpPkg.getHead();
+
+        String head = map.get(Commons.HTTP_HEAD);
+        head = head.replace("newAttachment", "attachment");
+        map.put(Commons.HTTP_HEAD, head);
+        httpPkg.setHead(map);
+
         String head_line = httpPkg.getHeadLine();
-        Log.e(TAG, "handleAttachment:" + head_line);
 
         if (head_line.indexOf("type%3Durl") != -1 || head_line.indexOf("type=Durl") != -1) {
             checkForAttachmentDown(httpPkg);
@@ -148,6 +155,7 @@ public class ServiceThread extends Thread {
         handler.sendEmptyMessage(HandlerWhat.DISMISS_LOADING);
     }
 
+    int l = 0;
     //附件转换
     private void checkForAttachmentDown(final HttpPkg httpPkg) {
         try {
@@ -157,15 +165,33 @@ public class ServiceThread extends Thread {
                 EventBus.getDefault().post(new AttachmentDownEvent(firstLine, attachment.getPath(), attachment.getContentType(), 0, (int) attachment.getSize(), Commons.ATTACHMENT_DOWN_CACHE));
 
             } else {
-                String path = "";
+                final String path = DB.DOWN_FILE_PATH + System.currentTimeMillis();
+                Log.e(TAG, "path:" + path);
                 File file = new File(path);
-                HttpPkg pkg = sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), httpPkg.getBody(), new DownCallBack() {
+                File parent = file.getParentFile();
+                if (!parent.exists()) {
+                    parent.mkdirs();
+                }
+                file.createNewFile();
+                final FileOutputStream os = new FileOutputStream(file);
+
+                sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), httpPkg.getBody(), new DownCallBack() {
                     @Override
                     public void callBack(HttpPkg httpPkg) {
                         Log.e(TAG, "callBack: size:" + httpPkg.getContentSize() + " length:" + httpPkg.getContentLength());
-                        EventBus.getDefault().post(new AttachmentDownEvent(firstLine, "", httpPkg.getContentType(), httpPkg.getContentSize(), httpPkg.getContentLength(), Commons.ATTACHMENT_DOWN_SUCC));
+                        try {
+                            l += httpPkg.getContentLength();
+                            Log.e(TAG, "file length0 :" + l);
+                            os.write(httpPkg.getCurrentContent(), 0, httpPkg.getContentLength());
+                            EventBus.getDefault().post(new AttachmentDownEvent(firstLine, path, httpPkg.getContentType(), httpPkg.getContentSize(), httpPkg.getContentLength(), Commons.ATTACHMENT_DOWN_SUCC));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
+                os.flush();
+                os.close();
+                Log.e(TAG, "file length1 :" + file.length() + " " + httpPkg.getContentLength());
                 EventBus.getDefault().post(new AttachmentDownEvent(firstLine, Commons.ATTACHMENT_DOWN_COMPLETE));
             }
         } catch (Exception e) {
@@ -533,7 +559,7 @@ public class ServiceThread extends Thread {
      * @return
      */
     private HttpPkg sendRequest(String head, byte[] body, final DownCallBack downCallBack) {
-        Log.e(TAG, "sendRequest");
+        Log.e(TAG, "sendRequest head:" + head);
         ISocketConnection connection = SocketFactory.getSSLSocket();
 
         Log.e(TAG, "sendRequest write begin");
@@ -573,7 +599,7 @@ public class ServiceThread extends Thread {
                 connection.getHttpBody(10240, new ISocketConnection.DownLoadInvoke() {
                     @Override
                     public void downLoadInvoke(byte[] data, int size) {
-                        downCallBack.callBack(new HttpPkg(size, charSet, contentType, len));
+                        downCallBack.callBack(new HttpPkg(size, charSet, contentType, size, data));
                     }
                 });
                 Log.e(TAG, "connection getHttpBody invoke over");

@@ -65,6 +65,7 @@ import com.rj.wisp.bean.AttachmentDownEvent;
 import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.core.AttachmentCacheUtil;
 import com.rj.wisp.core.Commons;
+import com.rj.wisp.core.FileOpenUtil;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.service.NetConnectService;
 
@@ -123,7 +124,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
     private Map<String, AttachmentDownEvent> attachmentDownEvents;
 
     public void onEventMainThread(AttachmentDownEvent event) {
-        Log.e(TAG, "onEvent AttachmentDownEvent");
+        Log.e(TAG, "onEvent AttachmentDownEvent:" + event);
         if (event != null) {
             switch (event.getDownResult()) {
                 case Commons.ATTACHMENT_DOWN_SUCC:
@@ -159,8 +160,9 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
     private void handleAttachmentDownOver(AttachmentDownEvent event) {
         String downUrl = event.getDownUrl();
         if (attachmentDownEvents.containsKey(downUrl)) {
-
-            AttachmentCacheUtil.putAttachment(new Attachment(downUrl, event.getPath(), event.getContentType(), event.getFileLength()));
+            AttachmentDownEvent e = attachmentDownEvents.get(downUrl);
+            Attachment attachment = new Attachment(downUrl, e.getPath(), e.getContentType(), e.getFileLength());
+            AttachmentCacheUtil.putAttachment(attachment);
 
             attachmentDownEvents.remove(downUrl);
             downAttachmentProgress.dismiss();
@@ -170,6 +172,8 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
             } else {
                 ToastTool.show(getBaseContext(), "" + event.getDownFailMsg(), Toast.LENGTH_LONG);
             }
+            Intent intent = FileOpenUtil.openFile(attachment, getBaseContext());
+            startActivity(intent);
         }
 
     }

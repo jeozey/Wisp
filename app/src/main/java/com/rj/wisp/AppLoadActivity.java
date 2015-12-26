@@ -51,6 +51,8 @@ public class AppLoadActivity extends BaseActivity {
     }
 
     private void showLoginView() {
+        startService(new Intent(AppLoadActivity.this, NetConnectService.class));
+
 //        startActivity(new Intent(this, PhoneMainActivity.class));
 
         WispCore.getWISPSO().CloseService();
@@ -272,7 +274,6 @@ public class AppLoadActivity extends BaseActivity {
                     new MyAsyncTask().execute(CHECK_RESOURCE);
                     break;
                 case HandlerWhat.GET_CONNECTION_SUCC:
-                    startService(new Intent(AppLoadActivity.this, NetConnectService.class));
                     new MyAsyncTask().execute(CHECK_VERSION);
                     break;
                 case HandlerWhat.GET_CONNECTION_FAIL:

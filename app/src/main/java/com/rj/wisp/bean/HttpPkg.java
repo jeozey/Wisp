@@ -19,15 +19,17 @@ public class HttpPkg {
 
     //下载附件进度
     private int contentSize;
+    private byte[] currentContent;
 
     public HttpPkg() {
     }
 
-    public HttpPkg(int contentSize, String charSet, String contentType, int contentLength) {
+    public HttpPkg(int contentSize, String charSet, String contentType, int contentLength, byte[] currentContent) {
         setContentSize(contentSize);
         setCharSet(charSet);
         setContentType(contentType);
         setContentLength(contentLength);
+        setCurrentContent(currentContent);
     }
 
     public HttpPkg(HashMap<String, String> head) {
@@ -93,6 +95,14 @@ public class HttpPkg {
 
     public void setContentSize(int contentSize) {
         this.contentSize = contentSize;
+    }
+
+    public byte[] getCurrentContent() {
+        return currentContent;
+    }
+
+    public void setCurrentContent(byte[] currentContent) {
+        this.currentContent = currentContent;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.rj.wisp.core;
 
 import com.rj.wisp.bean.Attachment;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,12 @@ public class AttachmentCacheUtil {
 
     public static Attachment getAttachment(String url) {
         if (attachments.containsKey(url)) {
-            return attachments.get(url);
+            Attachment attachment = attachments.get(url);
+            if (new File(attachment.getPath()).exists()) {
+                return attachment;
+            }
+            attachments.remove(url);
+            return null;
         }
         return null;
 

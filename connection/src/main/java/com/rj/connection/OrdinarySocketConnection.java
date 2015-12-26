@@ -265,17 +265,20 @@ public class OrdinarySocketConnection implements ISocketConnection {
             initInOutStream();
         }
         byte[] b = new byte[size]; // 10kb
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
         int i = 0;
         int len = 0;
         try {
             while ((i = in.read(b, 0, b.length)) != -1) { // exception:
                 len += i;
                 invoke.downLoadInvoke(b, i);
+                os.write(b, 0, i);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return b;
+        Log.e(TAG, "len:" + len + " os.toByteArray():" + os.toByteArray().length);
+        return os.toByteArray();
     }
 
 

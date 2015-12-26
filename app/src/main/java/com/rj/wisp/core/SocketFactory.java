@@ -24,7 +24,7 @@ public class SocketFactory {
             }
 
             ISocketConnection connection = connectionPool.getConnection(
-                    DB.SECURITY_HOST, DB.SECURITY_PORT, SocketConnectionPool.SOCKET_TYPE.SSL_SOCKET);
+                    DB.SECURITY_HOST, DB.SECURITY_PORT, SocketConnectionPool.SOCKET_TYPE.ORIDINARY_SOCKET);
             return connection;
         } catch (Exception e) {
             e.printStackTrace();
