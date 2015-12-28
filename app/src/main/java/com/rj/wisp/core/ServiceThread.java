@@ -6,6 +6,8 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.rj.connection.ISocketConnection;
 import com.rj.framework.DB;
 import com.rj.framework.WISPComponentsParser;
@@ -24,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -224,6 +227,10 @@ public class ServiceThread extends Thread {
             showProgressDialog();
         } else if (head_line.indexOf("@@DismissProgressDialog@@") != -1) {
             dismissProgressDialog();
+        } else if (head_line.indexOf("Toast@@RJ@@Open") != -1) {
+            toast(httpPkg);
+        } else if (head_line.indexOf("Dialog@@RJ@@Open") != -1) {
+            showDialog(httpPkg);
         }
     }
 
@@ -246,13 +253,36 @@ public class ServiceThread extends Thread {
     }
 
     private void addWebBtnNum(HttpPkg httpPkg) throws IOException {
-        Log.e(TAG, "addWebBtnNum:" + httpPkg.getHead());
+//        Log.e(TAG, "addWebBtnNum:" + httpPkg.getHead());
         String jsonStr = new String(httpPkg.getBody(), httpPkg.getCharSet());
+
+        Log.e(TAG, "addWebBtnNum:" + jsonStr);
 
         ButtonNum buttonNum = WISPComponentsParser
                 .getButtonNumber(jsonStr);
         Message msg = handler.obtainMessage(HandlerWhat.ADD_WEB_BTN_NUM);
         msg.obj = buttonNum;
+        handler.sendMessage(msg);
+    }
+
+    private void toast(HttpPkg httpPkg) throws IOException {
+//        Log.e(TAG, "toast:" + httpPkg.getHead());
+        String jsonStr = new String(httpPkg.getBody(), httpPkg.getCharSet());
+        Log.e(TAG, "toast:" + jsonStr);
+
+        JSONObject json = JSON.parseObject(jsonStr);
+        Message msg = handler.obtainMessage(HandlerWhat.SHOW_TOAST);
+        msg.obj = json.get("text");
+        handler.sendMessage(msg);
+    }
+
+    private void showDialog(HttpPkg httpPkg) throws IOException {
+//        Log.e(TAG, "showDialog:" + httpPkg.getHead());
+        String jsonStr = new String(httpPkg.getBody(), httpPkg.getCharSet());
+        Log.e(TAG, "showDialog:" + jsonStr);
+
+        Message msg = handler.obtainMessage(HandlerWhat.SHOW_DIALOG);
+        msg.obj = jsonStr;
         handler.sendMessage(msg);
     }
 
@@ -321,6 +351,9 @@ public class ServiceThread extends Thread {
                     String type = contentType.substring(0, i);
                     Log.e(TAG, "type:" + type);
                     httpPkg.setContentType(type);
+                } else {
+                    Log.e(TAG, "type:" + contentType);
+                    httpPkg.setContentType(contentType);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -559,7 +592,9 @@ public class ServiceThread extends Thread {
      * @return
      */
     private HttpPkg sendRequest(String head, byte[] body, final DownCallBack downCallBack) {
-        Log.e(TAG, "sendRequest head:" + head);
+        if (!head.contains("/config/html")) {
+            Log.e(TAG, "sendRequest head:" + head);
+        }
         ISocketConnection connection = SocketFactory.getSSLSocket();
 
         Log.e(TAG, "sendRequest write begin");
@@ -586,7 +621,7 @@ public class ServiceThread extends Thread {
             connection.shutDownOutPut();
 
             HashMap<String, String> map = connection.getHttpHead2();
-            Log.e(TAG, "get http response:" + map);
+//            Log.e(TAG, "get http response:" + map);
 
             HttpPkg p = new HttpPkg(map);
             fixHttpPkg(p);
@@ -606,6 +641,7 @@ public class ServiceThread extends Thread {
             } else {
                 byte[] content = null;
                 final int len = p.getContentLength();
+                Log.e(TAG, "get server http body len:" + len);
                 if (len > 0) {
                     content = connection.getHttpBody(len);
                     Log.e(TAG, "get server content over:" + (content != null ? content.length : 0));
@@ -657,7 +693,8 @@ public class ServiceThread extends Thread {
                 webView_os.close();
                 Log.e("responseWebView", "responseWebView over");
             }
-
+        } catch (SocketException e) {
+            Log.e(TAG, "SocketException:" + e.getLocalizedMessage() + " head:" + head);
         } catch (IOException e) {
             e.printStackTrace();
             Log.e(TAG, "error:" + head);

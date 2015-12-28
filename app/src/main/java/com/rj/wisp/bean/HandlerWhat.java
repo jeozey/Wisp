@@ -20,6 +20,8 @@ public class HandlerWhat {
     public static final int ADD_WEB_UI = 12;
     public static final int SHOW_LOADING = 13;
     public static final int DISMISS_LOADING = 14;
+    public static final int SHOW_TOAST = 15;
+    public static final int SHOW_DIALOG = 16;
 
     public static final int LOG_OUT = 30;
 }

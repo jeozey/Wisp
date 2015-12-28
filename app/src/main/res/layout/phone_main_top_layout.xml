@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/app_name"
-            android:textColor="#ff000000"
+            android:textColor="@android:color/white"
             android:textSize="22.0sp" />
 
         <RelativeLayout
@@ -38,7 +38,7 @@
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:text="用户"
-                android:textColor="#ff000000" />
+                android:textColor="@android:color/white" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -87,6 +87,7 @@
                     android:layout_height="30.0dip"
                     android:layout_marginRight="10.0dip"
                     android:src="@drawable/more_menu_selector"
+                    android:visibility="gone"
                     android:gravity="center" />
             </LinearLayout>
         </RelativeLayout>
@@ -99,34 +100,5 @@
         android:background="#ff000000"
         android:orientation="horizontal" />
 
-    <LinearLayout
-        android:id="@+id/scrollLinear"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffedf0f2"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/notice_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@mipmap/ggicon72" />
-
-        <HorizontalScrollView
-            android:id="@+id/top_notice_scroll"
-            android:layout_width="wrap_content"
-            android:layout_height="40.0dip"
-            android:scrollbars="none"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:id="@+id/top_notice"
-                android:layout_width="fill_parent"
-                android:layout_height="50.0dip"
-                android:orientation="horizontal" />
-        </HorizontalScrollView>
-    </LinearLayout>
 
 </LinearLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--theme-->
-    <color name="theme">#ff0070ef</color>
+    <color name="theme">#ff01AAEF</color>
     <color name="theme_menu_txt_color">#ff000000</color>
 
 
@@ -19,5 +19,7 @@
     <!--connection float-->
     <color name="float_textView1">#0795de</color>
     <color name="float_textView2">#06b917</color>
+
+    <color name="more_apps_bg">#FFF4F5F7</color>
 
 </resources>

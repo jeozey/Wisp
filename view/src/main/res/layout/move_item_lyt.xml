@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/move_item_lyt"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <!-- move_lyt_left_imgview中设置了几个多余的属性，其目的是为了使不同type的界面有比较大的差别：     android:layout_marginBottom="20dp" /   android:layout_marginTop="20dp" /   android:layout_marginLeft="5dp" -->
+
+    <ImageView
+        android:id="@+id/move_lyt_left_imgview"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:scaleType="fitCenter" />
+
+    <TextView
+        android:id="@+id/move_lyt_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/move_lyt_left_imgview"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textSize="21sp" />
+
+    <TextView
+        android:id="@+id/move_lyt_num_tv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@+id/go_imgview"
+        android:background="@mipmap/numbg"
+        android:gravity="center"
+        android:textColor="#ff000000"
+        android:textSize="15sp" />
+
+    <ImageView
+        android:id="@+id/go_imgview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:src="@mipmap/mm_submenu_normal"
+        android:visibility="gone" />
+
+</RelativeLayout>

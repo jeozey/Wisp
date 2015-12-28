@@ -40,18 +40,18 @@ public class WISPWebViewClient extends WebViewClient {
 
     }
 
-    @Override
-    public void onReceivedError(WebView view, int errorCode,
-                                String description, String failingUrl) {
-        Log.e(TAG, "onReceivedError:" + failingUrl);
-        view.stopLoading();
-//		if(DB.isPhone){
-//			view.loadUrl("file:///android_asset/phoneErrorPage.html");
-//		}else{
-        view.loadUrl("file:///android_asset/errorPage.html");
-//		}
-
-    }
+//    @Override
+//    public void onReceivedError(WebView view, int errorCode,
+//                                String description, String failingUrl) {
+//        Log.e(TAG, "onReceivedError:" + failingUrl);
+//        view.stopLoading();
+////		if(DB.isPhone){
+////			view.loadUrl("file:///android_asset/phoneErrorPage.html");
+////		}else{
+//        view.loadUrl("file:///android_asset/errorPage.html");
+////		}
+//
+//    }
 
     @Override
     // 在WebView中而不是默认浏览器中显示页面

@@ -27,13 +27,11 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.webkit.JsResult;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -46,7 +44,6 @@ import com.rj.framework.DB;
 import com.rj.framework.WISPComponentsParser;
 import com.rj.framework.webview.UrlHandler;
 import com.rj.framework.webview.WebViewCtrol;
-import com.rj.util.PixelTool;
 import com.rj.view.PopMenu;
 import com.rj.view.TabMenu;
 import com.rj.view.ToastTool;
@@ -69,11 +66,11 @@ import com.rj.wisp.core.FileOpenUtil;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.service.NetConnectService;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
 
 import de.greenrobot.event.EventBus;
 
@@ -86,16 +83,79 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
     private static final String TAG = "PhoneMainActivity";
     private PhoneLeftFragment leftFragment;
     private CustomProgressDialog loadDialog = null;
-    private boolean cancleDownLoad = false;// 取消本次下载
-    private HorizontalScrollView noticeScroll = null;
-    private LinearLayout topNotice;
-    private boolean isNoticeScroll = false;
-    private Timer timer;
+    private RelativeLayout noticeTitle;
 
     private TabMenu.MenuBodyAdapter bodyAdapter = new TabMenu.MenuBodyAdapter(
             this, new int[]{R.mipmap.menu_fresh, R.mipmap.menu_reset,
             R.mipmap.menu_setting, R.mipmap.menu_exit}, new String[]{"刷新", "重置", "设置", "退出"});
     private TabMenu tabMenu;
+
+    @Override
+    protected void onDestroy() {
+        try {
+            if (leftFragment != null) {
+                leftFragment.destroyWebView();
+            }
+//            stopNoticeScorll();
+//            if (screenOnReceiver != null) {
+//                unregisterReceiver(screenOnReceiver);
+//            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onDestroy();
+    }
+
+    private LinearLayout topTitleBar;
+    private PhoneHorizontalBtns bottomMenus;
+    private ProgressDialog downAttachmentProgress;
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        Log.e(TAG, "onCreate");
+        super.onCreate(savedInstanceState);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        setContentView(R.layout.phone_main);
+
+        initView();
+
+        if (TextUtils.isEmpty(DB.LOGINPAGE_URL)) {
+            ToastTool.show(PhoneMainActivity.this, "登陆页不存在,请联系管理员解决 ", 1);
+        }
+
+        // AppSystemTool.clearWebViewCookie(getBaseContext());
+        try {
+            WispCore.getWISPSO().StartService(handler, getBaseContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        leftFragment = new PhoneLeftFragment();
+        transaction
+                .add(R.id.left_fragment_layout, leftFragment, "leftfragment");
+
+        transaction.commit();
+
+    }
 
     public interface ActivityHandlerListener {
         void handleWebView(String url);
@@ -132,11 +192,8 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                     break;
                 case Commons.ATTACHMENT_DOWN_FAIL:
                 case Commons.ATTACHMENT_DOWN_COMPLETE:
-                    handleAttachmentDownOver(event);
-                    break;
                 case Commons.ATTACHMENT_DOWN_CACHE:
-                    Log.e(TAG, "ATTACHMENT_DOWN_CACHE:" + event);
-                    ToastTool.show(getBaseContext(), "已经下载过了", Toast.LENGTH_LONG);
+                    handleAttachmentDownOver(event);
                     break;
             }
         }
@@ -159,7 +216,14 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
     private void handleAttachmentDownOver(AttachmentDownEvent event) {
         String downUrl = event.getDownUrl();
-        if (attachmentDownEvents.containsKey(downUrl)) {
+        if (Commons.ATTACHMENT_DOWN_CACHE == event.getDownResult()) {
+            Log.e(TAG, "ATTACHMENT_DOWN_CACHE:" + event);
+            ToastTool.show(getBaseContext(), "已经下载过了", Toast.LENGTH_LONG);
+
+            Attachment attachment = AttachmentCacheUtil.getAttachment(downUrl);
+            Intent intent = FileOpenUtil.openFile(attachment, getBaseContext());
+            startActivity(intent);
+        } else if (attachmentDownEvents.containsKey(downUrl)) {
             AttachmentDownEvent e = attachmentDownEvents.get(downUrl);
             Attachment attachment = new Attachment(downUrl, e.getPath(), e.getContentType(), e.getFileLength());
             AttachmentCacheUtil.putAttachment(attachment);
@@ -197,6 +261,16 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                     case HandlerWhat.ADD_WEB_BTN_NUM:
                         addWebBtnNum(msg);
                         break;
+                    case HandlerWhat.SHOW_TOAST:
+                        if (msg.obj != null) {
+                            showToast(msg.obj.toString());
+                        }
+                        break;
+                    case HandlerWhat.SHOW_DIALOG:
+                        if (msg.obj != null) {
+                            showDialog(msg);
+                        }
+                        break;
                     case HandlerWhat.SHOW_LOADING:
                         showProgressDialog();
                         break;
@@ -213,28 +287,62 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         }
     };
 
+    private void showToast(String msg) {
+        if (!TextUtils.isEmpty(msg)) {
+            ToastTool.show(getBaseContext(), msg, Toast.LENGTH_SHORT);
+        }
+    }
+
+    private void showDialog(Message msg) {
+        if (msg.obj != null) {
+            try {
+                String type = msg.getData().getString("type");
+                String content = msg.getData().getString("text");
+                String title = msg.getData().getString("title");
+                final String callBack = msg.getData().getString("callBack");
+
+                AlertDialog.Builder customBuilder = new AlertDialog.Builder(PhoneMainActivity.this).setTitle(title).setMessage(content);
+                customBuilder.setTitle(title).setMessage(content)
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                showConform(callBack, "false");
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                showConform(callBack, "true");
+                            }
+                        });
+                AlertDialog dialog = customBuilder.create();
+
+                dialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private void showConform(String callBack, String r) {
+        if (callBack.indexOf("()") != -1) {
+            callBack = callBack.replace("()", "(" + r + ")");
+        } else if (callBack.indexOf("(") != -1) {
+            callBack = callBack.replace(")", "," + r + ")");
+        } else {
+            callBack = callBack + "(" + r + ")";
+        }
+
+        leftFragment.loadUrl("javascript:try{ "
+                + callBack
+                + "; }catch(e){alert(e);}");
+    }
 
     private void logOut() {
         Log.e(TAG, "logOut WispApplication.isLogin:" + WispApplication.isLogin);
         Log.e(TAG, "logOut logoutEvent:" + logoutEvent);
-//        if (!WispApplication.isLogin) {
-//            return;
-//        }
         if (!TextUtils.isEmpty(logoutEvent)) {
-//            try {
-//                WispCore.getWISPSO().CloseService();
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return;
-//            }
-//            Intent data = new Intent();
-//            data.putExtra("logoutEvent", logoutEvent);
-//            // setResult(1, data);
-//            data.putExtra("isUserOff", true);
-//            data.setClass(getBaseContext(), LoginActivity.class);
-//            startActivity(data);
-//            finish();
             leftFragment.loadUrl(logoutEvent);
         } else {
             ToastTool.show(PhoneMainActivity.this, "未获取到注销事件!", Toast.LENGTH_SHORT);
@@ -267,12 +375,6 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         }
     }
 
-    // 批注的log/pdf/回调函数
-    private String pdfDownLoadUrl = "";
-    private String logDownLoadUrl = "";
-    private String pdfAnnoCallBack = "";
-
-    // 下载批注的log或pdf
 
     class BodyClickEvent implements OnItemClickListener {
         @Override
@@ -360,109 +462,8 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         super.onResume();
     }
 
-    @Override
-    protected void onDestroy() {
-        try {
-            if (leftFragment != null) {
-                leftFragment.destroyWebView();
-            }
-//            stopNoticeScorll();
-//            if (screenOnReceiver != null) {
-//                unregisterReceiver(screenOnReceiver);
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        super.onDestroy();
-    }
-
-    private LinearLayout topTitleBar;
-    private PhoneHorizontalBtns bottomMenus;
-    private ProgressDialog downAttachmentProgress;
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        Log.e(TAG, "onCreate");
-        super.onCreate(savedInstanceState);
-
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.phone_main);
-
-        init();
-
-        // 如果不是正常调转到主页面 则退出
-        if (TextUtils.isEmpty(DB.SECURITY_HOST)
-                || TextUtils.isEmpty(getIntent().getStringExtra("success"))) {
-            Log.e(TAG, "如果不是正常调转到主页面 则退出");
-            finish();
-        }
-
-        if (TextUtils.isEmpty(DB.LOGINPAGE_URL)) {
-            ToastTool.show(PhoneMainActivity.this, "主页面地址不存在,请联系管理员解决 ", 1);
-        }
-
-        // AppSystemTool.clearWebViewCookie(getBaseContext());
-        try {
-            WispCore.getWISPSO().StartService(handler, getBaseContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-
-
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-
-        leftFragment = new PhoneLeftFragment();
-        transaction
-                .add(R.id.left_fragment_layout, leftFragment, "leftfragment");
-
-        transaction.commit();
-
-        initView();
-
-    }
-
-    private void init() {
-        topTitleBar = (LinearLayout) findViewById(R.id.top_navigate_bar);
-        bottomMenus = (PhoneHorizontalBtns) findViewById(R.id.bottom_navigate_bar);
-
-        noticeScroll = (HorizontalScrollView) findViewById(R.id.top_notice_scroll);
-        topNotice = (LinearLayout) findViewById(R.id.top_notice);
-
-        tabMenu = new TabMenu(this, new BodyClickEvent(), 0);// 出现与消失的动画
-        tabMenu.update();
-        tabMenu.SetBodyAdapter(bodyAdapter);
-
-
-        loadDialog = new ProgressDialogTool()
-                .getProgressDialog(PhoneMainActivity.this);
-
-        attachmentDownEvents = new HashMap<>();
-
-        downAttachmentProgress = new ProgressDialog(PhoneMainActivity.this);
-        downAttachmentProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        downAttachmentProgress.setMessage(getResources().getString(R.string.downloading));
-        downAttachmentProgress.setCancelable(false);
-//        downAttachmentProgress.setOnKeyListener(onKeyListener);
-    }
 
     private DisplayMetrics dm;
-    private TextView settingBtn, logOutBtn;
 
     private void initView() {
         try {
@@ -470,17 +471,35 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
             dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
 
+            topTitleBar = (LinearLayout) findViewById(R.id.top_navigate_bar);
+            bottomMenus = (PhoneHorizontalBtns) findViewById(R.id.bottom_navigate_bar);
+
+            noticeTitle = (RelativeLayout) findViewById(R.id.noticeTitle);
+
+            tabMenu = new TabMenu(this, new BodyClickEvent(), 0);// 出现与消失的动画
+            tabMenu.update();
+            tabMenu.SetBodyAdapter(bodyAdapter);
+
+
+            loadDialog = new ProgressDialogTool()
+                    .getProgressDialog(PhoneMainActivity.this);
+
+            attachmentDownEvents = new HashMap<>();
+
+            downAttachmentProgress = new ProgressDialog(PhoneMainActivity.this);
+            downAttachmentProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            downAttachmentProgress.setMessage(getResources().getString(R.string.downloading));
+            downAttachmentProgress.setCancelable(false);
+//        downAttachmentProgress.setOnKeyListener(onKeyListener);
+
+
             titleTextView = (TextView) findViewById(R.id.top_title);
             titleTextView.setText("首页");
-            titleTextView.setTextColor(Color.WHITE);
-            titleTextView.setVisibility(View.VISIBLE);
 
             userNameTextView = (TextView) findViewById(R.id.top_user_name);
             userNameTextView
                     .setWidth(this.getResources().getDisplayMetrics().widthPixels / 4);
             userNameTextView.setText("用户");
-            userNameTextView.setTextColor(Color.WHITE);
-            userNameTextView.setVisibility(View.VISIBLE);
             userNameTextView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -491,74 +510,39 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
             });
 
             settingMenuBtn = (ImageView) findViewById(R.id.setting_menu);
-            if (DB.isPhone && DB.isPortrait) {
-                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                        LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                layoutParams.leftMargin = PixelTool
-                        .dip2px(getBaseContext(), 80);
-                userNameTextView.setLayoutParams(layoutParams);
-                settingMenuBtn.setVisibility(View.GONE);
 
-                settingBtn = (TextView) findViewById(R.id.setting_btn);
-                settingBtn.setVisibility(View.VISIBLE);
-                settingBtn.setOnClickListener(new OnClickListener() {
+            settingPopMenu = new PopMenu(PhoneMainActivity.this, handler,
+                    new PopMenu.PopMenuOnItemClickListener() {
 
-                    @Override
-                    public void onClick(View v) {
-//                        startActivity(new Intent(PhoneMainActivity.this,
-//                                SettingActivity.class));
-                    }
-                });
-                logOutBtn = (TextView) findViewById(R.id.logout_btn);
-                logOutBtn.setVisibility(View.VISIBLE);
-                logOutBtn.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onItemClick(int index) {
+                            switch (index) {
+                                case 0:
+                                    handler.sendEmptyMessage(HandlerWhat.LOG_OUT);
+                                    break;
+                                case 1:
+                                    showSetting();
+                                    break;
 
-                    @Override
-                    public void onClick(View v) {
-                        logOut();
-                    }
-                });
-
-            } else {
-
-                settingPopMenu = new PopMenu(PhoneMainActivity.this, handler,
-                        new PopMenu.PopMenuOnItemClickListener() {
-
-                            @Override
-                            public void onItemClick(int index) {
-                                switch (index) {
-                                    case 0:
-                                        handler.sendEmptyMessage(HandlerWhat.LOG_OUT);
-                                        break;
-                                    case 1:
-                                        showSetting();
-                                        break;
-
-                                    default:
-                                        break;
-                                }
+                                default:
+                                    break;
                             }
-                        });
-                // 初始化弹出菜单
-                settingMenuBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        settingPopMenu.showAsDropDown(v);
-                    }
-                });
-            }
+                        }
+                    });
+            // 初始化弹出菜单
+            settingMenuBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    settingPopMenu.showAsDropDown(v);
+                }
+            });
 
         } catch (Exception e) {
             e.printStackTrace();
             ToastTool.show(PhoneMainActivity.this, "初始化布局出错", Toast.LENGTH_LONG);
         }
 
-        String buttonsJson = getIntent().getStringExtra("buttonsJson");
-        if (!TextUtils.isEmpty(buttonsJson)) {
-            updateBottomButtonBar(buttonsJson);
-        }
-        Log.e(TAG, "DB.LOGINPAGE_URL:" + DB.LOGINPAGE_URL);
-        leftFragment.loadUrl(DB.PRE_URL + DB.LOGINPAGE_URL);
+
     }
 
     private String logoutEvent = "";
@@ -573,25 +557,17 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
             Map<String, List> map = WISPComponentsParser
                     .getCustomButtonList4Json(data);
-            // 记录按钮数字
-            int buttonNum = 0;
-
-            //noinspection unchecked
-            collectionlist = map.get("collectionlist");
-            List<CustomButton> buttonlist = map.get("bottombtnlist");
+            collectionlist = map.get(WISPComponentsParser.MORE_MENUS_LIST);
+            List<CustomButton> buttonlist = map.get(WISPComponentsParser.BOTTOM_MENUS_LIST);
 
             /***
              * 添加顶部公告栏
              */
-            //noinspection unchecked
-            noticeList = map.get("noticelist");
-//            updateNotice(noticeList);
+            noticeList = map.get(WISPComponentsParser.NOTICE_MENUS_LIST);
+            if (noticeList != null && noticeList.size() > 0) {
+                noticeTitle.setVisibility(View.VISIBLE);
+            }
 
-            // List<CustomButton> tablist = map.get("tabslist");
-            // if (tablist != null && tablist.size() > 0) {
-            // // initializeTabs(tablist);
-            // return;
-            // }
 
             ArrayList<CustomWidgetButton> list = new ArrayList<CustomWidgetButton>();
 
@@ -601,24 +577,25 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                 if ("menubtn".equalsIgnoreCase(customButton.getType())) {
                     info = new CustomWidgetButton();
                     info.setBeforeImg(ButtonFactory.getDrawable(getBaseContext(),
-                            customButton.getBeforeimg()));
+                            customButton.getBeforeImg()));
                     info.setAfterImg(ButtonFactory.getDrawable(getBaseContext(),
-                            customButton.getAfterimg()));
+                            customButton.getAfterImg()));
                     try {
                         info.setNum(Integer.parseInt(customButton.getNumber()));
                     } catch (Exception e) {
                         e.printStackTrace();
                         info.setNum(0);
                     }
-                    info.setTitle(customButton.getButtontext());
-                    info.setCallBack(customButton.getClickevent());
-                    info.setIsclick(customButton.getIsclick());
+                    info.setTitle(customButton.getButtonText());
+                    info.setCallBack(customButton.getClickEvent());
+                    info.setIsclick(customButton.getIsClick());
                     list.add(info);
                 } else if ("title".equalsIgnoreCase(customButton.getType())) {
-                    String user = customButton.getButtontext();
+                    String user = customButton.getButtonText();
                     userNameTextView.setText(user);
                 } else if ("logout".equalsIgnoreCase(customButton.getType())) {
-                    logoutEvent = customButton.getClickevent();
+                    logoutEvent = customButton.getClickEvent();
+                    settingMenuBtn.setVisibility(View.VISIBLE);
                 }
             }
             boolean flg = false;
@@ -637,14 +614,12 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                 leftBtn.setBeforeImg(getResources().getDrawable(R.mipmap.more_btn));
                 leftBtn.setAfterImg(getResources().getDrawable(R.mipmap.more_btn));
 
-                if (collectionlist != null && collectionlist.size() > 0) {
-                    CustomButton more = collectionlist.get(0);
-                    if (more != null) {
-                        leftBtn.setBeforeImg(ButtonFactory.getDrawable(getBaseContext(),
-                                more.getBeforeimg()));
-                        leftBtn.setAfterImg(ButtonFactory.getDrawable(getBaseContext(),
-                                more.getAfterimg()));
-                    }
+                CustomButton more = collectionlist.get(0);
+                if (more != null) {
+                    leftBtn.setBeforeImg(ButtonFactory.getDrawable(getBaseContext(),
+                            more.getBeforeImg()));
+                    leftBtn.setAfterImg(ButtonFactory.getDrawable(getBaseContext(),
+                            more.getAfterImg()));
                 }
 
                 list.add(0, leftBtn);
@@ -659,11 +634,11 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                     @Override
                     public void callBack(CustomWidgetButton info) {
                         if (CustomWidgetButton.ButtonType.LeftBtn == info.getType() || "更多".equals(info.getTitle())) {
-//                            Intent intent = new Intent(PhoneMainActivity.this,
-//                                    MoreActivity.class);
-//                            intent.putExtra("buttons",
-//                                    (Serializable) collectionlist);
-//                            startActivityForResult(intent, 1);
+                            Intent intent = new Intent(PhoneMainActivity.this,
+                                    MoreActivity.class);
+                            intent.putExtra("buttons",
+                                    (Serializable) collectionlist);
+                            startActivityForResult(intent, MORE_ACTIVITY_RESULT_CODE);
                         } else {
                             if (!TextUtils.isEmpty(info.getCallBack())) {
                                 String title = info.getTitle();
@@ -685,12 +660,34 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         }
     }
 
-    // private void initializeTabs(List<CustomButton> tablist) {
-    // if (leftFragment != null) {
-    // leftFragment.initializeTabs(tablist);
-    // }
-    // }
+    private static final int MORE_ACTIVITY_RESULT_CODE = 1;
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            switch (resultCode) {
+                case MORE_ACTIVITY_RESULT_CODE:
+                    onMoreActivityBack(data);
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void onMoreActivityBack(Intent data) {
+        if (data != null) {
+            String url = data.getStringExtra("url");
+            String title = data.getStringExtra("title");
+            if (!TextUtils.isEmpty(url)) {
+                leftFragment.loadUrl(url);
+            }
+            if (!TextUtils.isEmpty(title)) {
+                titleTextView.setText(title);
+            }
+        }
+    }
 
     //动态添加界面按钮
     private void addWebUI(Message msg) {
@@ -722,7 +719,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
             //更多里面的条数
             if ("appbtn".equals(type)) {
                 CustomButton b = new CustomButton();
-                b.setButtontext(buttonText);
+                b.setButtonText(buttonText);
                 b.setNumber(number);
 
                 updateMoreBtns(b);
@@ -744,10 +741,10 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
             //更多
             for (CustomButton customButton : collectionlist) {
                 //父级
-                for (CustomButton pBtn : customButton.getList()) {
+                for (CustomButton pBtn : customButton.getCollction()) {
                     //子级
-                    for (CustomButton btn : pBtn.getList()) {
-                        if (b.getButtontext().equals(btn.getButtontext())) {
+                    for (CustomButton btn : pBtn.getCollction()) {
+                        if (b.getButtonText().equals(btn.getButtonText())) {
                             Log.e(TAG, "updateMoreBtns:");
                             btn.setNumber(b.getNumber());
                             break;
@@ -875,7 +872,6 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         try {
             dialog.show();
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
 

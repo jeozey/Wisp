@@ -1,7 +1,6 @@
 package com.rj.framework;
 
-import android.util.Log;
-
+import com.alibaba.fastjson.JSON;
 import com.rj.view.button.ButtonNum;
 import com.rj.view.button.CustomButton;
 import com.rj.view.button.NoticeBean;
@@ -17,118 +16,68 @@ import java.util.Map;
 
 public class WISPComponentsParser {
 
+    public static final String BOTTOM_MENUS_LIST = "bottombtnlist";
+    public static final String BOTTOM_MENUS_NUM_LIST = "noticelist";
+    public static final String MORE_MENUS_LIST = "collectionlist";
+    public static final String TAB_MENUS_LIST = "tabslist";
+    public static final String NOTICE_MENUS_LIST = "btnNumlist";
 
-    public static List<CustomButton> getTabsList4JsonArray(JSONArray jsonArray) {
-        List<CustomButton> list = new ArrayList<CustomButton>();
+    public static Map<String, List> getCustomButtonList4Json(String data) {
+        Map<String, List> map = new HashMap<>();
         try {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                CustomButton customButton = new CustomButton();
-                if (!jsonObject.isNull("buttonText")) {
-                    customButton.setButtontext(jsonObject
-                            .getString("buttonText"));
-                }
-                if (!jsonObject.isNull("clickEvent")) {
-                    customButton.setClickevent(jsonObject
-                            .getString("clickEvent"));
-                }
-                if (!jsonObject.isNull("isClick")) {
-                    customButton.setIsclick(jsonObject.getString("isClick"));
+            JSONArray jsonArray = new JSONArray(data);
+            // 按钮
+            JSONArray bntsArray = jsonArray.getJSONArray(0);
+            List<CustomButton> list = getCustomButtonList4JsonArray(bntsArray.toString());
+            map.put(BOTTOM_MENUS_LIST, list);
 
-                }
-                list.add(customButton);
-            }
+            // 按钮集
+            JSONArray collectionArray = jsonArray.getJSONArray(1);
+            List<CustomButton> list2 = getCustomButtonList4JsonArray(collectionArray.toString());
+            map.put(MORE_MENUS_LIST, list2);
+
+            // 页签
+            JSONArray tabArray = jsonArray.getJSONArray(2);
+            List<CustomButton> list3 = getCustomButtonList4JsonArray(tabArray.toString());
+            map.put(TAB_MENUS_LIST, list3);
+
+            // 公告
+            JSONArray noticeArray = jsonArray.getJSONArray(3);
+            List<NoticeBean> list4 = getNoticeList4JsonArray(noticeArray);
+            map.put(NOTICE_MENUS_LIST, list4);
+
+            // 按钮条数
+            JSONArray btnNumArray = jsonArray.getJSONArray(4);
+            List<ButtonNum> list5 = getButtonNumberList4JsonArray(btnNumArray.toString());
+            map.put(BOTTOM_MENUS_NUM_LIST, list5);
+
+            return map;
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
-            return list;
         }
 
-        return list;
-
+        return null;
     }
 
+
     public static List<CustomButton> getCustomButtonList4JsonArray(
-            JSONArray jsonArray) {
-        List<CustomButton> list = new ArrayList<CustomButton>();
+            String jsonArray) {
+        List<CustomButton> list = new ArrayList<>();
         try {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                CustomButton customButton = new CustomButton();
-
-                if (!jsonObject.isNull("type")) {
-                    customButton.setType(jsonObject.getString("type"));
-                }
-                if (!jsonObject.isNull("number")) {
-                    customButton.setNumber(jsonObject.getString("number"));
-                }
-                if (!jsonObject.isNull("beforeImg")) {
-                    customButton
-                            .setBeforeimg(jsonObject.getString("beforeImg"));
-                }
-                if (!jsonObject.isNull("afterImg")) {
-                    customButton.setAfterimg(jsonObject.getString("afterImg"));
-
-                }
-                if (!jsonObject.isNull("buttonText")) {
-                    customButton.setButtontext(jsonObject
-                            .getString("buttonText"));
-
-                }
-                if (!jsonObject.isNull("clickEvent")) {
-                    customButton.setClickevent(jsonObject
-                            .getString("clickEvent"));
-                }
-                if (!jsonObject.isNull("isClick")) {
-                    customButton.setIsclick(jsonObject.getString("isClick"));
-                }
-                if (!jsonObject.isNull("isNewWind")) {
-                    customButton
-                            .setIsNewWind(jsonObject.getString("isNewWind"));
-                }
-                if (!jsonObject.isNull("collction")) {
-                    customButton
-                            .setList(getCustomButtonList4JsonArray(jsonObject
-                                    .getJSONArray("collction")));
-                }
-                list.add(customButton);
-            }
+            list = JSON.parseArray(jsonArray, CustomButton.class);
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
-            return list;
         }
-
         return list;
     }
 
     public static List<ButtonNum> getButtonNumberList4JsonArray(
-            JSONArray jsonArray) {
-        List<ButtonNum> list = new ArrayList<ButtonNum>();
+            String jsonArray) {
+        List<ButtonNum> list = new ArrayList<>();
         try {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                ButtonNum buttonNum = new ButtonNum();
-
-                if (!jsonObject.isNull("type")) {
-                    buttonNum.setType(jsonObject.getString("type"));
-                }
-
-                if (!jsonObject.isNull("number")) {
-                    buttonNum.setNumber(jsonObject.getString("number"));
-
-                }
-                if (!jsonObject.isNull("buttonText")) {
-                    buttonNum.setButtonText(jsonObject.getString("buttonText"));
-
-                }
-
-                list.add(buttonNum);
-            }
+            list = JSON.parseArray(jsonArray, ButtonNum.class);
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
-            return list;
         }
 
         return list;
@@ -138,19 +87,8 @@ public class WISPComponentsParser {
     public static ButtonNum getButtonNumber(String data) {
         ButtonNum buttonNum = new ButtonNum();
         try {
-            JSONObject jsonObject = new JSONObject(data);
-            if (!jsonObject.isNull("type")) {
-                buttonNum.setType(jsonObject.getString("type"));
-            }
-            if (!jsonObject.isNull("number")) {
-                buttonNum.setNumber(jsonObject.getString("number"));
-            }
-            if (!jsonObject.isNull("buttonText")) {
-                buttonNum.setButtonText(jsonObject.getString("buttonText"));
-            }
-
+            buttonNum = JSON.parseObject(data, ButtonNum.class);
         } catch (Exception e) {
-            // TODO: handle exception
             return buttonNum;
         }
         return buttonNum;
@@ -206,51 +144,9 @@ public class WISPComponentsParser {
 
             }
         } catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
         return list;
     }
-
-    public static Map<String, List> getCustomButtonList4Json(String data) {
-        Map<String, List> map = new HashMap<String, List>();
-        try {
-            // List<CustomButton> list = new ArrayList<CustomButton>();
-            JSONArray jsonArray = new JSONArray(data);
-            // 按钮
-            JSONArray bntsArray = jsonArray.getJSONArray(0);
-            List<CustomButton> list = getCustomButtonList4JsonArray(bntsArray);
-            map.put("bottombtnlist", list);
-
-            // 按钮集
-            JSONArray collectionArray = jsonArray.getJSONArray(1);
-            List<CustomButton> list2 = getCustomButtonList4JsonArray(collectionArray);
-            map.put("collectionlist", list2);
-
-            // 页签
-            JSONArray tabArray = jsonArray.getJSONArray(2);
-            List<CustomButton> list3 = getTabsList4JsonArray(tabArray);
-            map.put("tabslist", list3);
-
-            // 公告
-
-            JSONArray noticeArray = jsonArray.getJSONArray(3);
-            List<NoticeBean> list4 = getNoticeList4JsonArray(noticeArray);
-            Log.e("test", "公告:" + noticeArray);
-            map.put("noticelist", list4);
-
-            // 按钮条数
-            JSONArray btnNumArray = jsonArray.getJSONArray(4);
-            List<ButtonNum> list5 = getButtonNumberList4JsonArray(btnNumArray);
-
-            map.put("btnNumlist", list5);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return map;
-    }
-
 
 }

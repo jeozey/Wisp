@@ -4,57 +4,32 @@ import java.io.Serializable;
 import java.util.List;
 
 public class CustomButton implements Serializable {
-
-    private String beforeimg;
-    private String afterimg;
+    private String beforeImg;
+    private String afterImg;
     private String type;
     private String number;
-    private String buttontext;
-    private String clickevent;
-    private String isclick;
+    private String buttonText;
+    private String clickEvent;
+    private String isClick;
     private String parentName;
     private String isNewWind;
 
-    public String getNumber() {
-        return number;
+    private List<CustomButton> collction;
+
+    public String getBeforeImg() {
+        return beforeImg;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setBeforeImg(String beforeImg) {
+        this.beforeImg = beforeImg;
     }
 
-    public String getParentName() {
-        return parentName;
+    public String getAfterImg() {
+        return afterImg;
     }
 
-    public void setParentName(String parentName) {
-        this.parentName = parentName;
-    }
-
-    private List<CustomButton> list;
-
-    public List<CustomButton> getList() {
-        return list;
-    }
-
-    public void setList(List<CustomButton> list) {
-        this.list = list;
-    }
-
-    public String getBeforeimg() {
-        return beforeimg;
-    }
-
-    public void setBeforeimg(String beforeimg) {
-        this.beforeimg = beforeimg;
-    }
-
-    public String getAfterimg() {
-        return afterimg;
-    }
-
-    public void setAfterimg(String afterimg) {
-        this.afterimg = afterimg;
+    public void setAfterImg(String afterImg) {
+        this.afterImg = afterImg;
     }
 
     public String getType() {
@@ -65,28 +40,44 @@ public class CustomButton implements Serializable {
         this.type = type;
     }
 
-    public String getButtontext() {
-        return buttontext;
+    public String getNumber() {
+        return number;
     }
 
-    public void setButtontext(String buttontext) {
-        this.buttontext = buttontext;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
-    public String getClickevent() {
-        return clickevent;
+    public String getButtonText() {
+        return buttonText;
     }
 
-    public void setClickevent(String clickevent) {
-        this.clickevent = clickevent;
+    public void setButtonText(String buttonText) {
+        this.buttonText = buttonText;
     }
 
-    public String getIsclick() {
-        return isclick;
+    public String getClickEvent() {
+        return clickEvent;
     }
 
-    public void setIsclick(String isclick) {
-        this.isclick = isclick;
+    public void setClickEvent(String clickEvent) {
+        this.clickEvent = clickEvent;
+    }
+
+    public String getIsClick() {
+        return isClick;
+    }
+
+    public void setIsClick(String isClick) {
+        this.isClick = isClick;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 
     public String getIsNewWind() {
@@ -97,13 +88,20 @@ public class CustomButton implements Serializable {
         this.isNewWind = isNewWind;
     }
 
-    @Override
+    public List<CustomButton> getCollction() {
+        return collction;
+    }
+
+    public void setCollction(List<CustomButton> collction) {
+        this.collction = collction;
+    }
+
     public String toString() {
-        return "CustomButton [beforeimg=" + beforeimg + ", afterimg="
-                + afterimg + ", type=" + type + ", buttontext=" + buttontext
-                + ", clickevent=" + clickevent + ", isclick=" + isclick
+        return "CustomButton [beforeImg=" + beforeImg + ", afterImg="
+                + afterImg + ", type=" + type + ", buttonText=" + buttonText
+                + ", clickEvent=" + clickEvent + ", isClick=" + isClick
                 + ", parentName=" + parentName + ", isNewWind=" + isNewWind
-                + ", list=" + list + "]";
+                + ", collction=" + collction + "]";
     }
 
 }

@@ -198,7 +198,7 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
                                 }
                                 localResources.put(fileName, resourceFile);
                                 hasDownCount++;
-                                Log.e(TAG, "needDownLoadResources.size():" + needDownLoadResources.size());
+                                Log.e(TAG, "needDownLoadResources.size():" + needDownLoadResources.size() + " hasDownCount:" + hasDownCount);
                                 if (hasDownCount == needDownLoadResources.size()) {
                                     saveConfigFile();
                                     EventBus.getDefault().post(new ResourceMessageEvent(ResourceMessageEvent.RESOURCE_DOWN_END, downFailResources.size()));
@@ -223,8 +223,6 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
             }
             Log.e(TAG, "write over");
         }
-        //注销订阅
-        EventBus.getDefault().unregister(this);
     }
     private void downResource(Map<String, ResourceFile> allNeedDownLoadResources) {
         //下载开始
@@ -268,7 +266,7 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
 
         String filename = filepath;
 
-        if (httpPkg.getHead().get(Commons.HTTP_HEAD).indexOf(Commons.NOT_FOUND) == -1) {
+        if (httpPkg != null && httpPkg.getHead().get(Commons.HTTP_HEAD).indexOf(Commons.NOT_FOUND) == -1) {
 
             if (httpPkg != null && httpPkg.getBody() != null) {
 
@@ -277,6 +275,7 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
 
                 try {
                     FileUtil.writeFile(file, httpPkg.getBody());
+                    saveConfigFile();
                 } catch (Exception e) {
                     e.printStackTrace();
                     //通知订阅者下载失败一个资源

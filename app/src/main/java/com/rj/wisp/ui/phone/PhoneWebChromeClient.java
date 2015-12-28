@@ -127,27 +127,27 @@ public class PhoneWebChromeClient extends WebChromeClient {
                 if ("backbtn".equalsIgnoreCase(customButton.getType())) {
                     backBtn = new CustomWidgetButton();
                     backBtn.setType(CustomWidgetButton.ButtonType.LeftBtn);
-                    backBtn.setTitle(customButton.getButtontext());
+                    backBtn.setTitle(customButton.getButtonText());
 //					backBtn.setBeforeImg(context.getResources().getDrawable(
 //							R.drawable.return_icon60));
-                    backBtn.setBeforeImg(ButtonFactory.getDrawable(context, customButton.getBeforeimg()));
-                    backBtn.setAfterImg(ButtonFactory.getDrawable(context, customButton.getAfterimg()));
-                    backBtn.setCallBack(customButton.getClickevent());
+                    backBtn.setBeforeImg(ButtonFactory.getDrawable(context, customButton.getBeforeImg()));
+                    backBtn.setAfterImg(ButtonFactory.getDrawable(context, customButton.getAfterImg()));
+                    backBtn.setCallBack(customButton.getClickEvent());
                     list.add(backBtn);
                 } else if ("operationbtn".equalsIgnoreCase(customButton.getType())) {
                     info = new CustomWidgetButton();
                     info.setBeforeImg(ButtonFactory.getDrawable(context,
-                            customButton.getBeforeimg()));
-                    info.setAfterImg(ButtonFactory.getDrawable(context, customButton.getAfterimg()));
+                            customButton.getBeforeImg()));
+                    info.setAfterImg(ButtonFactory.getDrawable(context, customButton.getAfterImg()));
                     try {
                         info.setNum(Integer.parseInt(customButton.getNumber()));
                     } catch (Exception e) {
                         e.printStackTrace();
                         info.setNum(0);
                     }
-                    info.setTitle(customButton.getButtontext());
-                    info.setCallBack(customButton.getClickevent());
-                    info.setIsclick(customButton.getIsclick());
+                    info.setTitle(customButton.getButtonText());
+                    info.setCallBack(customButton.getClickEvent());
+                    info.setIsclick(customButton.getIsClick());
                     list.add(info);
                 }
             }
@@ -164,7 +164,7 @@ public class PhoneWebChromeClient extends WebChromeClient {
         }
     }
 
-    public void initializeTabs(List<CustomButton> tablist, TopTabLayoutWidget tabWidget) {
+    public void initializeTabs(final List<CustomButton> tablist, TopTabLayoutWidget tabWidget) {
         try {
             this.tabWidget = tabWidget;
 //			final TopTabLayoutWidget tabWidget = (TopTabLayoutWidget) context.findViewById(R.id.tabLayoutWidget);
@@ -175,9 +175,9 @@ public class PhoneWebChromeClient extends WebChromeClient {
             for (CustomButton button : tablist) {
                 Log.e(TAG, "button:" + button);
                 btn = new CustomWidgetButton();
-                btn.setTitle(button.getButtontext());
-                btn.setCallBack(button.getClickevent());
-                btn.setIsclick(button.getIsclick());
+                btn.setTitle(button.getButtonText());
+                btn.setCallBack(button.getClickEvent());
+                btn.setIsclick(button.getIsClick());
                 buttons.add(btn);
             }
 //            DisplayMetrics mDisplayMetrics = new DisplayMetrics();
@@ -346,5 +346,6 @@ public class PhoneWebChromeClient extends WebChromeClient {
 
     public boolean isChildOpen() {
         return childLayout.getVisibility() == View.VISIBLE;
+
     }
 }

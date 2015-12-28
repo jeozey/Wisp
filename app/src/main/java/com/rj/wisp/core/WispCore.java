@@ -70,6 +70,7 @@ public class WispCore {
 
         public void restartHttpServer() {
             try {
+                Log.e(TAG, "restartHttpServer");
                 HttpServer.stopHttpServer();
                 httpServer.startHttpServer();
             } catch (Exception e) {
@@ -79,6 +80,7 @@ public class WispCore {
 
         public void CloseService() {
             try {
+                Log.e(TAG, "CloseService");
                 HttpServer.stopHttpServer();
             } catch (Exception e) {
                 e.printStackTrace();

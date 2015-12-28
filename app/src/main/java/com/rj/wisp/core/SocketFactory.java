@@ -14,7 +14,7 @@ import com.rj.framework.DB;
 public class SocketFactory {
     private static final String TAG = SocketFactory.class.getName();
     private static SocketConnectionPool connectionPool;
-
+    private static boolean isSSL = false;
     public static ISocketConnection getSSLSocket() {
         try {
             Log.e(TAG, "SECURITY_HOST:" + DB.SECURITY_HOST + " SECURITY_PORT:" + DB.SECURITY_PORT);
@@ -23,8 +23,19 @@ public class SocketFactory {
                         .getInstance().getSocketConnectionPool();
             }
 
-            ISocketConnection connection = connectionPool.getConnection(
-                    DB.SECURITY_HOST, DB.SECURITY_PORT, SocketConnectionPool.SOCKET_TYPE.ORIDINARY_SOCKET);
+            ISocketConnection connection = null;
+            if (!isSSL) {
+                connection = connectionPool.getConnection(
+                        DB.SECURITY_HOST, DB.SECURITY_PORT, SocketConnectionPool.SOCKET_TYPE.ORIDINARY_SOCKET);
+            }
+            if (connection == null) {
+                connection = connectionPool.getConnection(
+                        DB.SECURITY_HOST, DB.SECURITY_PORT, SocketConnectionPool.SOCKET_TYPE.SSL_SOCKET);
+                if (connection != null) {
+                    isSSL = true;
+                }
+            }
+
             return connection;
         } catch (Exception e) {
             e.printStackTrace();

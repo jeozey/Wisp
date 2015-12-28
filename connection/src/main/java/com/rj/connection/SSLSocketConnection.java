@@ -108,6 +108,7 @@ public class SSLSocketConnection implements ISocketConnection {
         return null;
     }
 
+    boolean isGzip = true;
 
     @Override
     public void write(byte[] data) throws IOException {
@@ -117,7 +118,16 @@ public class SSLSocketConnection implements ISocketConnection {
 
         if (data != null) {
 //            Log.e(TAG, "write begin");
-            out.write(data);
+            if (isGzip) {
+                try {
+                    out.write(GzipUtil.byteCompress(data, true));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                out.write(data);
+            }
             out.flush();
 //            Log.e(TAG, "write over");
         }
@@ -177,23 +187,23 @@ public class SSLSocketConnection implements ISocketConnection {
             if (in == null) {
                 initInOutStream();
             }
-//            BufferedInputStream bis = new BufferedInputStream(in);
-//            bis.mark(2);
-//            // 取前两个字节
-//            byte[] header = new byte[2];
-//            int result = bis.read(header);
-//            // reset输入流到开始位置
-//            bis.reset();
-//            // 判断是否是GZIP格式
-//            int headerData = getShort(header);
-//            // Gzip 流 的前两个字节是 0x1f8b
-//            if (result != -1 && headerData == 0x1f8b) {
-//                Log.w(TAG, "use GZIPInputStream  ");
-//                in = new GZIPInputStream(bis);
-//            } else {
-//                Log.w(TAG, "not use GZIPInputStream");
-//                in = bis;
-//            }
+            BufferedInputStream bis = new BufferedInputStream(in);
+            bis.mark(2);
+            // 取前两个字节
+            byte[] header = new byte[2];
+            int result = bis.read(header);
+            // reset输入流到开始位置
+            bis.reset();
+            // 判断是否是GZIP格式
+            int headerData = getShort(header);
+            // Gzip 流 的前两个字节是 0x1f8b
+            if (result != -1 && headerData == 0x1f8b) {
+                Log.w(TAG, "use GZIPInputStream  ");
+                in = new GZIPInputStream(bis);
+            } else {
+                Log.w(TAG, "not use GZIPInputStream");
+                in = bis;
+            }
 
             HashMap<String, String> head = new HashMap<String, String>();
             DataInputStream dataInputStream = new DataInputStream(in);

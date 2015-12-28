@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MoreActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/theme">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/more_app_module_title"
+            android:textColor="@android:color/white"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/more_app_module_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="4dp"
+            android:background="@mipmap/mm_title_back_press_mm"
+            android:clickable="true"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="17dp"
+            android:onClick="onClickBackBtn"
+            android:text="@string/back"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+    <com.rj.view.MoveLayout
+        android:id="@+id/move_lyt"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></com.rj.view.MoveLayout>
+
+</LinearLayout>

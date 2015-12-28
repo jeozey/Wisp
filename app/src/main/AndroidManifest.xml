@@ -28,6 +28,10 @@
             android:name=".ui.phone.SettingActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.phone.MoreActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
 
         <activityppl
             android:name=".ui.pad.PadMainActivity"

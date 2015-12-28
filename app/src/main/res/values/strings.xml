@@ -3,4 +3,5 @@
     <string name="more">●●●</string>
     <string name="logout">注销</string>
     <string name="setting">设置</string>
+    <string name="more_app_module_title">应用模块</string>
 </resources>

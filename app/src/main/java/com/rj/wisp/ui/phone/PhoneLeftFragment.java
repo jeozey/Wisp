@@ -23,7 +23,6 @@ import com.rj.framework.webview.WebViewFactory;
 import com.rj.view.TopTabLayoutWidget;
 import com.rj.view.button.PhoneHorizontalBtns;
 import com.rj.wisp.R;
-import com.rj.wisp.base.WispApplication;
 
 
 public class PhoneLeftFragment extends Fragment {
@@ -171,11 +170,11 @@ public class PhoneLeftFragment extends Fragment {
             // LeftFragmentWebViewCtrol leftFragmentWebViewCtrol = new
             // LeftFragmentWebViewCtrol(
             // activity);
-            Log.e(TAG, "WispApplication.cookies:" + WispApplication.cookies);
+//            Log.e(TAG, "WispApplication.cookies:" + WispApplication.cookies);
 //			synCookies(activity, DB.PRE_URL
 //						+ DB.HOMEPAGE_URL, WispApplication.cookies);
-            Log.e(TAG, "DB.LOGINPAGE_URL" + DB.LOGINPAGE_URL);
-            Log.e(TAG, "DB.HOMEPAGE_URL" + DB.HOMEPAGE_URL);
+//            Log.e(TAG, "DB.LOGINPAGE_URL" + DB.LOGINPAGE_URL);
+//            Log.e(TAG, "DB.HOMEPAGE_URL" + DB.HOMEPAGE_URL);
             if (webView == null) {
 //                webView = WebViewFactory.getNewWebView(activity, "file:///android_asset/test.html");
                 webView = WebViewFactory.getNewWebView(context, DB.PRE_URL

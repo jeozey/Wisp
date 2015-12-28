@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:marquee="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,18 +10,54 @@
 
     <include
         android:id="@+id/top_navigate_bar"
+        layout="@layout/phone_main_top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        layout="@layout/phone_main_top_layout"
         android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/noticeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_below="@id/top_navigate_bar">
+
+        <ImageView
+            android:id="@+id/noticeLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ggicon72" />
+
+        <com.rj.view.MarqueeView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/noticeLogo"
+            marquee:autoStart="true"
+            marquee:pause="1000"
+            marquee:speed="4">
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="阿斯蒂芬规划局看了去微软推哦怕自行车自行车vbnm"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
+        </com.rj.view.MarqueeView>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/left_fragment_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_navigate_bar"
-        android:layout_below="@id/top_navigate_bar"
+        android:layout_below="@id/noticeTitle"
         android:layout_centerInParent="true"
         android:orientation="vertical"></LinearLayout>
 
@@ -43,8 +81,8 @@
         android:visibility="gone" />
 
     <include
+        layout="@layout/phone_form_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        layout="@layout/phone_form_layout" />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>
