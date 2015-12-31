@@ -537,18 +537,42 @@ public class ServiceThread extends Thread {
     public void httpRequest(HttpPkg httpPkg) throws Exception {
 
         //这边还得补上keyInfo、userAgent等信息
-        Log.v("request", "普通:" + httpPkg.getHeadLine());
+//        Log.v("request", "普通:" + httpPkg.getHeadLine());
 
         sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), httpPkg.getBody(), null);
-        Log.e(TAG, "httpRequest 请求数据发起成功:");
+        Log.e(TAG, "httpRequest 请求数据发起成功:"+ httpPkg.getHeadLine());
     }
 
     public void checkConnection() {
         Log.e(TAG, "checkConnection");
         try {
+//            String head = "I am client\r\n";
+//            ISocketConnection connection = SocketFactory.getSSLSocket();
+//            connection.write(head.getBytes());
+
             String head = "GET /wisp_aas/adapter?open&_method=checkConnection&appcode=" + DB.APP_CODE + Commons.CRLF_STR;
             HttpPkg httpPkg = sendRequest(head, null, null);
             Log.e(TAG, "checkConnection:" + httpPkg.getHead());
+
+
+//            SSLContext context = SSLContext.getInstance("SSL");
+//            context.init(null,
+//                    new TrustManager[] { new SSLServer.MyX509TrustManager() },
+//                    new SecureRandom());
+//            SSLSocketFactory factory = context.getSocketFactory();
+//            SSLSocket s = (SSLSocket) factory.createSocket("192.168.1.105", 10002);
+//            System.out.println("ok");
+//
+//            OutputStream output = s.getOutputStream();
+//            InputStream input = s.getInputStream();
+//
+//            output.write("I am client\r\n".getBytes());
+//            System.out.println("sent: alert");
+//            output.flush();
+//
+//            byte[] buf = new byte[1024];
+//            int len = input.read(buf);
+//            System.out.println("received:" + new String(buf, 0, len));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -621,7 +645,12 @@ public class ServiceThread extends Thread {
             connection.shutDownOutPut();
 
             HashMap<String, String> map = connection.getHttpHead2();
-//            Log.e(TAG, "get http response:" + map);
+            Log.e(TAG, "get http response:" + map);
+
+            if(map==null){
+                Log.e(TAG,"get http response error:"+head);
+                return null;
+            }
 
             HttpPkg p = new HttpPkg(map);
             fixHttpPkg(p);

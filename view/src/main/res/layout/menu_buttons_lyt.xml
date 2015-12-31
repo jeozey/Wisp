@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/pad_left_menu_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/more_top_img"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/moret" />
+
+
+    <ListView
+        android:id="@+id/menu_lv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:cacheColorHint="#00000000"
+        android:divider="#00000000"
+        android:dividerHeight="5dp"
+        android:listSelector="@drawable/menu_item_selector"
+        android:scrollbars="none" />
+
+    <ImageView
+        android:id="@+id/more_botton_img"
+        android:layout_width="20dp"
+        android:layout_height="8dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/moreb" />
+
+    <!-- 
+    <LinearLayout
+        android:id="@+id/menu_item_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/menu_item_selector2"
+        android:orientation="vertical"
+        android:padding="2dp" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/menu_icon_setting" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="设置"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#12202B" />
+
+    <LinearLayout
+        android:id="@+id/menu_item_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/menu_item_selector2"
+        android:orientation="vertical"
+        android:padding="2dp" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/menu_icon_logout" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="注销"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+ -->
+</LinearLayout>

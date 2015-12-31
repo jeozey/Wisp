@@ -44,7 +44,7 @@ public class WispCore {
         public void StartService(Handler handler, Context context) {
             try {
                 if (!HttpServer.getHasStart()) {
-                    Log.e(TAG, "StartService:handler" + handler);
+                    Log.e(TAG, "Start HttpServer:handler" + handler);
                     // 启动HTTP服务
                     httpServer = new HttpServer(handler, context);
                 } else {
@@ -61,7 +61,7 @@ public class WispCore {
 
         public void changeHttpServer(Handler handler, Context context) {
             try {
-                Log.e(TAG, "changeHttpServer:handler" + handler);
+                Log.e(TAG, "change HttpServer:handler" + handler);
                 httpServer.changeHttpServer(handler, context);
             } catch (Exception e) {
                 e.printStackTrace();

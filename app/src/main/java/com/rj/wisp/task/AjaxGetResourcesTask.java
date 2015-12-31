@@ -198,6 +198,10 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
                                 }
                                 localResources.put(fileName, resourceFile);
                                 hasDownCount++;
+
+                                if (hasDownCount % 5 == 0) {
+                                    saveConfigFile();
+                                }
                                 Log.e(TAG, "needDownLoadResources.size():" + needDownLoadResources.size() + " hasDownCount:" + hasDownCount);
                                 if (hasDownCount == needDownLoadResources.size()) {
                                     saveConfigFile();
@@ -272,10 +276,11 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
 
                 File file = new File(DB.RESOURCE_PATH
                         + filename);
+                Log.e(TAG, "file:" + file.getAbsolutePath());
 
                 try {
                     FileUtil.writeFile(file, httpPkg.getBody());
-                    saveConfigFile();
+//                    saveConfigFile();
                 } catch (Exception e) {
                     e.printStackTrace();
                     //通知订阅者下载失败一个资源

@@ -4,4 +4,23 @@
     <string name="logout">注销</string>
     <string name="setting">设置</string>
     <string name="more_app_module_title">应用模块</string>
+
+    <!-- SettingDialog -->
+    <string name="dialog_setting_title">服务配置</string>
+    <string name="dialog_setting_ok">确 定</string>
+    <string name="dialog_setting_cancel">取 消</string>
+    <string name="dialog_setting_ip">应用地址：</string>
+    <string name="dialog_setting_port">应用端口：</string>
+    <string name="dialog_setting_name">应用名称：</string>
+    <string name="dialog_setting_vpn_name">使用vpn：</string>
+    <string name="dialog_setting_vpn_host_name">vpn地址：</string>
+    <string name="dialog_setting_vpn_port_name">vpn端口：</string>
+    <string name="dialog_setting_vpn_user_name">vpn用户：</string>
+    <string name="dialog_setting_vpn_pwd_name">vpn密码：</string>
+    <string name="dialog_setting_update">版本更新</string>
+    <string name="dialog_setting_aboutus">关于我们</string>
+    <string name="dialog_setting_log">获取日志</string>
+    <string name="dialog_setting_name_download">正在加载...</string>
+    <string name="goback_btn">返 回</string>
+    <string name="rj_copyright">Copyright@2011榕基软件</string>
 </resources>

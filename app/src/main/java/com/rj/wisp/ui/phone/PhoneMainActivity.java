@@ -7,6 +7,7 @@ package com.rj.wisp.ui.phone;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
@@ -41,6 +42,7 @@ import android.widget.Toast;
 
 import com.rj.framework.ButtonFactory;
 import com.rj.framework.DB;
+import com.rj.framework.ErrorPageUtil;
 import com.rj.framework.WISPComponentsParser;
 import com.rj.framework.webview.UrlHandler;
 import com.rj.framework.webview.WebViewCtrol;
@@ -78,6 +80,10 @@ import de.greenrobot.event.EventBus;
 public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol {
     private TextView titleTextView, userNameTextView;
     private ImageView settingMenuBtn;
+    private LinearLayout topTitleBar;
+    private PhoneHorizontalBtns bottomMenus;
+    private ProgressDialog downAttachmentProgress;
+
     // 更多按钮视图
     private PopMenu settingPopMenu;
     private static final String TAG = "PhoneMainActivity";
@@ -106,9 +112,6 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         super.onDestroy();
     }
 
-    private LinearLayout topTitleBar;
-    private PhoneHorizontalBtns bottomMenus;
-    private ProgressDialog downAttachmentProgress;
 
 
     @Override
@@ -236,8 +239,14 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
             } else {
                 ToastTool.show(getBaseContext(), "" + event.getDownFailMsg(), Toast.LENGTH_LONG);
             }
-            Intent intent = FileOpenUtil.openFile(attachment, getBaseContext());
-            startActivity(intent);
+            try {
+                Intent intent = FileOpenUtil.openFile(attachment, getBaseContext());
+                startActivity(intent);
+            } catch (ActivityNotFoundException ex) {
+                ex.printStackTrace();
+                String contentType = e.getContentType();
+                ToastTool.show(getBaseContext(), "没有合适的软件打开该附件 " + (contentType != null ? contentType : ""), Toast.LENGTH_SHORT);
+            }
         }
 
     }
@@ -877,20 +886,12 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
     }
 
-    private static String failingUrl;
 
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         Log.e(TAG, "onReceivedError:");
         view.stopLoading();
-        if (failingUrl.indexOf("refreshWebView") == -1) {
-            failingUrl = failingUrl;
-        }
-        if (DB.isPhone) {
-            view.loadUrl("file:///android_asset/phoneErrorPage.html");
-        } else {
-            view.loadUrl("file:///android_asset/errorPage.html");
-        }
+        view.loadData(ErrorPageUtil.getErrorPage(getBaseContext(), failingUrl), "text/html", "utf-8");
     }
 
     /******************************

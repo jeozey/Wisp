@@ -3,6 +3,7 @@ package com.rj.wisp;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,10 +24,10 @@ import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.bean.ResourceMessageEvent;
 import com.rj.wisp.core.InitUtil;
 import com.rj.wisp.core.LocalSocketRequestTool;
-import com.rj.wisp.core.WispCore;
 import com.rj.wisp.ui.pad.PadMainActivity;
 import com.rj.wisp.ui.phone.PhoneMainActivity;
 import com.rj.wisp.ui.phone.SettingActivity;
+import com.rj.wisp.widget.AppSettingDialog;
 
 import de.greenrobot.event.EventBus;
 
@@ -51,8 +52,6 @@ public class AppLoadActivity extends BaseActivity {
 
     private void showLoginView() {
 //        startService(new Intent(AppLoadActivity.this, NetConnectService.class));
-
-//        startActivity(new Intent(this, PhoneMainActivity.class));
 
 //        WispCore.getWISPSO().CloseService();
 
@@ -129,6 +128,16 @@ public class AppLoadActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        if (DB.isPhone && getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else if (!DB.isPhone) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+        super.onResume();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appload);
@@ -146,7 +155,7 @@ public class AppLoadActivity extends BaseActivity {
 
         InitUtil.initHttpServer(getApplicationContext(), handler);
 
-        WispCore.getWISPSO().StartService(handler, getApplicationContext());
+//        WispCore.getWISPSO().StartService(handler, getApplicationContext());
 
 
         if (DB.IS_PIN) {
@@ -220,14 +229,55 @@ public class AppLoadActivity extends BaseActivity {
         }
     }
 
+    //    public static class MyX509TrustManager implements X509TrustManager {
+//        @Override
+//        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+//
+//        }
+//
+//        @Override
+//        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+//
+//        }
+//
+//        @Override
+//        public X509Certificate[] getAcceptedIssuers() {
+//            return new X509Certificate[0];
+//        }
+//    }
     class MyTAsyncTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             localSocketRequestTool.checkConnection(handler);
-//            localSocketRequestTool.checkNewVersion(handler);
+            localSocketRequestTool.checkNewVersion(handler);
+
+//            try {
+//                SSLContext context = SSLContext.getInstance("SSL");
+//                context.init(null,
+//                        new TrustManager[]{new MyX509TrustManager()},
+//                        new SecureRandom());
+//                SSLSocketFactory factory = context.getSocketFactory();
+//                SSLSocket s = (SSLSocket) factory.createSocket("192.168.1.105", 10002);
+//                System.out.println("ok");
+//
+//                OutputStream output = s.getOutputStream();
+//                InputStream input = s.getInputStream();
+//
+//                output.write("I am client\r\n".getBytes());
+//                System.out.println("sent: alert");
+//                output.flush();
+//
+//                byte[] buf = new byte[1024];
+//                int len = input.read(buf);
+//                System.out.println("received:" + new String(buf, 0, len));
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+
             return null;
         }
     }
+
 
     private void checkSetting() {
         if (TextUtils.isEmpty(DB.APP_CODE)) {
@@ -348,7 +398,7 @@ public class AppLoadActivity extends BaseActivity {
             startActivity(new Intent(AppLoadActivity.this,
                     SettingActivity.class));
         } else {
-//            new AppSettingDialog(this).show();
+            new AppSettingDialog(this).show();
         }
     }
 

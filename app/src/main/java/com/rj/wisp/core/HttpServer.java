@@ -9,11 +9,8 @@ import com.rj.framework.DB;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public class HttpServer implements Runnable {
     private static final String TAG = HttpServer.class.getName();
@@ -83,16 +80,16 @@ public class HttpServer implements Runnable {
         }
     }
 
-    // 2 5 3
-    private ThreadPoolExecutor threadPool = new ThreadPoolExecutor(
-            1,      //corePoolSize
-            1,      //maximumPoolSize
-            1,      //keepAliveTime
-            TimeUnit.SECONDS,   //unit
-            new ArrayBlockingQueue<Runnable>(3),  //workQueue
-            new ThreadPoolExecutor.DiscardOldestPolicy()//
-    );
-    private ExecutorService executorService = Executors.newFixedThreadPool(1);
+    //    // 2 5 3
+//    private ThreadPoolExecutor threadPool = new ThreadPoolExecutor(
+//            1,      //corePoolSize
+//            1,      //maximumPoolSize
+//            1,      //keepAliveTime
+//            TimeUnit.SECONDS,   //unit
+//            new ArrayBlockingQueue<Runnable>(3),  //workQueue
+//            new ThreadPoolExecutor.DiscardOldestPolicy()//
+//    );
+    private ExecutorService executorService = Executors.newFixedThreadPool(6);
     public void run() {
         try {
             Socket webViewSocket = null;

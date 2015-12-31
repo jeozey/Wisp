@@ -11,7 +11,6 @@ import android.util.Log;
 import com.rj.framework.DB;
 import com.rj.framework.SharedPreferencesUtil;
 import com.rj.util.AndroidTool;
-import com.rj.util.EnvironmentUtil;
 import com.rj.util.SystemUtil;
 import com.rj.wisp.BuildConfig;
 
@@ -166,7 +165,8 @@ public class InitUtil {
 
     public static boolean initFilePath(Context context) {
         try {
-            DB.SDCARD_PATH = EnvironmentUtil.getExternalSdCardPath();
+//            DB.SDCARD_PATH = EnvironmentUtil.getExternalSdCardPath();
+            DB.SDCARD_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
             //----------/mnt/sdcard/Android/data/pkg/files
             DB.EXTERNAL_FILE_PATH = context.getExternalFilesDir(null).getAbsolutePath();
             //----------/mnt/sdcard/Android/data/pkg/cache

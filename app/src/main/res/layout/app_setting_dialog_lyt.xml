@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ViewAnimator
+        android:id="@+id/switcher"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/setting_lyt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/dialog_title_bg"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/dialog_setting_title"
+                android:textColor="@color/blue"
+                android:textSize="20sp" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:stretchColumns="1">
+
+                        <TableRow android:layout_marginTop="8dp">
+
+                            <TextView
+                                style="@style/SettingPopupWindow_Text"
+                                android:text="@string/dialog_setting_ip" />
+
+                            <EditText
+                                android:id="@+id/setting_ip_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="#808080" />
+                        </TableRow>
+
+                        <TableRow android:layout_marginTop="8dp">
+
+                            <TextView
+                                style="@style/SettingPopupWindow_Text"
+                                android:text="@string/dialog_setting_port" />
+
+                            <EditText
+                                android:id="@+id/setting_port_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="#808080" />
+                        </TableRow>
+
+                        <TableRow android:layout_marginTop="8dp">
+
+                            <TextView
+                                style="@style/SettingPopupWindow_Text"
+                                android:text="@string/dialog_setting_name" />
+
+                            <EditText
+                                android:id="@+id/dialogsetting_name_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@mipmap/spinner_down"
+                                android:focusableInTouchMode="false"
+                                android:textColor="#808080"
+                                android:textSize="20sp" />
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/lineTableRow"
+                            android:layout_marginTop="8dp"
+                            android:visibility="gone">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="2dp"
+                                android:background="#000000"></View>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="2dp"
+                                android:background="#000000"></View>
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/vpnTableLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:stretchColumns="1"
+                        android:visibility="gone">
+
+                        <TableRow android:layout_marginTop="8dp">
+
+                            <TextView
+                                style="@style/SettingPopupWindow_Text"
+                                android:text="@string/dialog_setting_vpn_name" />
+
+                            <EditText
+                                android:id="@+id/setting_vpn_chooese_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@mipmap/spinner_down"
+                                android:focusableInTouchMode="false"
+                                android:textColor="#808080"
+                                android:textSize="20sp" />
+                        </TableRow>
+
+                        <TableRow android:layout_marginTop="8dp">
+
+                            <TextView
+                                style="@style/SettingPopupWindow_Text"
+                                android:text="@string/dialog_setting_vpn_host_name" />
+
+                            <EditText
+                                android:id="@+id/setting_vpn_host_name_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="#808080" />
+                        </TableRow>
+
+                        <TableRow android:layout_marginTop="8dp">
+
+                            <TextView
+                                style="@style/SettingPopupWindow_Text"
+                                android:text="@string/dialog_setting_vpn_port_name" />
+
+                            <EditText
+                                android:id="@+id/setting_vpn_port_name_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="#808080" />
+                        </TableRow>
+
+                        <TableRow android:layout_marginTop="8dp">
+
+                            <TextView
+                                style="@style/SettingPopupWindow_Text"
+                                android:text="@string/dialog_setting_vpn_user_name" />
+
+                            <EditText
+                                android:id="@+id/setting_vpn_user_name_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="#808080" />
+                        </TableRow>
+
+                        <TableRow android:layout_marginTop="8dp">
+
+                            <TextView
+                                style="@style/SettingPopupWindow_Text"
+                                android:text="@string/dialog_setting_vpn_pwd_name" />
+
+                            <EditText
+                                android:id="@+id/setting_vpn_pwd_name_et"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:password="true"
+                                android:textColor="#808080" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <Button
+                        android:id="@+id/settingdialog_update_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@mipmap/setting_btn_bg"
+                        android:gravity="center"
+                        android:text="@string/dialog_setting_update"
+                        android:textSize="20sp"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/settingdialog_aboutus_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@mipmap/setting_btn_bg"
+                        android:gravity="center"
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"
+                        android:text="@string/dialog_setting_aboutus"
+                        android:textColor="@color/btn_unpressed"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/settingdialog_log_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@mipmap/setting_btn_bg"
+                        android:gravity="center"
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"
+                        android:text="@string/dialog_setting_log"
+                        android:textSize="20sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </ScrollView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/settingdialog_ok_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/btn_bg_selector"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/dialog_setting_ok"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/settingdialog_cancel_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_bg_selector"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/dialog_setting_cancel"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/about_us_lyt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/about_us_up_lyt"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/aboutus_content_repeat_background"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/about_us_version_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/about_slogon_07" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/rj_copyright"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold|italic" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/black" />
+
+            <Button
+                android:id="@+id/goback_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:layout_margin="5dp"
+                android:background="@drawable/btn_bg_selector"
+                android:paddingBottom="5dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:paddingTop="5dp"
+                android:text="@string/goback_btn"
+                android:textSize="23sp" />
+        </LinearLayout>
+    </ViewAnimator>
+
+</LinearLayout>

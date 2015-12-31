@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/leftLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#14324A"
+    android:orientation="vertical">
+    <!--
+      <com.rj.widget.MenuButtonsLayout
+          android:id="@+id/menu_buttons_lyt"
+          android:layout_width="75dp"
+          android:layout_height="match_parent"
+          android:layout_alignParentLeft="true"
+          android:layout_alignParentTop="true"
+          android:background="@drawable/pad_left_menu_bg" />
+
+    <LinearLayout
+          android:id="@+id/leftFragmentTitle"
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          android:layout_alignParentTop="true"
+          android:layout_toRightOf="@id/menu_buttons_lyt"
+          android:background="#14324a"
+          android:orientation="vertical"
+          android:gravity="center" >
+
+
+          <RelativeLayout
+              android:id="@+id/titleLayout"
+              android:layout_width="match_parent"
+              android:layout_height="60dp"
+              android:background="#3874c2" >
+
+              <TextView
+                  android:id="@+id/titleTextView"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:text="@string/app_name"
+                  android:textColor="#ffffff"
+                  android:textSize="26sp"
+                  android:textStyle="bold" />
+
+              <Button
+                  android:id="@+id/settingBtn"
+                  android:layout_width="25dp"
+                  android:layout_height="25dp"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:layout_marginRight="30dp"
+                  android:background="@drawable/top_set_selector" />
+
+              <Button
+                  android:id="@+id/userBtn"
+                  android:layout_width="25dp"
+                  android:layout_height="25dp"
+                  android:layout_centerVertical="true"
+                  android:layout_marginRight="30dp"
+                  android:layout_toLeftOf="@id/settingBtn"
+                  android:background="@drawable/top_user_selector" />
+          </RelativeLayout>
+
+          <TextView
+              android:id="@+id/leftTextTitle"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:text="待办公文"
+              android:textSize="20sp" />
+      </LinearLayout> -->
+
+    <FrameLayout
+        android:id="@+id/leftFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+
+    <!-- 
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/menu_buttons_lyt"
+        layout="@layout/pad_more_layout" /> -->
+
+</RelativeLayout>

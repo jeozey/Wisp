@@ -12,6 +12,7 @@ import android.webkit.JsResult;
 import android.webkit.WebView;
 
 import com.rj.framework.DB;
+import com.rj.framework.ErrorPageUtil;
 import com.rj.view.loading.CustomProgressDialog;
 import com.rj.view.loading.CutsomProgressDialog;
 import com.rj.view.loading.ProgressDialogTool;
@@ -191,14 +192,7 @@ public class WebViewCtrolImpl implements WebViewCtrol {
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
         view.stopLoading();
-        if (failingUrl.indexOf("refreshWebView") == -1) {
-            failingUrl = failingUrl;
-        }
-        if (DB.isPhone) {
-            view.loadUrl("file:///android_asset/phoneErrorPage.html");
-        } else {
-            view.loadUrl("file:///android_asset/errorPage.html");
-        }
+        view.loadData(ErrorPageUtil.getErrorPage(activity, failingUrl), "text/html", "utf-8");
     }
 
 

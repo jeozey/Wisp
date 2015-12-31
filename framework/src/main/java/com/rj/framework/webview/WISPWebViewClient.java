@@ -1,24 +1,26 @@
 package com.rj.framework.webview;
 
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.rj.framework.ErrorPageUtil;
+
 public class WISPWebViewClient extends WebViewClient {
     private static final String TAG = "WISPWebViewClient";
     private ProgressDialog loadDialog;
-    private Activity activity;
+    private Context context;
     private int type;
 
-    public WISPWebViewClient(ProgressDialog loadDialog, Activity activity,
+    public WISPWebViewClient(ProgressDialog loadDialog, Context context,
                              int type) {
         this.loadDialog = loadDialog;
         this.type = type;
-        this.activity = activity;
+        this.context = context;
     }
 
     @Override
@@ -40,18 +42,13 @@ public class WISPWebViewClient extends WebViewClient {
 
     }
 
-//    @Override
-//    public void onReceivedError(WebView view, int errorCode,
-//                                String description, String failingUrl) {
-//        Log.e(TAG, "onReceivedError:" + failingUrl);
-//        view.stopLoading();
-////		if(DB.isPhone){
-////			view.loadUrl("file:///android_asset/phoneErrorPage.html");
-////		}else{
-//        view.loadUrl("file:///android_asset/errorPage.html");
-////		}
-//
-//    }
+    @Override
+    public void onReceivedError(WebView view, int errorCode,
+                                String description, String failingUrl) {
+        Log.e(TAG, "onReceivedError:" + failingUrl);
+        view.stopLoading();
+        view.loadData(ErrorPageUtil.getErrorPage(context, failingUrl), "text/html", "utf-8");
+    }
 
     @Override
     // 在WebView中而不是默认浏览器中显示页面

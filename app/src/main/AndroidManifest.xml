@@ -16,7 +16,6 @@
         <activity
             android:name=".AppLoadActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +32,7 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
 
-        <activityppl
+        <activity
             android:name=".ui.pad.PadMainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />

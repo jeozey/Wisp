@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/setting_popmenu_bg"
+    android:cacheColorHint="#00000000"
+    android:orientation="vertical">
+
+    <!-- 
+
+    <ListView
+        android:id="@+id/form_top_btn_popup_listv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="#00000000"
+        android:divider="#245B87"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/grouplist_item_bg_normal" >  
+    </ListView> -->
+
+
+    <com.rj.view.listview.CornerListView
+        android:id="@+id/form_top_btn_popup_listv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:cacheColorHint="#00000000"
+        android:divider="#dadada"
+        android:dividerHeight="1dp" />
+
+</LinearLayout>

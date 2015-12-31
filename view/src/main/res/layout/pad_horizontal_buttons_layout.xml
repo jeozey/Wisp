@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?><!-- #275c87 android:background="#0070ef" -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:widget="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eff0f1"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <View
+        android:id="@+id/view_margin"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/menu_screen_lyt"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone"
+        layout="@layout/horizontal_list_item_lyt" />
+
+    <ImageView
+        android:id="@+id/more_left_img"
+        android:layout_width="10dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5dp"
+        android:scaleType="centerInside"
+        android:src="@mipmap/morel" />
+
+    <com.rj.view.listview.HorizontalListView
+        android:id="@+id/btns_listview"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+        widget:dividerWidth="10dp" />
+
+    <ImageView
+        android:id="@+id/more_right_img"
+        android:layout_width="10dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center_vertical"
+        android:src="@mipmap/morer" />
+
+    <include
+        android:id="@+id/menu_font_lyt"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        layout="@layout/horizontal_list_item_lyt"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/menu_close_lyt"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        layout="@layout/horizontal_list_item_lyt" />
+
+</LinearLayout>

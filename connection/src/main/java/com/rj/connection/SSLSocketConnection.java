@@ -12,11 +12,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
 
 /**
  * Create at: 2015/11/17 0017 16:42
@@ -65,10 +68,18 @@ public class SSLSocketConnection implements ISocketConnection {
         this.sslContext = sslContext;
         this.host = host;
         this.port = port;
-        sslSocket = initSSLSocket(sslContext, host, port);
+//        sslSocket = initSSLSocket(sslContext, host, port);
 //        Log.e(TAG, "init 2");
 
-
+        try {
+            SSLContext context = SSLContext.getInstance("SSL");
+            context.init(null,
+                    new TrustManager[]{new SSLServer.MyX509TrustManager()},
+                    new SecureRandom());
+            SSLSocketFactory factory = context.getSocketFactory();
+            sslSocket = factory.createSocket(host, port);
+        } catch (Exception e) {
+        }
 //        Log.e(TAG, "init 3");
     }
 

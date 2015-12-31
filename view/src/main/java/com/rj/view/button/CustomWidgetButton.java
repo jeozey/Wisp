@@ -1,6 +1,7 @@
 package com.rj.view.button;
 
 import android.graphics.drawable.Drawable;
+import android.view.View;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class CustomWidgetButton {
     private Drawable afterImg;
     private boolean isChooese = false;
     private String title;
+    private int visiable = View.VISIBLE;
     /**
      * 为了方便，当该对象封装全屏/非全屏按钮信息时，无用项num作为标志该次是否为全屏的状态：-1表示非全屏，1表示全屏
      */
@@ -37,6 +39,14 @@ public class CustomWidgetButton {
 
     public ButtonType getType() {
         return type;
+    }
+
+    public int getVisiable() {
+        return visiable;
+    }
+
+    public void setVisiable(int visiable) {
+        this.visiable = visiable;
     }
 
     public void setType(ButtonType type) {

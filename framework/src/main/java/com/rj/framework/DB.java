@@ -45,8 +45,8 @@ public class DB {
     public static String HTTPSERVER_HOST = "127.0.0.1";
     public static Integer HTTPSERVER_PORT = 0;
     public static String PRE_URL = "";
-    public static String CLIENT_KEY_STORE_PASSWORD = "";
-    public static String CLIENT_TRUST_KEY_STORE_PASSWORD = "";
+    public static String CLIENT_KEY_STORE_PASSWORD = "rjsoft@123";
+    public static String CLIENT_TRUST_KEY_STORE_PASSWORD = "rjsoft@123";
 
     public static boolean CHANGE_HOST = true;//是否可以修改应用地址和端口等
     public static boolean UPDATE_NEED_APPCODE = false;//获取版本更新信息时候是否发送appcode

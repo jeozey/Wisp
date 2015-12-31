@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pad_main_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="5dp"
+    android:background="#FFF7F7F7"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="35">
+
+        <!-- 顶部按钮 -->
+
+        <com.rj.view.PadHorizontalBtns
+            android:id="@+id/horizontal_btn"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentTop="true" />
+
+
+        <!-- tab菜单
+               <com.rj.widget.TopTabLayoutWidget
+                   android:id="@+id/tabLayoutWidget"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@+id/horizontal_btn"
+                   android:visibility="gone" />-->
+
+
+        <com.rj.view.SlideTitle
+            android:id="@+id/tabLayoutWidget"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/horizontal_btn"
+            android:background="@drawable/tab_layout_bolder"
+            android:layout_marginBottom="1dp"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/mainBrowserLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tabLayoutWidget"
+            android:orientation="vertical"></RelativeLayout>
+    </RelativeLayout>
+
+    <!-- 手写板 -->
+
+    <RelativeLayout
+        android:id="@+id/handwriting_main"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="65"
+        android:visibility="gone" />
+
+</LinearLayout>
