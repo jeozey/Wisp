@@ -119,7 +119,7 @@ public class SSLSocketConnection implements ISocketConnection {
         return null;
     }
 
-    boolean isGzip = true;
+    boolean isGzip = false;
 
     @Override
     public void write(byte[] data) throws IOException {

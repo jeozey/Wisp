@@ -15,7 +15,6 @@ import android.webkit.WebView;
 import android.widget.RelativeLayout;
 
 import com.rj.framework.ButtonFactory;
-import com.rj.framework.WISPComponentsParser;
 import com.rj.framework.webview.RjWebViewClient;
 import com.rj.framework.webview.WebViewCtrol;
 import com.rj.framework.webview.WebViewFactory;
@@ -24,6 +23,7 @@ import com.rj.view.button.CustomButton;
 import com.rj.view.button.CustomWidgetButton;
 import com.rj.view.button.PhoneHorizontalBtns;
 import com.rj.wisp.R;
+import com.rj.wisp.core.WISPComponentsParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;

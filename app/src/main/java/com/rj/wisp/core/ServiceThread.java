@@ -10,7 +10,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.rj.connection.ISocketConnection;
 import com.rj.framework.DB;
-import com.rj.framework.WISPComponentsParser;
 import com.rj.util.FileUtil;
 import com.rj.view.button.ButtonNum;
 import com.rj.wisp.bean.Attachment;
@@ -231,6 +230,8 @@ public class ServiceThread extends Thread {
             toast(httpPkg);
         } else if (head_line.indexOf("Dialog@@RJ@@Open") != -1) {
             showDialog(httpPkg);
+        } else if (head_line.indexOf("HandWriting@@RJ@@Open") != -1) {
+            handWritingOpen(httpPkg);
         }
     }
 
@@ -273,6 +274,16 @@ public class ServiceThread extends Thread {
         JSONObject json = JSON.parseObject(jsonStr);
         Message msg = handler.obtainMessage(HandlerWhat.SHOW_TOAST);
         msg.obj = json.get("text");
+        handler.sendMessage(msg);
+    }
+
+    private void handWritingOpen(HttpPkg httpPkg) throws IOException {
+        Log.e(TAG, "handWritingOpen:" + httpPkg.getHead());
+        String jsonStr = new String(httpPkg.getBody(), httpPkg.getCharSet());
+        Log.e(TAG, "handWritingOpen:" + jsonStr);
+
+        Message msg = handler.obtainMessage(HandlerWhat.HANDWRITING_OPEN);
+        msg.obj = jsonStr;
         handler.sendMessage(msg);
     }
 
@@ -402,7 +413,7 @@ public class ServiceThread extends Thread {
 
 
             HashMap<String, String> head_sb = pkg.getHead();
-            Log.e(TAG, "head_sb:" + "@" + head_line + "@" + head_sb);
+//            Log.e(TAG, "head_sb:" + "@" + head_line + "@" + head_sb);
 
             if (head_sb.get(Commons.HTTP_HEAD).indexOf(Commons.NOT_FOUND) == -1) {
                 byte[] body = pkg.getBody();
@@ -546,33 +557,9 @@ public class ServiceThread extends Thread {
     public void checkConnection() {
         Log.e(TAG, "checkConnection");
         try {
-//            String head = "I am client\r\n";
-//            ISocketConnection connection = SocketFactory.getSSLSocket();
-//            connection.write(head.getBytes());
-
             String head = "GET /wisp_aas/adapter?open&_method=checkConnection&appcode=" + DB.APP_CODE + Commons.CRLF_STR;
             HttpPkg httpPkg = sendRequest(head, null, null);
             Log.e(TAG, "checkConnection:" + httpPkg.getHead());
-
-
-//            SSLContext context = SSLContext.getInstance("SSL");
-//            context.init(null,
-//                    new TrustManager[] { new SSLServer.MyX509TrustManager() },
-//                    new SecureRandom());
-//            SSLSocketFactory factory = context.getSocketFactory();
-//            SSLSocket s = (SSLSocket) factory.createSocket("192.168.1.105", 10002);
-//            System.out.println("ok");
-//
-//            OutputStream output = s.getOutputStream();
-//            InputStream input = s.getInputStream();
-//
-//            output.write("I am client\r\n".getBytes());
-//            System.out.println("sent: alert");
-//            output.flush();
-//
-//            byte[] buf = new byte[1024];
-//            int len = input.read(buf);
-//            System.out.println("received:" + new String(buf, 0, len));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -624,13 +611,16 @@ public class ServiceThread extends Thread {
         Log.e(TAG, "sendRequest write begin");
         try {
             if (head != null) {
+
                 connection.write(head.getBytes());
 
                 if (head.endsWith(Commons.CRLF2_STR)) {
-
+                    Log.e(TAG, "two CRLF");
                 } else if (head.endsWith(Commons.CRLF_STR)) {
+                    Log.e(TAG, "one CRLF");
                     connection.write(Commons.CRLF_BYTE);
                 } else {
+                    Log.e(TAG, "one CRLF");
                     connection.write(Commons.CRLF2_BYTE);
                 }
             }

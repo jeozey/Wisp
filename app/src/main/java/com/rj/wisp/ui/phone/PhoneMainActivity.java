@@ -43,7 +43,6 @@ import android.widget.Toast;
 import com.rj.framework.ButtonFactory;
 import com.rj.framework.DB;
 import com.rj.framework.ErrorPageUtil;
-import com.rj.framework.WISPComponentsParser;
 import com.rj.framework.webview.UrlHandler;
 import com.rj.framework.webview.WebViewCtrol;
 import com.rj.view.PopMenu;
@@ -65,6 +64,7 @@ import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.core.AttachmentCacheUtil;
 import com.rj.wisp.core.Commons;
 import com.rj.wisp.core.FileOpenUtil;
+import com.rj.wisp.core.WISPComponentsParser;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.service.NetConnectService;
 
@@ -286,6 +286,9 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                     case HandlerWhat.DISMISS_LOADING:
                         dismissProgressDialog();
                         break;
+                    case HandlerWhat.HANDWRITING_OPEN:
+                        dismissProgressDialog();
+                        break;
                     default:
                         break;
                 }
@@ -302,6 +305,40 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         }
     }
 
+    private void handWriting(Message msg) {
+        if (msg.obj == null) {
+            ToastTool.show(getBaseContext(), "下载手写图片出错", Toast.LENGTH_SHORT);
+        } else {
+            try {
+//               HandWriting handWriting = WISPComponentsParser.getHandWritingProperty(msg.obj.toString());
+//                if (handWriting != null) {
+//                    String downLoadUrl = handWriting.getDownLoadUrl();
+//                    //说明已经本地写入webview
+//                    if(downLoadUrl.indexOf("@@")!=-1){
+//                        openHandWritingWindow("@@", null);
+//                    }else if (!TextUtils.isEmpty(downLoadUrl)) {
+//                        String url = downLoadUrl;
+//                        if (downLoadUrl.indexOf(DB.HTTPSERVER_HOST) != -1) {
+//                            url = downLoadUrl.substring(
+//                                    downLoadUrl.indexOf("/wisp_aas"),
+//                                    downLoadUrl.length());
+//                        }
+//                        url = url.replace("\\", "/").replace("attachment",
+//                                "newAttachment");// 截取url
+//                        new HttpSocketTask(url.replace(".png", ".hw"),
+//                                WispApplication.cookies, getBaseContext(), null)
+//                                .execute(0);
+//                    } else {
+//                        openHandWritingWindow(null, null);
+//                    }
+//
+//                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                ToastTool.show(getBaseContext(), "手写出错", Toast.LENGTH_SHORT);
+            }
+        }
+    }
     private void showDialog(Message msg) {
         if (msg.obj != null) {
             try {

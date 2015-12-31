@@ -45,7 +45,6 @@ import android.widget.Toast;
 
 import com.rj.framework.ButtonFactory;
 import com.rj.framework.DB;
-import com.rj.framework.WISPComponentsParser;
 import com.rj.framework.download.DownloadDialog;
 import com.rj.framework.download.DownloadDialog.CancleDownLoad;
 import com.rj.framework.download.DownloadDialogHandler;
@@ -67,6 +66,7 @@ import com.rj.view.loading.CutsomProgressDialog;
 import com.rj.wisp.R;
 import com.rj.wisp.UploadDialogHandler;
 import com.rj.wisp.activity.LoginActivity;
+import com.rj.wisp.core.WISPComponentsParser;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.widget.AppSettingDialog;
 

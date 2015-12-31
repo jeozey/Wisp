@@ -1,9 +1,10 @@
-package com.rj.framework;
+package com.rj.wisp.core;
 
 import com.alibaba.fastjson.JSON;
 import com.rj.view.button.ButtonNum;
 import com.rj.view.button.CustomButton;
 import com.rj.view.button.NoticeBean;
+import com.rj.wisp.bean.HandWriting;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -92,6 +93,16 @@ public class WISPComponentsParser {
             return buttonNum;
         }
         return buttonNum;
+    }
+
+    public static HandWriting getHandWritingProperty(String jsonStr) {
+        HandWriting handWriting = null;
+        try {
+            handWriting = JSON.parseObject(jsonStr, HandWriting.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return handWriting;
     }
 
 
