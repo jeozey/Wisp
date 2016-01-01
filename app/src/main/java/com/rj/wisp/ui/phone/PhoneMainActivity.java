@@ -221,7 +221,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         String downUrl = event.getDownUrl();
         if (Commons.ATTACHMENT_DOWN_CACHE == event.getDownResult()) {
             Log.e(TAG, "ATTACHMENT_DOWN_CACHE:" + event);
-            ToastTool.show(getBaseContext(), "已经下载过了", Toast.LENGTH_LONG);
+            ToastTool.show(PhoneMainActivity.this, "已经下载过了", Toast.LENGTH_LONG);
 
             Attachment attachment = AttachmentCacheUtil.getAttachment(downUrl);
             Intent intent = FileOpenUtil.openFile(attachment, getBaseContext());
@@ -235,9 +235,9 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
             downAttachmentProgress.dismiss();
 
             if (Commons.ATTACHMENT_DOWN_COMPLETE == event.getDownResult()) {
-                ToastTool.show(getBaseContext(), "下载完毕", Toast.LENGTH_LONG);
+                ToastTool.show(PhoneMainActivity.this, "下载完毕", Toast.LENGTH_LONG);
             } else {
-                ToastTool.show(getBaseContext(), "" + event.getDownFailMsg(), Toast.LENGTH_LONG);
+                ToastTool.show(PhoneMainActivity.this, "" + event.getDownFailMsg(), Toast.LENGTH_LONG);
             }
             try {
                 Intent intent = FileOpenUtil.openFile(attachment, getBaseContext());
@@ -245,7 +245,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
             } catch (ActivityNotFoundException ex) {
                 ex.printStackTrace();
                 String contentType = e.getContentType();
-                ToastTool.show(getBaseContext(), "没有合适的软件打开该附件 " + (contentType != null ? contentType : ""), Toast.LENGTH_SHORT);
+                ToastTool.show(PhoneMainActivity.this, "没有合适的软件打开该附件 " + (contentType != null ? contentType : ""), Toast.LENGTH_SHORT);
             }
         }
 
@@ -301,13 +301,13 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
     private void showToast(String msg) {
         if (!TextUtils.isEmpty(msg)) {
-            ToastTool.show(getBaseContext(), msg, Toast.LENGTH_SHORT);
+            ToastTool.show(PhoneMainActivity.this, msg, Toast.LENGTH_SHORT);
         }
     }
 
     private void handWriting(Message msg) {
         if (msg.obj == null) {
-            ToastTool.show(getBaseContext(), "下载手写图片出错", Toast.LENGTH_SHORT);
+            ToastTool.show(PhoneMainActivity.this, "获取手写请求出错", Toast.LENGTH_SHORT);
         } else {
             try {
 //               HandWriting handWriting = WISPComponentsParser.getHandWritingProperty(msg.obj.toString());
@@ -335,7 +335,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 //                }
             } catch (Exception e) {
                 e.printStackTrace();
-                ToastTool.show(getBaseContext(), "手写出错", Toast.LENGTH_SHORT);
+                ToastTool.show(PhoneMainActivity.this, "手写出错", Toast.LENGTH_SHORT);
             }
         }
     }

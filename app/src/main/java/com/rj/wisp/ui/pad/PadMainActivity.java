@@ -1,6 +1,8 @@
 package com.rj.wisp.ui.pad;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -60,12 +62,19 @@ import com.rj.view.MoveLayoutItemInfo;
 import com.rj.view.PopMenu;
 import com.rj.view.TabMenu;
 import com.rj.view.ToastTool;
+import com.rj.view.button.ButtonNum;
 import com.rj.view.button.CustomButton;
 import com.rj.view.button.CustomWidgetButton;
 import com.rj.view.loading.CutsomProgressDialog;
 import com.rj.wisp.R;
 import com.rj.wisp.UploadDialogHandler;
 import com.rj.wisp.activity.LoginActivity;
+import com.rj.wisp.bean.Attachment;
+import com.rj.wisp.bean.AttachmentDownEvent;
+import com.rj.wisp.bean.HandlerWhat;
+import com.rj.wisp.core.AttachmentCacheUtil;
+import com.rj.wisp.core.Commons;
+import com.rj.wisp.core.FileOpenUtil;
 import com.rj.wisp.core.WISPComponentsParser;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.widget.AppSettingDialog;
@@ -78,10 +87,14 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import de.greenrobot.event.EventBus;
+
 
 public class PadMainActivity extends FragmentActivity implements
         PadLeftFragment.LeftFragmentListener, OnClickListener {
-    private static final String TAG = "PadMainActivity";
+    private static final String TAG = PadMainActivity.class.getName();
+
+    private ProgressDialog downAttachmentProgress;
     private LinearLayout mainLinearLayout;
     private FrameLayout leftLayout, rightLayout;
     private DownloadDialogHandler downloadDialogHandler;
@@ -100,11 +113,6 @@ public class PadMainActivity extends FragmentActivity implements
 
     // 判断右侧是否关闭
     private boolean isRightFragmentOpen() {
-        // Log.e(TAG, "isRightFragmentOpen: " + isRightViewOpen);
-        // Log.e(TAG, "isRightFragmentOpen: "+(rightLayout != null &&
-        // rightLayout.getVisibility()==View.INVISIBLE));
-        // return (rightLayout != null &&
-        // rightLayout.getVisibility()==View.INVISIBLE);
         Log.e(TAG, "isRightFragmentOpen:"
                 + (rightLayout.getVisibility() == View.VISIBLE));
         return rightLayout.getVisibility() == View.VISIBLE ? true : false;
@@ -260,6 +268,11 @@ public class PadMainActivity extends FragmentActivity implements
 
     @Override
     public void logOut(String event) {
+        if (!TextUtils.isEmpty(event)) {
+            leftFragment.loadUrl(event);
+        } else {
+            showToast("没有获取到注销事件");
+        }
     }
 
     @Override
@@ -491,11 +504,215 @@ public class PadMainActivity extends FragmentActivity implements
         }
     }
 
+    public void onEventMainThread(AttachmentDownEvent event) {
+        Log.e(TAG, "onEvent AttachmentDownEvent:" + event);
+        if (event != null) {
+            switch (event.getDownResult()) {
+                case Commons.ATTACHMENT_DOWN_SUCC:
+                    handleAttachmentDowning(event);
+                    break;
+                case Commons.ATTACHMENT_DOWN_FAIL:
+                case Commons.ATTACHMENT_DOWN_COMPLETE:
+                case Commons.ATTACHMENT_DOWN_CACHE:
+                    handleAttachmentDownOver(event);
+                    break;
+            }
+        }
+    }
+
+
+    private Object attachmentObj = new Object();
+
+    private void handleAttachmentDowning(AttachmentDownEvent event) {
+        synchronized (attachmentObj) {
+            String downUrl = event.getDownUrl();
+            if (!attachmentDownEvents.containsKey(downUrl)) {
+                attachmentDownEvents.put(downUrl, event);
+                downAttachmentProgress.setMax(event.getFileLength());
+                downAttachmentProgress.show();
+            }
+            downAttachmentProgress.setProgress(downAttachmentProgress.getProgress() + event.getHasDownLength());
+        }
+    }
+
+    private Map<String, AttachmentDownEvent> attachmentDownEvents;
+
+    private void handleAttachmentDownOver(AttachmentDownEvent event) {
+        String downUrl = event.getDownUrl();
+        if (Commons.ATTACHMENT_DOWN_CACHE == event.getDownResult()) {
+            Log.e(TAG, "ATTACHMENT_DOWN_CACHE:" + event);
+            ToastTool.show(PadMainActivity.this, "已经下载过了", Toast.LENGTH_LONG);
+
+            Attachment attachment = AttachmentCacheUtil.getAttachment(downUrl);
+            Intent intent = FileOpenUtil.openFile(attachment, getBaseContext());
+            startActivity(intent);
+        } else if (attachmentDownEvents.containsKey(downUrl)) {
+            AttachmentDownEvent e = attachmentDownEvents.get(downUrl);
+            Attachment attachment = new Attachment(downUrl, e.getPath(), e.getContentType(), e.getFileLength());
+            AttachmentCacheUtil.putAttachment(attachment);
+
+            attachmentDownEvents.remove(downUrl);
+            downAttachmentProgress.dismiss();
+
+            if (Commons.ATTACHMENT_DOWN_COMPLETE == event.getDownResult()) {
+                ToastTool.show(PadMainActivity.this, "下载完毕", Toast.LENGTH_LONG);
+            } else {
+                ToastTool.show(PadMainActivity.this, "" + event.getDownFailMsg(), Toast.LENGTH_LONG);
+            }
+            try {
+                Intent intent = FileOpenUtil.openFile(attachment, getBaseContext());
+                startActivity(intent);
+            } catch (ActivityNotFoundException ex) {
+                ex.printStackTrace();
+                String contentType = e.getContentType();
+                ToastTool.show(PadMainActivity.this, "没有合适的软件打开该附件 " + (contentType != null ? contentType : ""), Toast.LENGTH_SHORT);
+            }
+        }
+
+    }
+
     private Handler handler = new Handler() {
-        public void handleMessage(final Message msg) {
-            super.handleMessage(msg);
+        @Override
+        public void handleMessage(Message msg) {
+            try {
+                Log.e(TAG, "msg.what:" + msg.what);
+                switch (msg.what) {
+                    case HandlerWhat.LOGIN_PAGE:
+                        leftMenuButtonsLayout.setVisibility(View.GONE);
+                        titleLayout.setVisibility(View.GONE);
+                        break;
+                    case HandlerWhat.LOG_OUT:
+                        logOut(logoutEvent);
+                        break;
+                    case HandlerWhat.ADD_WEB_UI:
+                        addWebUI(msg);
+                        break;
+                    case HandlerWhat.ADD_WEB_BTN_NUM:
+                        addWebBtnNum(msg);
+                        break;
+                    case HandlerWhat.SHOW_TOAST:
+                        if (msg.obj != null) {
+                            showToast(msg.obj.toString());
+                        }
+                        break;
+                    case HandlerWhat.SHOW_DIALOG:
+                        if (msg.obj != null) {
+                            showDialog(msg);
+                        }
+                        break;
+                    case HandlerWhat.SHOW_LOADING:
+                        showProgressDialog();
+                        break;
+                    case HandlerWhat.DISMISS_LOADING:
+                        dismissProgressDialog();
+                        break;
+                    case HandlerWhat.HANDWRITING_OPEN:
+                        dismissProgressDialog();
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     };
+
+
+    private void showDialog(Message msg) {
+        if (msg.obj != null) {
+            try {
+                String type = msg.getData().getString("type");
+                String content = msg.getData().getString("text");
+                String title = msg.getData().getString("title");
+                final String callBack = msg.getData().getString("callBack");
+
+                AlertDialog.Builder customBuilder = new AlertDialog.Builder(PadMainActivity.this).setTitle(title).setMessage(content);
+                customBuilder.setTitle(title).setMessage(content)
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                showConform(callBack, "false");
+                            }
+                        })
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                showConform(callBack, "true");
+                            }
+                        });
+                AlertDialog dialog = customBuilder.create();
+
+                dialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private void showConform(String callBack, String r) {
+        if (callBack.indexOf("()") != -1) {
+            callBack = callBack.replace("()", "(" + r + ")");
+        } else if (callBack.indexOf("(") != -1) {
+            callBack = callBack.replace(")", "," + r + ")");
+        } else {
+            callBack = callBack + "(" + r + ")";
+        }
+
+        loadUrl("javascript:try{ "
+                + callBack
+                + "; }catch(e){alert(e);}");
+    }
+
+    private void showToast(String msg) {
+        if (!TextUtils.isEmpty(msg)) {
+            ToastTool.show(PadMainActivity.this, msg, Toast.LENGTH_SHORT);
+        }
+    }
+
+    // 更新条数
+    private void addWebBtnNum(Message msg) {
+
+        try {
+            ButtonNum btnNum = (ButtonNum) msg.obj;
+            CustomWidgetButton button;
+            button = new CustomWidgetButton();
+            button.setTitle(btnNum.getButtonText());
+            button.setNum(Integer.valueOf(btnNum.getNumber()));
+            leftMenuButtonsLayout.updateBtn(button);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addWebUI(Message msg) {
+        try {
+            if (titleLayout.getVisibility() == View.GONE) {
+                titleLayout.setVisibility(View.VISIBLE);
+            }
+            if (leftMenuButtonsLayout.getVisibility() == View.GONE) {
+                leftMenuButtonsLayout.setVisibility(View.VISIBLE);
+            }
+            if (msg.obj != null) {
+                if (isPopFragmentOpen()) {
+                    if (poPFragment != null)
+                        poPFragment.updateButtonBar(msg.obj.toString());
+                } else if (isRightFragmentOpen()) {
+                    if (rightFragment != null)
+                        rightFragment.updateButtonBar(msg.obj.toString());
+                } else {
+                    updateButtonBar(msg.obj.toString());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastTool.show(getBaseContext(), "界面组件更新出错",
+                    Toast.LENGTH_SHORT);
+        }
+    }
+
     private boolean isMoreLayoutShow = false;
 
     private void showMoreLayout(String url) {
@@ -598,7 +815,8 @@ public class PadMainActivity extends FragmentActivity implements
         }
     }
 
-    private MenuButtonsLayout menuButtonsLayout;
+    private RelativeLayout titleLayout;
+    private MenuButtonsLayout leftMenuButtonsLayout;
     private List<MoveLayoutItemInfo> moreButtons;
     private RelativeLayout moreRelativeLayout;
     private List<CustomButton> collectionlist;
@@ -613,7 +831,7 @@ public class PadMainActivity extends FragmentActivity implements
             button.setTitle(buttonText);
             button.setNum(Integer.valueOf(number));
 
-            menuButtonsLayout.updateBtn(button);
+            leftMenuButtonsLayout.updateBtn(button);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -657,7 +875,6 @@ public class PadMainActivity extends FragmentActivity implements
                         try {
                             parent.setNum(Integer.parseInt(pButton.getNumber()));
                         } catch (Exception e) {
-                            // e.printStackTrace();
                             parent.setNum(0);
                         }
                         parent.setTitle(pButton.getButtonText());
@@ -689,15 +906,10 @@ public class PadMainActivity extends FragmentActivity implements
                 }
                 List<CustomButton> buttonlist = map.get("bottombtnlist");
 
-                // List<CustomButton> tablist = map.get("tabslist");
-                // if (tablist != null && tablist.size() > 0) {
-                // initializeTabs(tablist);
-                // return;
-                // }
 
                 initMoreButtons(moreButtons);
 
-                menuButtonsLayout = (MenuButtonsLayout) findViewById(R.id.menu_buttons_lyt);
+                leftMenuButtonsLayout = (MenuButtonsLayout) findViewById(R.id.menu_buttons_lyt);
                 CustomWidgetButton info;
                 for (CustomButton customButton : buttonlist) {
                     if ("menubtn".equalsIgnoreCase(customButton.getType())) {
@@ -723,6 +935,7 @@ public class PadMainActivity extends FragmentActivity implements
                     } else if ("logout"
                             .equalsIgnoreCase(customButton.getType())) {
                         logoutEvent = customButton.getClickEvent();
+                        Log.e(TAG, "logoutEvent:" + logoutEvent);
                         PadMainActivity.this
                                 .setLogOutEvent(logoutEvent);// 设置注销事件
                     }
@@ -731,7 +944,7 @@ public class PadMainActivity extends FragmentActivity implements
                     list.add(moreBtn);
                 }
 
-                menuButtonsLayout.init(list, new MenuButtonsLayout.MenuButtonLayoutCallBack() {
+                leftMenuButtonsLayout.init(list, new MenuButtonsLayout.MenuButtonLayoutCallBack() {
                     @Override
                     public void onClickCallBack(int type,
                                                 final CustomWidgetButton result) {
@@ -896,34 +1109,27 @@ public class PadMainActivity extends FragmentActivity implements
     public void onCreate(Bundle savedInstanceState) {
         Log.e(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-        // this.requestWindowFeature(Window.f);// 去掉标题栏
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);// 去掉信息栏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.pad_main);
-        // 如果不是正常跳转到主页面 则退出
-        Log.e(TAG, "DB.SECURITY_HOST:" + DB.SECURITY_HOST);
-        Log.e(TAG, "getIntent().getStringExtra('success'):"
-                + getIntent().getStringExtra("success"));
-        if (TextUtils.isEmpty(DB.SECURITY_HOST)
-                || TextUtils.isEmpty(getIntent().getStringExtra("success"))) {
-            Log.e(TAG, "如果不是正常跳转到主页面 则退出");
-            finish();
-            return;
-        }
-
-        if (TextUtils.isEmpty(DB.HOMEPAGE_URL)) {
-            ToastTool.show(getBaseContext(), "主页面地址不存在,请联系管理员解决 ", 1);
-        }
 
         try {
             WispCore.getWISPSO().StartService(handler, getBaseContext());
         } catch (Exception e) {
             e.printStackTrace();
-            return;
         }
+
+        initView();
+
+
+        initOther();
+
+    }
+
+    private void initView() {
 
         settingPopMenu = new PopMenu(PadMainActivity.this, handler,
                 new PopMenu.PopMenuOnItemClickListener() {
@@ -947,9 +1153,11 @@ public class PadMainActivity extends FragmentActivity implements
                     }
                 });
 
+        titleLayout = (RelativeLayout) findViewById(R.id.titleLayout);
+
         mainLinearLayout = (LinearLayout) findViewById(R.id.mainLinearLayout);
 
-        menuButtonsLayout = (MenuButtonsLayout) findViewById(
+        leftMenuButtonsLayout = (MenuButtonsLayout) findViewById(
                 R.id.menu_buttons_lyt);
 
         moreRelativeLayout = (RelativeLayout) findViewById(
@@ -964,9 +1172,7 @@ public class PadMainActivity extends FragmentActivity implements
         if (!TextUtils.isEmpty(popHomePageUrl)) {
             FragmentManager manager = getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            // 动态增加Fragment
-            // homeFragment = new PadHomeFragment(homeMainLayout,
-            // popHomePageUrl);
+
             homeFragment = new PadLeftFragment(homeMainLayout, "", true);
             transaction.add(R.id.home_frame_layout, homeFragment,
                     "homeFragment");
@@ -975,12 +1181,15 @@ public class PadMainActivity extends FragmentActivity implements
             homeFragment.showLoading();
             homeMainLayout.setVisibility(View.VISIBLE);
         }
-
-        initOtherView();
-
     }
 
-    private void initOtherView() {
+    private void initOther() {
+        attachmentDownEvents = new HashMap<>();
+        downAttachmentProgress = new ProgressDialog(PadMainActivity.this);
+        downAttachmentProgress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        downAttachmentProgress.setMessage(getResources().getString(R.string.downloading));
+        downAttachmentProgress.setCancelable(false);
+//        downAttachmentProgress.setOnKeyListener(onKeyListener);
         tabMenu = new TabMenu(this, new BodyClickEvent(), 0);// 出现与消失的动画
         tabMenu.update();
         tabMenu.SetBodyAdapter(bodyAdapter);
@@ -1001,151 +1210,23 @@ public class PadMainActivity extends FragmentActivity implements
                 }
             }
         }));
-//        uploadDialogHandler = new UploadDialogHandler(new UploadDialog(
-//                PadMainActivity.this, new CancleUpLoad() {
-//
-//            @Override
-//            public void cancle() {
-//                // // 返回键取消下载
-//                // if (downloadDialogHandler != null) {
-//                // dismissDownLoadDialog();
-//                // cancleDownLoad = true;
-//                // }
-//            }
-//        }));
+
+        findViewById(R.id.settingBtn).setOnClickListener(this);
+        findViewById(R.id.userBtn).setOnClickListener(this);
+
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         // 动态增加Fragment
         leftFragment = new PadLeftFragment(leftLayout, DB.PRE_URL
-                + DB.HOMEPAGE_URL, false);
-        // rightFragment = new PadRightFragment(
-        // PadMainActivity.this, WebViewFactory.getNewWebView(this,
-        // DB.PRE_URL+DB.HOMEPAGE_URL), new RightFragmentListener() {
-        //
-        // @Override
-        // public void onWindowClose(WebView webView) {
-        // closeRrightView();
-        // }
-        // });
-//		blankView = (View) findViewById(R.id.blankView);
+                + DB.LOGINPAGE_URL, false);
         transaction
                 .add(R.id.left_fragment_layout, leftFragment, "leftfragment");
-        // transaction.add(R.id.right_fragment_layout,
-        // rightFragment,"rightfragment");
         transaction.commit();
-
-//        // WPS批阅监听
-//        WPSCloseReceiver closeReceiver = new WPSCloseReceiver(handler);
-//        WPSSaveReceiver saveReceiver = new WPSSaveReceiver(handler);
-//        DocRevisionService.InitReceiver(this.getApplicationConText(),
-//                closeReceiver, saveReceiver);
-//
-//        if (DB.isDianJian) {
-//            // 电建E本长时间锁屏后webview会白屏，电建屏幕才显示webview内容
-//            screenOnReceiver = new ScreenOnReceiver(new ScreenOnCallBack() {
-//                @Override
-//                public void callback() {
-//                    Log.e(TAG, "ACTION_SCREEN_ON");
-//                    leftFragment.reload();
-//                }
-//            });
-//            IntentFilter filter = new IntentFilter();
-//            filter.addAction(Intent.ACTION_SCREEN_ON);
-//            registerReceiver(screenOnReceiver, filter);
-//        }
-
-        findViewById(R.id.settingBtn).setOnClickListener(this);
-        findViewById(R.id.userBtn).setOnClickListener(this);
     }
 
     private FrameLayout popFrameLayout;
 
-    // private void showPopWebView(final String url, final float percent) {
-    // Log.e(TAG, "showPopWebView:" + url);
-    // if (popFrameLayout == null) {
-    //
-    // popFrameLayout = (LinearLayout) findViewById(R.id.pop_frame_layout);
-    // RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-    // (int) (dm.widthPixels * percent),
-    // (int) (dm.heightPixels * percent));
-    // popFrameLayout.setLayoutParams(params);
-    // FragmentManager manager = getSupportFragmentManager();
-    // FragmentTransaction transaction = manager.beginTransaction();
-    // popWebView = WebViewFactory.getNewWebView(PadMainActivity.this,
-    // null);
-    // if (webViewCtrol == null) {
-    // webViewCtrol = new WebViewCtrolImpl(PadMainActivity.this);
-    // }
-    // popWebView.setWebViewClient(new RjWebViewClient(webViewCtrol));
-    // popWebView.setWebChromeClient(new RjWebChromeClient(
-    // PadMainActivity.this, webViewCtrol));
-    // popWebView.getSettings().setBuiltInZoomControls(false);// jeozey
-    // //
-    // 配合popwindow一定不能使用下面开关http://blog.csdn.net/changemyself/article/details/6969720
-    //
-    // // 动态增加Fragment
-    // popFragment = new PadRightFragment(PadMainActivity.this,
-    // popWebView, rightLayout, new RightFragmentListener() {
-    // @Override
-    // public void transHander(Message message) {
-    // handler.sendMessage(message);
-    // }
-    //
-    // @Override
-    // public void onWindowClose(WebView webView,
-    // String closeEvent) {
-    // Log.e(TAG, "onWindowClose:" + closeEvent);
-    // if (!TextUtils.isEmpty(closeEvent)) {
-    // rightFragment.loadUrl(closeEvent);
-    // }
-    // findViewById(R.id.pop_frame_layout1).setVisibility(
-    // View.GONE);
-    // }
-    //
-    // @Override
-    // public void openFullScreen() {
-    // openRightFullScreen(false);
-    //
-    // }
-    //
-    // @Override
-    // public void closeFullScreen() {
-    // Log.e(TAG, "closeFullScreen");
-    // closeRightFullScreen();
-    // }
-    //
-    // @Override
-    // public void saveHandWriteSuccess(String hwPath) {
-    // lastDownLoadHwPath = hwPath;
-    // Log.i("wanan",
-    // "saveHandWriteSuccess lastDownLoadHwUrl="
-    // + lastDownLoadHwPath);
-    // }
-    // }, false, true);
-    //
-    // transaction.replace(R.id.pop_frame_layout, popFragment);
-    // transaction.addToBackStack(null);
-    // // 提交修改
-    // transaction.commit();
-    //
-    // isPopFragmentOpen = true;
-    //
-    // findViewById(R.id.pop_frame_layout1).setOnTouchListener(
-    // new OnTouchListener() {
-    //
-    // @Override
-    // public boolean onTouch(View v, MotionEvent event) {
-    // // 上下层布局点击事件不能让他传递下去
-    // Log.e(TAG, "onTouch");
-    // return true;
-    // }
-    // });
-    // }
-    //
-    // popWebView.loadUrl(url);
-    // findViewById(R.id.pop_frame_layout1).setVisibility(View.VISIBLE);
-    // }
 
     private void showPopWebView(final String url, final float percent) {
         mainLinearLayout.post(new Runnable() {
@@ -1260,9 +1341,15 @@ public class PadMainActivity extends FragmentActivity implements
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     protected void onStop() {
-        Log.e(TAG, "onStop");
         super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override

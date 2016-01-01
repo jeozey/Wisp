@@ -100,11 +100,11 @@ public class AppLoadActivity extends BaseActivity {
                     showLoginView();
                     break;
                 case ResourceMessageEvent.RESOURCE_DOWN_WRITE_FAIL_FAIL:
-                    ToastTool.show(getBaseContext(), "资源配置文件保存失败,请联系管理员", Toast.LENGTH_SHORT);
+                    ToastTool.show(AppLoadActivity.this, "资源配置文件保存失败,请联系管理员", Toast.LENGTH_SHORT);
                     break;
                 case ResourceMessageEvent.RESOURCE_GET_FAIL:
                 case ResourceMessageEvent.RESOURCE_CONFIG_FORMAT_FAIL:
-                    ToastTool.show(getBaseContext(), "获取资源列表出错,请重试", Toast.LENGTH_SHORT);
+                    ToastTool.show(AppLoadActivity.this, "获取资源列表出错,请重试", Toast.LENGTH_SHORT);
                     break;
                 case ResourceMessageEvent.RESOURCE_DOWN_START:
                     if (downLoadDialog != null) {
@@ -281,7 +281,7 @@ public class AppLoadActivity extends BaseActivity {
 
     private void checkSetting() {
         if (TextUtils.isEmpty(DB.APP_CODE)) {
-            ToastTool.show(getBaseContext(), "没有获取到应用", Toast.LENGTH_SHORT);
+            ToastTool.show(AppLoadActivity.this, "没有获取到应用", Toast.LENGTH_SHORT);
             startActivity(new Intent(this, SettingActivity.class));
         } else {
             new MyAsyncTask().execute(CHECK_NETWORK);
@@ -293,7 +293,7 @@ public class AppLoadActivity extends BaseActivity {
             if (!TextUtils.isEmpty(message)) {
                 Log.e(TAG, "showMessage message:" + message);
                 messageTxt.setText(message);
-                ToastTool.show(getBaseContext(), message, Toast.LENGTH_SHORT);
+                ToastTool.show(AppLoadActivity.this, message, Toast.LENGTH_SHORT);
             }
         } catch (Exception e) {
             e.printStackTrace();

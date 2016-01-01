@@ -126,6 +126,8 @@ public class ServiceThread extends Thread {
             } else if (head_line.indexOf("@@LocalSocket") != -1) {
                 handleLocalSocketRequest(head_line);
             } else if (head_line.indexOf("newAttachment") != -1) {
+                handleNewAttachment(httpPkg);
+            } else if (head_line.indexOf("attachment") != -1) {
                 handleAttachment(httpPkg);
             } else {
                 httpRequest(httpPkg);
@@ -136,6 +138,36 @@ public class ServiceThread extends Thread {
     }
 
     private void handleAttachment(HttpPkg httpPkg) {
+        String head_line = httpPkg.getHeadLine();
+        Log.v(TAG, "下载图片资源:" + head_line);
+        try {
+            Attachment attachment = AttachmentCacheUtil.getAttachment(head_line);
+            if (attachment != null && new File(attachment.getPath()).exists()) {
+                Log.v(TAG, "使用图片缓存:" + attachment.getPath());
+                writeFileToWebView(attachment.getPath());
+            } else {
+                HttpPkg pkg = sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), httpPkg.getBody(), null);
+                HashMap<String, String> head_sb = pkg.getHead();
+//            Log.e(TAG, "head_sb:" + "@" + head_line + "@" + head_sb);
+                if (head_sb.get(Commons.HTTP_HEAD).indexOf(Commons.NOT_FOUND) == -1) {
+                    byte[] body = pkg.getBody();
+                    if (body != null && body.length > 0) {
+                        Log.e(TAG, "body.length:" + body.length);
+
+                        File file = new File(DB.DOWN_FILE_PATH
+                                + System.currentTimeMillis());
+                        FileUtil.writeFile(file, body);
+
+                        AttachmentCacheUtil.putAttachment(new Attachment(httpPkg.getHeadLine(), file.getAbsolutePath(), httpPkg.getContentType(), file.length()));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleNewAttachment(HttpPkg httpPkg) {
         handler.sendEmptyMessage(HandlerWhat.SHOW_LOADING);
         //因为是ajax请求,所以要返回
         responseEmptyToWebView();
@@ -158,6 +190,7 @@ public class ServiceThread extends Thread {
     }
 
     int l = 0;
+
     //附件转换
     private void checkForAttachmentDown(final HttpPkg httpPkg) {
         try {
@@ -386,7 +419,7 @@ public class ServiceThread extends Thread {
             //缓存被删后，重新下载 并写入webview
             if (filePath.exists()) {
 //                Log.e(TAG, "resource file exist");
-                writeCacheToWebView(filename);
+                writeFileToWebView(filePath.getAbsolutePath());
             } else {
 //                Log.e(TAG, "resource file not exist");
                 downResource(httpPkg, true);
@@ -402,26 +435,16 @@ public class ServiceThread extends Thread {
 
     private void downResource(HttpPkg httpPkg, boolean writeFile) throws Exception {
         String head_line = httpPkg.getHeadLine();
-
-
         Log.v(TAG, "下载资源:" + head_line);
-
         // 对中间件发送数据包
         try {
-
             HttpPkg pkg = sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), null, null);
-
-
             HashMap<String, String> head_sb = pkg.getHead();
 //            Log.e(TAG, "head_sb:" + "@" + head_line + "@" + head_sb);
-
             if (head_sb.get(Commons.HTTP_HEAD).indexOf(Commons.NOT_FOUND) == -1) {
                 byte[] body = pkg.getBody();
                 if (body != null) {
-
                     Log.e(TAG, "body.length:" + body.length);
-//                    responseWebView(head_sb.get(Commons.HTTP_HEAD), body);
-
                     Log.e(TAG, "writeFile:" + writeFile);
                     if (writeFile) {
                         String filename = head_line.substring(
@@ -442,23 +465,19 @@ public class ServiceThread extends Thread {
     }
 
 
-    private void writeCacheToWebView(String requestfilename)
+    private void writeFileToWebView(String filename)
             throws Exception {
-        Log.e("cache", "高速缓存：" + requestfilename);
+        Log.e("cache", "高速缓存：" + filename);
         byte[] content = new byte[20480];
-//		File cacheFileHead = null;
         File cacheFile = null;
-//        webView_os = webViewSocket.getOutputStream();
         FileInputStream security_is = null;
         try {
             int j = 0;
-
-            cacheFile = new File(DB.RESOURCE_PATH
-                    + requestfilename);
+            cacheFile = new File(filename);
 
             StringBuilder sb = new StringBuilder();
             sb.append("HTTP/1.0 200 OK\r\n");//返回应答消息,并结束应答
-            sb.append("File-Path:" + requestfilename + "\r\n");//返回应答消息,并结束应答
+            sb.append("File-Path:" + filename + "\r\n");//返回应答消息,并结束应答
 //			sb.append("Content-Type: application/octet-stream\r\n".getBytes());
             sb.append(("Content-Length: " + cacheFile.length() + "\r\n"));// 返回内容字节数
 
@@ -561,7 +580,7 @@ public class ServiceThread extends Thread {
 //        Log.v("request", "普通:" + httpPkg.getHeadLine());
 
         sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), httpPkg.getBody(), null);
-        Log.e(TAG, "httpRequest 请求数据发起成功:"+ httpPkg.getHeadLine());
+        Log.e(TAG, "httpRequest 请求数据发起成功:" + httpPkg.getHeadLine());
     }
 
     public void checkConnection() {
@@ -647,8 +666,8 @@ public class ServiceThread extends Thread {
             HashMap<String, String> map = connection.getHttpHead2();
             Log.e(TAG, "get http response:" + map);
 
-            if(map==null){
-                Log.e(TAG,"get http response error:"+head);
+            if (map == null) {
+                Log.e(TAG, "get http response error:" + head);
                 return null;
             }
 

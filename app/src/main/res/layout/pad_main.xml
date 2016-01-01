@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentTop="true"
+        android:visibility="gone"
         android:background="#3874c2">
 
         <TextView
@@ -46,6 +47,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/titleLayout"
+        android:visibility="gone"
         android:background="@drawable/pad_left_menu_bg" />
 
     <FrameLayout

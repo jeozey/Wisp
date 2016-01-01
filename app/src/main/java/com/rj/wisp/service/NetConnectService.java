@@ -145,7 +145,7 @@ public class NetConnectService extends Service {
 
         try {
 
-            if (DB.isPhone && !DB.isPortrait) {
+            if (DB.isPhone) {
                 setNotificationImg();
             } else {
                 // 悬浮窗
@@ -223,19 +223,19 @@ public class NetConnectService extends Service {
 
                     long toServerTime = status.getToServerTime();
                     if (toServerTime > 10000) {
-                        timeStamp = 5;
+                        timeStamp = 10;
                         timeOutCount++;
                         serverState = CONNECT_STATE.TIME_OUT;
                     } else if (toServerTime > 5000) {
-                        timeStamp = 6;
+                        timeStamp = 9;
                         timeOutCount = 0;
                         serverState = CONNECT_STATE.BAD;
                     } else if (toServerTime > 1000) {
-                        timeStamp = 9;
+                        timeStamp = 6;
                         timeOutCount = 0;
                         serverState = CONNECT_STATE.GOOD;
                     } else {
-                        timeStamp = 10;
+                        timeStamp = 5;
                         timeOutCount = 0;
                         serverState = CONNECT_STATE.PERFECT;
                     }
@@ -309,8 +309,8 @@ public class NetConnectService extends Service {
             nm.notify(NOTIFICATION_ID, notification);
 
         } else {
-            view.tv_showL.setText(serverStatus.leftImg);
-            view.tv_showR.setText(serverStatus.rightImg);
+            view.tv_showL.setText(serverStatus.title);
+            view.tv_showR.setText("-" + oaStatus.title);
             view.img_showL.setImageResource(oaStatus.leftImg);
             view.img_showR.setImageResource(oaStatus.rightImg);
         }

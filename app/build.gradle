@@ -90,6 +90,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     compile(name: 'sdkey-debug', ext: 'aar')
+    //compile(name: 'wisp-tablet', ext: 'aar')
 //    compile(name: 'connection-debug', ext: 'aar')
 //    compile(name: 'framework-debug', ext: 'aar')
 //    compile(name: 'view-debug', ext: 'aar')
