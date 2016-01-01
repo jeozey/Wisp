@@ -386,6 +386,7 @@ public class PadRightFragment extends Fragment {
         loadDialog = new CutsomProgressDialog(activity, dm.widthPixels,
                 parentView);
 
+        Log.e(TAG, "USER-AGENT:" + webView.getSettings().getUserAgentString());
         if (webView != null && setWebClientflg) {
             RightFragmentWebViewCtrol rightFragmentWebViewCtrol = new RightFragmentWebViewCtrol(
                     activity, parentView);

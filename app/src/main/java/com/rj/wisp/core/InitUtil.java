@@ -40,7 +40,7 @@ public class InitUtil {
 
 
             String version = AndroidTool.getVersionCode(context);
-            DB.USER_AGENT = " RJ-WISP-Client (IMEI:" + DB.IMEI + " ;IMSI:" + DB.IMSI + "; KEYID:" + DB.KEYID + ";Type:Android;" + "Version:"
+            DB.USER_AGENT = "; RJ-WISP-Client (IMEI:" + DB.IMEI + " ;IMSI:" + DB.IMSI + "; KEYID:" + DB.KEYID + ";Type:Android;" + "Version:"
                     + version + ";" + " clientType:newClient)";
             DB.PRE_URL = "http://" + DB.HTTPSERVER_HOST + ":"
                     + DB.HTTPSERVER_PORT + "/wisp_aas/adapter?open&url=";

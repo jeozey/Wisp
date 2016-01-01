@@ -11,6 +11,7 @@ public class Commons {
     public static final String CHARSET = "charset";
     public static final String HTTP_HEAD = "httpHead";
     public static final String Content_Length = "Content-Length";
+    public static final String User_Agent = "User-Agent";
     public static final String NOT_FOUND = "404 Not Found";
     public static final byte CR = '\r';
     public static final byte LF = '\n';

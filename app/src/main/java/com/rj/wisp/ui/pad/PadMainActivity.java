@@ -271,7 +271,7 @@ public class PadMainActivity extends FragmentActivity implements
     public void onWindowOpen(WebView webView) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-
+        Log.e(TAG, "USER-AGENT:" + webView.getSettings().getUserAgentString());
         if (isHomeFragmentOpen()) {
             Log.e(TAG, "isHomeFragmentOpen yes");
             showPopView(webView);

@@ -514,6 +514,16 @@ public class ServiceThread extends Thread {
             if (!TextUtils.isEmpty(head)) {
                 map.put(Commons.HTTP_HEAD, firstLine + Commons.CRLF_STR + head);
             }
+            //部分手机在windowOpen的时候userAgent会使用默认的,所以暂时在此修复
+            String userAgent = map.get(Commons.User_Agent);
+            if (userAgent != null && !userAgent.contains("RJ-WISP-Client")) {
+                String newUserAgent = userAgent + DB.USER_AGENT;
+                String headStr = map.get(Commons.HTTP_HEAD);
+                headStr = headStr.replace(Commons.User_Agent + ":", Commons.User_Agent + ":" + DB.USER_AGENT);
+
+                map.put(Commons.HTTP_HEAD, headStr);
+                map.put(Commons.User_Agent, newUserAgent);
+            }
             pkg.setHead(map);
 
             fixHttpPkg(pkg);

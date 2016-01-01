@@ -29,6 +29,7 @@ public class RjWebChromeClient extends WebChromeClient {
                                   boolean isUserGesture, Message resultMsg) {
         Log.e(TAG, "onCreateWindow");
         WebView childView = WebViewFactory.getNewWebView(activity, null);
+        Log.e(TAG, "USER-AGENT1:" + childView.getSettings().getUserAgentString());
         childView.setWebViewClient(new RjWebViewClient(webViewCtrol));
         childView.setWebChromeClient(new RjWebChromeClient(activity, webViewCtrol));
         webViewCtrol.onCreateWindow(childView, isUserGesture, resultMsg);

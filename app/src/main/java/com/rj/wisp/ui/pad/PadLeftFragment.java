@@ -220,10 +220,11 @@ public class PadLeftFragment extends Fragment {
             if (resultMsg == null) {
                 return;
             }
+            Log.e(TAG, "USER_AGENT:" + webview.getSettings().getUserAgentString());
             Log.e("NNN", "onCreateWindows1");
             WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
             ((LeftFragmentListener) activity).onWindowOpen(webview);
-
+//            webview.loadUrl("http://127.0.0.1:8011/wisp_aas/adapter?open&url=http://192.168.1.12:80/nanping/electronMark.nsf/0/F5549B0E6939B16B48257EC80042EB6D?OpenDocument");
             transport.setWebView(webview);
             resultMsg.sendToTarget();
             super.onCreateWindow(webview, isUserGesture, resultMsg);
