@@ -86,7 +86,7 @@ public class PadLeftFragment extends Fragment {
 
     public void loadUrl(String url) {
         try {
-            Log.e(TAG, "loadUrl:" + url);
+            Log.e(TAG, "webView:" + webView + "loadUrl:" + url);
             if (webView != null) {
                 webView.loadUrl(url);
             }
@@ -117,30 +117,7 @@ public class PadLeftFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         System.out.println("LeftFragment--->onCreateView");
-        return inflater.inflate(R.layout.pad_left_fragment, container, false);
-    }
-
-    private FrameLayout frameLayout;
-    private View parentView;
-    private String url;
-
-    public PadLeftFragment() {
-    }
-
-    private boolean isHome;
-
-    public PadLeftFragment(View parentView, String url, boolean isHome) {
-        this.parentView = parentView;
-        this.url = url;
-        this.isHome = isHome;
-    }
-
-    private LeftFragmentWebViewCtrol leftFragmentWebViewCtrol;
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        System.out.println("LeftFragment--->onResume");
+        View view = inflater.inflate(R.layout.pad_left_fragment, container, false);
 
         if (frameLayout == null) {
             // titleTextView = (TextView) getView().findViewById(
@@ -161,14 +138,38 @@ public class PadLeftFragment extends Fragment {
             webView.setWebChromeClient(new RjWebChromeClient(activity,
                     leftFragmentWebViewCtrol));
 
-            frameLayout = (FrameLayout) getView().findViewById(
+            frameLayout = (FrameLayout) view.findViewById(
                     R.id.leftFrameLayout);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             frameLayout.addView(webView, layoutParams);
 
         }
+        return view;
+    }
 
+    private FrameLayout frameLayout;
+    private View parentView;
+    private String url;
+
+    public PadLeftFragment() {
+    }
+
+    private boolean isHome;
+
+
+    public PadLeftFragment(View parentView, String url, boolean isHome) {
+        this.parentView = parentView;
+        this.url = url;
+        this.isHome = isHome;
+    }
+
+    private LeftFragmentWebViewCtrol leftFragmentWebViewCtrol;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("LeftFragment--->onResume");
     }
 
     public void showLoading() {
@@ -217,16 +218,14 @@ public class PadLeftFragment extends Fragment {
         @Override
         public void onCreateWindow(WebView webview, boolean isUserGesture,
                                    Message resultMsg) {
-            if (resultMsg == null) {
-                return;
+            if (resultMsg != null) {
+                Log.e(TAG, "USER_AGENT:" + webview.getSettings().getUserAgentString());
+                Log.e("NNN", "onCreateWindows1");
+                WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
+                ((LeftFragmentListener) activity).onWindowOpen(webview);
+                transport.setWebView(webview);
+                resultMsg.sendToTarget();
             }
-            Log.e(TAG, "USER_AGENT:" + webview.getSettings().getUserAgentString());
-            Log.e("NNN", "onCreateWindows1");
-            WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
-            ((LeftFragmentListener) activity).onWindowOpen(webview);
-//            webview.loadUrl("http://127.0.0.1:8011/wisp_aas/adapter?open&url=http://192.168.1.12:80/nanping/electronMark.nsf/0/F5549B0E6939B16B48257EC80042EB6D?OpenDocument");
-            transport.setWebView(webview);
-            resultMsg.sendToTarget();
             super.onCreateWindow(webview, isUserGesture, resultMsg);
         }
     }

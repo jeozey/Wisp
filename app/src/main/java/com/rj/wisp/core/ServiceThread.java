@@ -265,12 +265,30 @@ public class ServiceThread extends Thread {
             showDialog(httpPkg);
         } else if (head_line.indexOf("HandWriting@@RJ@@Open") != -1) {
             handWritingOpen(httpPkg);
+        } else if (head_line.indexOf("jumpToHome@@") != -1) {
+            jumpToHome(httpPkg);
         }
     }
 
 
     private void responseEmptyToWebView() {
         responseWebView("HTTP/1.0 200 OK\r\n", "".getBytes());
+    }
+
+    private void jumpToHome(HttpPkg httpPkg) {
+        try {
+            String jsonStr = new String(httpPkg.getBody(), httpPkg.getCharSet());
+            Log.e(TAG, "jumpToHome jsonStr:" + jsonStr);
+            if (handler != null) {
+                JSONObject json = JSON.parseObject(jsonStr);
+                handler.sendMessage(Message.obtain(handler,
+                        HandlerWhat.JUMP_TO_HOME, json.getString("url")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void addWebUi(HttpPkg httpPkg) throws IOException {
@@ -315,9 +333,12 @@ public class ServiceThread extends Thread {
         String jsonStr = new String(httpPkg.getBody(), httpPkg.getCharSet());
         Log.e(TAG, "handWritingOpen:" + jsonStr);
 
-        Message msg = handler.obtainMessage(HandlerWhat.HANDWRITING_OPEN);
-        msg.obj = jsonStr;
-        handler.sendMessage(msg);
+        handler.sendMessage(Message.obtain(handler,
+                HandlerWhat.JUMP_TO_HOME, DB.HOMEPAGE_URL));
+
+//        Message msg = handler.obtainMessage(HandlerWhat.HANDWRITING_OPEN);
+//        msg.obj = jsonStr;
+//        handler.sendMessage(msg);
     }
 
     private void showDialog(HttpPkg httpPkg) throws IOException {

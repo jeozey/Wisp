@@ -603,6 +603,9 @@ public class PadMainActivity extends FragmentActivity implements
                     case HandlerWhat.SHOW_LOADING:
                         showProgressDialog();
                         break;
+                    case HandlerWhat.JUMP_TO_HOME:
+                        jumpToHome(msg);
+                        break;
                     case HandlerWhat.DISMISS_LOADING:
                         dismissProgressDialog();
                         break;
@@ -619,6 +622,27 @@ public class PadMainActivity extends FragmentActivity implements
         }
     };
 
+    private void jumpToHome(Message msg) {
+        if (msg.obj != null) {
+            findViewById(R.id.home_frame_layout)
+                    .setVisibility(View.VISIBLE);
+            // 弹出主页面
+            popHomePageUrl = msg.obj.toString();
+
+            final FrameLayout homeMainLayout = (FrameLayout) findViewById(R.id.home_frame_layout);
+            if (homeFragment == null) {
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                homeFragment = new PadLeftFragment(homeMainLayout, DB.PRE_URL
+                        + popHomePageUrl.replace("adapter?open&url=", ""), true);
+                transaction.add(R.id.home_frame_layout, homeFragment,
+                        "homeFragment");
+                transaction.commit();
+            }
+
+            Log.e(TAG, "popHomePageUrl:" + popHomePageUrl);
+        }
+    }
 
     private void showDialog(Message msg) {
         if (msg.obj != null) {
@@ -1167,20 +1191,20 @@ public class PadMainActivity extends FragmentActivity implements
         leftFragmentWebViewCtrol = new PadLeftFragment().new LeftFragmentWebViewCtrol(
                 PadMainActivity.this, leftLayout);
 
-        popHomePageUrl = getIntent().getStringExtra("popHomePageUrl");
-        final FrameLayout homeMainLayout = (FrameLayout) findViewById(R.id.home_frame_layout);
-        if (!TextUtils.isEmpty(popHomePageUrl)) {
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-
-            homeFragment = new PadLeftFragment(homeMainLayout, "", true);
-            transaction.add(R.id.home_frame_layout, homeFragment,
-                    "homeFragment");
-            transaction.commit();
-
-            homeFragment.showLoading();
-            homeMainLayout.setVisibility(View.VISIBLE);
-        }
+//        popHomePageUrl = getIntent().getStringExtra("popHomePageUrl");
+//        final FrameLayout homeMainLayout = (FrameLayout) findViewById(R.id.home_frame_layout);
+//        if (!TextUtils.isEmpty(popHomePageUrl)) {
+//            FragmentManager manager = getSupportFragmentManager();
+//            FragmentTransaction transaction = manager.beginTransaction();
+//
+//            homeFragment = new PadLeftFragment(homeMainLayout, "", true);
+//            transaction.add(R.id.home_frame_layout, homeFragment,
+//                    "homeFragment");
+//            transaction.commit();
+//
+//            homeFragment.showLoading();
+//            homeMainLayout.setVisibility(View.VISIBLE);
+//        }
     }
 
     private void initOther() {
