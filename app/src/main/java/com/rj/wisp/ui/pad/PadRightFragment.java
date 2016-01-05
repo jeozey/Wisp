@@ -28,11 +28,13 @@ import com.rj.framework.webview.RjWebChromeClient;
 import com.rj.framework.webview.RjWebViewClient;
 import com.rj.framework.webview.WebViewCtrolImpl;
 import com.rj.view.PadHorizontalBtns;
+import com.rj.view.SlideItem;
 import com.rj.view.SlideTitle;
 import com.rj.view.button.CustomButton;
 import com.rj.view.button.CustomWidgetButton;
 import com.rj.view.loading.CutsomProgressDialog;
 import com.rj.wisp.R;
+import com.rj.wisp.bean.CustomBtn;
 import com.rj.wisp.core.WISPComponentsParser;
 
 import java.util.ArrayList;
@@ -276,17 +278,17 @@ public class PadRightFragment extends Fragment {
             }
 
             tabWidget.setVisibility(View.VISIBLE);
-            List<CustomWidgetButton> buttons = new ArrayList<CustomWidgetButton>();
-            List<String> list = new ArrayList<String>(); // 要显示的标题列表
-            CustomWidgetButton b = new CustomWidgetButton();
+            List<SlideItem> list = new ArrayList<>(); // 要显示的标题列表
+            CustomBtn b;
             for (CustomButton button : tablist) {
                 Log.e(TAG, "button:" + button);
-                b = new CustomWidgetButton();
-                b.setTitle(button.getButtonText());
-                list.add(button.getButtonText());
-                b.setCallBack(button.getClickEvent());
-                b.setIsclick(button.getIsClick());
-                buttons.add(b);
+                b = new CustomBtn();
+                b.setName(button.getButtonText());
+                b.setEvent(button.getClickEvent());
+                if (button.getIsClick() != null && "true".equals(button.getIsClick())) {
+                    b.setIsCheck(true);
+                }
+                list.add(b);
             }
             // 获取设备分辨率
             DisplayMetrics mDisplayMetrics = new DisplayMetrics();
@@ -299,19 +301,20 @@ public class PadRightFragment extends Fragment {
             tabWidget
                     .setSlideTitleOnClickListener(new SlideTitle.SlideTitleOnClickListener() {
                         @Override
-                        public void slideTitleOnClick(int position) {
+                        public void slideTitleOnClick(SlideItem item) {
                             /**
                              * 设置横线显示在哪个子标题下方
                              */
                             // tabWidget.setChangeTitle(position);
 
-                            CustomButton btn = tablist.get(position);
-
-                            String callBack = btn.getClickEvent();
-                            if (!TextUtils.isEmpty(callBack)) {
-                                loadUrl(callBack);
+                            if (item instanceof CustomBtn) {
+                                String callBack = ((CustomBtn) item).getEvent();
+                                if (!TextUtils.isEmpty(callBack)) {
+                                    loadUrl(callBack);
+                                }
                             }
                         }
+
                     });
 
             int index = -1;

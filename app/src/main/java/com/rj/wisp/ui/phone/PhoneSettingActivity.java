@@ -25,11 +25,10 @@ import com.rj.util.PixelTool;
 import com.rj.view.BackTitleBar;
 import com.rj.view.ToastTool;
 import com.rj.view.listview.CornerListView;
-import com.rj.wisp.AppLoadActivity;
 import com.rj.wisp.R;
+import com.rj.wisp.activity.AppLoadActivity;
 import com.rj.wisp.bean.AppConfig;
 import com.rj.wisp.core.InitUtil;
-import com.rj.wisp.core.WispCore;
 import com.rj.wisp.task.GetAppConfigTask;
 import com.rj.wisp.ui.adapter.PhoneSettingAdapter;
 
@@ -42,8 +41,8 @@ import java.util.Map;
  * 作者：志文 on 2015/12/15 0015 09:22
  * 邮箱：594485991@qq.com
  */
-public class SettingActivity extends Activity implements View.OnClickListener, PhoneSettingAdapter.AppSettingCallBack {
-    private static final String TAG = SettingActivity.class.getName();
+public class PhoneSettingActivity extends Activity implements View.OnClickListener, PhoneSettingAdapter.AppSettingCallBack {
+    private static final String TAG = PhoneSettingActivity.class.getName();
     private BackTitleBar titleBar;
     private LinearLayout scrollView;
 
@@ -71,12 +70,12 @@ public class SettingActivity extends Activity implements View.OnClickListener, P
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.leftBtn:
-                SettingActivity.this.finish();
+                PhoneSettingActivity.this.finish();
                 break;
             case R.id.rightBtn:
                 InitUtil.saveConfig(getBaseContext());
                 AppSystemTool.clearWebViewCookie(getBaseContext());
-                AppSystemTool.restartApp(SettingActivity.this, AppLoadActivity.class);
+                AppSystemTool.restartApp(PhoneSettingActivity.this, AppLoadActivity.class);
                 break;
             default:
                 break;
@@ -299,22 +298,8 @@ public class SettingActivity extends Activity implements View.OnClickListener, P
 
                                     Map<String, String> map = dataMapList
                                             .get(which);
-                                    DB.AAS_HOST = map.get("address");
-                                    DB.APP_NAME = map.get("name");
-                                    DB.AAS_PORT = Integer.parseInt(map.get("port"));
-                                    DB.APP_CODE = map.get("appcode");
-                                    DB.LOGINPAGE_URL = map.get("loginpage");
-                                    DB.HOMEPAGE_URL = map.get("homepage");
-                                    DB.APP_CHARSET = map.get("charset");
-                                    Log.e(TAG, "DB.AAS_HOST:" + DB.AAS_HOST);
-                                    Log.e(TAG, "DB.APP_CODE:" + DB.APP_CODE);
-                                    Log.e(TAG, "DB.APP_CHARSET:" + DB.APP_CHARSET);
+                                    setConfig(map);
                                     dialog.cancel();
-
-                                    if (appConfigs.size() > 2) {
-                                        appConfigs.get(2).put("text", DB.APP_NAME);
-                                    }
-                                    appConfigAdapter.notifyDataSetChanged();
 
                                 }
                             });
@@ -326,19 +311,46 @@ public class SettingActivity extends Activity implements View.OnClickListener, P
 
     }
 
+    private void setConfig(Map<String, String> map) {
+        DB.AAS_HOST = map.get("address");
+        DB.APP_NAME = map.get("name");
+        DB.AAS_PORT = Integer.parseInt(map.get("port"));
+        DB.APP_CODE = map.get("appcode");
+        DB.LOGINPAGE_URL = map.get("loginpage");
+        DB.HOMEPAGE_URL = map.get("homepage");
+        DB.APP_CHARSET = map.get("charset");
+        Log.e(TAG, "DB.AAS_HOST:" + DB.AAS_HOST);
+        Log.e(TAG, "DB.APP_CODE:" + DB.APP_CODE);
+        Log.e(TAG, "DB.APP_CHARSET:" + DB.APP_CHARSET);
+
+
+        if (appConfigs.size() > 2) {
+            appConfigs.get(2).put("text", DB.APP_NAME);
+        }
+        appConfigAdapter.notifyDataSetChanged();
+
+        ToastTool.show(this, "设置成功", Toast.LENGTH_SHORT);
+    }
     @Override
     public void getAppInfo(View v, String securityHost, int securityPort) {
         //重启新的HTTP Server监听
 //                WispCore.getWISPSO().CloseService();
 //                WispCore.getWISPSO().StartService(new Handler(), getBaseContext());
-        WispCore.getWISPSO().restartHttpServer();
+//        WispCore.getWISPSO().restartHttpServer();
 
         // 回调到activity处理
         final GetAppConfigTask getAppConfigTask = new GetAppConfigTask(
-                SettingActivity.this, new GetAppConfigTask.GetAppConfigCallBack() {
+                PhoneSettingActivity.this, new GetAppConfigTask.GetAppConfigCallBack() {
             @Override
             public void callback(String jsonStr) {
-                showAppSettings(handleData(jsonStr));
+//                showAppSettings(handleData(jsonStr));
+
+                ArrayList<HashMap<String, String>> result = handleData(jsonStr);
+                if (result.size() == 1) {
+                    setConfig(result.get(0));
+                } else {
+                    showAppSettings(result);
+                }
             }
         });
 
@@ -350,7 +362,7 @@ public class SettingActivity extends Activity implements View.OnClickListener, P
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         final ProgressDialog appLoadDialog = new ProgressDialog(
-                SettingActivity.this);
+                PhoneSettingActivity.this);
         appLoadDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         appLoadDialog.setTitle("");
         appLoadDialog.setMessage("正在获取应用列表...");

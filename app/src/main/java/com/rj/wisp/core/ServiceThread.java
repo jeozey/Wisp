@@ -333,12 +333,12 @@ public class ServiceThread extends Thread {
         String jsonStr = new String(httpPkg.getBody(), httpPkg.getCharSet());
         Log.e(TAG, "handWritingOpen:" + jsonStr);
 
-        handler.sendMessage(Message.obtain(handler,
-                HandlerWhat.JUMP_TO_HOME, DB.HOMEPAGE_URL));
+//        handler.sendMessage(Message.obtain(handler,
+//                HandlerWhat.JUMP_TO_HOME, DB.HOMEPAGE_URL));
 
-//        Message msg = handler.obtainMessage(HandlerWhat.HANDWRITING_OPEN);
-//        msg.obj = jsonStr;
-//        handler.sendMessage(msg);
+        Message msg = handler.obtainMessage(HandlerWhat.HANDWRITING_OPEN);
+        msg.obj = jsonStr;
+        handler.sendMessage(msg);
     }
 
     private void showDialog(HttpPkg httpPkg) throws IOException {
@@ -486,19 +486,19 @@ public class ServiceThread extends Thread {
     }
 
 
-    private void writeFileToWebView(String filename)
+    private void writeFileToWebView(String filePath)
             throws Exception {
-        Log.e("cache", "高速缓存：" + filename);
+        Log.e("cache", "高速缓存：" + filePath);
         byte[] content = new byte[20480];
         File cacheFile = null;
         FileInputStream security_is = null;
         try {
             int j = 0;
-            cacheFile = new File(filename);
+            cacheFile = new File(filePath);
 
             StringBuilder sb = new StringBuilder();
             sb.append("HTTP/1.0 200 OK\r\n");//返回应答消息,并结束应答
-            sb.append("File-Path:" + filename + "\r\n");//返回应答消息,并结束应答
+            sb.append("File-Path:" + filePath + "\r\n");//返回应答消息,并结束应答
 //			sb.append("Content-Type: application/octet-stream\r\n".getBytes());
             sb.append(("Content-Length: " + cacheFile.length() + "\r\n"));// 返回内容字节数
 

@@ -1,4 +1,4 @@
-package com.rj.wisp;
+package com.rj.wisp.activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.rj.framework.DB;
 import com.rj.sdkey.view.PhoneLoginView;
 import com.rj.view.ToastTool;
+import com.rj.wisp.R;
 import com.rj.wisp.base.BaseActivity;
 import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.bean.ResourceMessageEvent;
@@ -26,7 +27,7 @@ import com.rj.wisp.core.InitUtil;
 import com.rj.wisp.core.LocalSocketRequestTool;
 import com.rj.wisp.ui.pad.PadMainActivity;
 import com.rj.wisp.ui.phone.PhoneMainActivity;
-import com.rj.wisp.ui.phone.SettingActivity;
+import com.rj.wisp.ui.phone.PhoneSettingActivity;
 import com.rj.wisp.widget.AppSettingDialog;
 
 import de.greenrobot.event.EventBus;
@@ -100,11 +101,11 @@ public class AppLoadActivity extends BaseActivity {
                     showLoginView();
                     break;
                 case ResourceMessageEvent.RESOURCE_DOWN_WRITE_FAIL_FAIL:
-                    ToastTool.show(AppLoadActivity.this, "资源配置文件保存失败,请联系管理员", Toast.LENGTH_SHORT);
+                    showMessage("资源配置文件保存失败,请联系管理员");
                     break;
                 case ResourceMessageEvent.RESOURCE_GET_FAIL:
                 case ResourceMessageEvent.RESOURCE_CONFIG_FORMAT_FAIL:
-                    ToastTool.show(AppLoadActivity.this, "获取资源列表出错,请重试", Toast.LENGTH_SHORT);
+                    showMessage("获取资源列表出错,请重试");
                     break;
                 case ResourceMessageEvent.RESOURCE_DOWN_START:
                     if (downLoadDialog != null) {
@@ -282,7 +283,7 @@ public class AppLoadActivity extends BaseActivity {
     private void checkSetting() {
         if (TextUtils.isEmpty(DB.APP_CODE)) {
             ToastTool.show(AppLoadActivity.this, "没有获取到应用", Toast.LENGTH_SHORT);
-            startActivity(new Intent(this, SettingActivity.class));
+            startActivity(new Intent(this, PhoneSettingActivity.class));
         } else {
             new MyAsyncTask().execute(CHECK_NETWORK);
         }
@@ -396,7 +397,7 @@ public class AppLoadActivity extends BaseActivity {
     private void showSetting() {
         if (DB.isPhone) {
             startActivity(new Intent(AppLoadActivity.this,
-                    SettingActivity.class));
+                    PhoneSettingActivity.class));
         } else {
             new AppSettingDialog(this).show();
         }

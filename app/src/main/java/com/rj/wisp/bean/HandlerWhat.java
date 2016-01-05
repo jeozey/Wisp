@@ -24,6 +24,7 @@ public class HandlerWhat {
     public static final int SHOW_DIALOG = 16;
     public static final int HANDWRITING_OPEN = 17;
     public static final int JUMP_TO_HOME = 18;
+    public static final int HANDWRITING_OPEN_FILE = 19;
 
     public static final int LOG_OUT = 30;
 }

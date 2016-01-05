@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WISP_widgetLib</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- 手写板 -->
+    <string name="tablet_title_text">手写板</string>
+    <string name="tablet_btn_save_text">确定</string>
+    <string name="tablet_btn_delete_text">删除</string>
+    <string name="tablet_btn_blank_text">空格</string>
+    <string name="tablet_btn_enter_text">换行</string>
+    <string name="tablet_btn_back_text">返回</string>
+    <string name="tablet_btn_paintwidth_setting_text">粗细</string>
+    <string name="tablet_undo">撤    销</string>
+    <string name="tablet_redo">恢    复</string>
+    <string name="tablet_eraser">橡皮擦</string>
+    <string name="tablet_save">保    存</string>
+    <string name="tablet_rem">上次痕迹</string>
+    <string name="tablet_clear">清    空</string>
+    <string name="tablet_pre">上一页</string>
+    <string name="tablet_next">下一页</string>
+    <string name="page_one"> - %d -</string>
+
+
+    <!-- 进度框 -->
+    <string name="progress_btn_cancel">取消</string>
+
+</resources>

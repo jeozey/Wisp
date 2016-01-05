@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/framework/framework.iml" filepath="$PROJECT_DIR$/framework/framework.iml" />
       <module fileurl="file://$PROJECT_DIR$/otherlib/otherlib.iml" filepath="$PROJECT_DIR$/otherlib/otherlib.iml" />
       <module fileurl="file://$PROJECT_DIR$/sdkey/sdkey.iml" filepath="$PROJECT_DIR$/sdkey/sdkey.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tablet/tablet.iml" filepath="$PROJECT_DIR$/tablet/tablet.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/util.iml" filepath="$PROJECT_DIR$/util/util.iml" />
       <module fileurl="file://$PROJECT_DIR$/view/view.iml" filepath="$PROJECT_DIR$/view/view.iml" />
       <module fileurl="file://$PROJECT_DIR$/vpn/vpn.iml" filepath="$PROJECT_DIR$/vpn/vpn.iml" />

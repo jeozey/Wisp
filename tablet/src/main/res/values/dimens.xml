@@ -1,0 +1,24 @@
+<resources>
+    <dimen name="dip1">1dip</dimen>
+    <dimen name="dip1_5">1.5dip</dimen>
+    <dimen name="dip2">2dip</dimen>
+    <dimen name="dip2_5">2.5dip</dimen>
+    <dimen name="dip3">3dip</dimen>
+    <dimen name="dip3_5">3.5dip</dimen>
+    <dimen name="dip4">4dip</dimen>
+    <dimen name="dip4_5">4.5dip</dimen>
+    <dimen name="dip5">5dip</dimen>
+    <dimen name="dip5_5">5.5dip</dimen>
+    <dimen name="dip6">6dip</dimen>
+    <dimen name="dip6_5">6.5dip</dimen>
+    <dimen name="dip7">7dip</dimen>
+    <dimen name="dip8">8dip</dimen>
+    <dimen name="dip9">9dip</dimen>
+    <dimen name="dip10">10dip</dimen>
+    <dimen name="dip11">11dip</dimen>
+    <dimen name="dip12">12dip</dimen>
+    <dimen name="dip13">13dip</dimen>
+    <dimen name="dip14">14dip</dimen>
+    <dimen name="dip15">15dip</dimen>
+    <dimen name="dip20">20dip</dimen>
+</resources>

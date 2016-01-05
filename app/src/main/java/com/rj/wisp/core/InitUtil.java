@@ -109,7 +109,7 @@ public class InitUtil {
             SharedPreferences.Editor editor = SharedPreferencesUtil.getSharedPreferences(
                     context).edit();
             Log.e(TAG, "host" + DB.SECURITY_HOST);
-            Log.e(TAG, "name" + DB.APP_NAME);
+            Log.e(TAG, "app name" + DB.APP_NAME);
             editor.putString("APP_CODE", DB.APP_CODE);
             editor.putString("APP_CHARSET", DB.APP_CHARSET);
             editor.putString("APP_NAME", DB.APP_NAME);

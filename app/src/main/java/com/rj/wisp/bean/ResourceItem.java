@@ -1,4 +1,4 @@
-package com.rj.wisp;
+package com.rj.wisp.bean;
 
 /**
  * 作者：志文 on 2015/11/25 0025 10:03

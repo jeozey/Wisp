@@ -13,6 +13,7 @@ import com.rj.wisp.bean.ResourceFile;
 import com.rj.wisp.bean.ResourceMessageEvent;
 import com.rj.wisp.core.Commons;
 import com.rj.wisp.core.LocalSocketRequestTool;
+import com.rj.wisp.util.SourceFileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -266,7 +267,7 @@ public class AjaxGetResourcesTask extends AsyncTask<String, Void, String> {
         sb.append("Accept-Language: zh-CN, en-US" + "\r\n");
         sb.append("Connection: Keep-Alive" + "\r\n");
 
-        HttpPkg httpPkg = new LocalSocketRequestTool().getLocalSocketRequest(sb.toString().getBytes(), null);
+        HttpPkg httpPkg = new LocalSocketRequestTool().getLocalSocketRequest(sb.toString(), null);
 
         String filename = filepath;
 

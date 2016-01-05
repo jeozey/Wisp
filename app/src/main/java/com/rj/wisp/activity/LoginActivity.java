@@ -31,7 +31,7 @@ import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.ui.pad.PadMainActivity;
 import com.rj.wisp.ui.phone.PhoneMainActivity;
-import com.rj.wisp.ui.phone.SettingActivity;
+import com.rj.wisp.ui.phone.PhoneSettingActivity;
 
 public class LoginActivity extends BaseActivity {
     private static final String TAG = LoginActivity.class.getName();
@@ -255,7 +255,7 @@ public class LoginActivity extends BaseActivity {
             case 2:
                 if (DB.isPhone) {
                     startActivity(new Intent(LoginActivity.this,
-                            SettingActivity.class));
+                            PhoneSettingActivity.class));
                 } else {
 //				new AppSettingDialog(this).show();
                 }

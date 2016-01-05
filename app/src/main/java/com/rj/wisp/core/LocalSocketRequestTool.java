@@ -33,19 +33,29 @@ public class LocalSocketRequestTool {
     private static final String THE_NEW_VERSION = "THE_NEW_VERSION";
 
 
-    public HttpPkg getLocalSocketRequest(byte[] head, byte[] body) {
+    public HttpPkg getLocalSocketRequest(String head, byte[] body) {
         return getLocalSocketRequest(head, body, TIME_OUT);
     }
 
-    public HttpPkg getLocalSocketRequest(byte[] head, byte[] body, int timeOut) {
+    public HttpPkg getLocalSocketRequest(String head, byte[] body, int timeOut) {
         try {
             Socket socket = new Socket(DB.HTTPSERVER_HOST, DB.HTTPSERVER_PORT);
             socket.setSoTimeout(timeOut);
             socket.setReceiveBufferSize(10240);
             OutputStream os = socket.getOutputStream();
             DataInputStream is = new DataInputStream(socket.getInputStream());
-            os.write(head);
-            os.write(CRLF);
+            if (head != null) {
+                os.write(head.getBytes());
+            }
+            if (head.endsWith(Commons.CRLF2_STR)) {
+                Log.e(TAG, "two CRLF");
+            } else if (head.endsWith(Commons.CRLF_STR)) {
+                Log.e(TAG, "one CRLF");
+                os.write(Commons.CRLF_BYTE);
+            } else {
+                Log.e(TAG, "one CRLF");
+                os.write(Commons.CRLF2_BYTE);
+            }
             if (body != null) {
                 os.write(body);
             }
@@ -74,8 +84,7 @@ public class LocalSocketRequestTool {
     public void checkConnection(final Handler handler) {
         try {
             long start = System.currentTimeMillis();
-            byte head[] = CHECK_CONNECTION.getBytes();
-            HttpPkg httpPkg = getLocalSocketRequest(head, "".getBytes(), CONNECTION_TIME_OUT);
+            HttpPkg httpPkg = getLocalSocketRequest(CHECK_CONNECTION, "".getBytes(), CONNECTION_TIME_OUT);
 
             String result = null;
             if (httpPkg.getBody() == null) {
@@ -122,7 +131,7 @@ public class LocalSocketRequestTool {
             sb.append("Accept-Charset: utf-8, iso-8859-1, utf-16, *;q=0.7"
                     + "\r\n");
 
-            HttpPkg httpPkg = getLocalSocketRequest(sb.toString().getBytes(), null);
+            HttpPkg httpPkg = getLocalSocketRequest(sb.toString(), null);
 
             byte[] content = httpPkg.getBody();
             String charset = httpPkg.getHead().get("charset");
@@ -138,8 +147,7 @@ public class LocalSocketRequestTool {
     public void checkNewVersion(final Handler handler) {
         try {
 
-            byte head[] = VERSION_UPDATE.getBytes();
-            HttpPkg httpPkg = getLocalSocketRequest(head, null);
+            HttpPkg httpPkg = getLocalSocketRequest(VERSION_UPDATE, null);
 
 
             String result = new String(httpPkg.getBody());

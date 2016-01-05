@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MoreActivity extends Activity {
+public class PhoneMoreActivity extends Activity {
 
     private MoveLayout moveLayout;
     private static final String TAG = "MoreActivity";

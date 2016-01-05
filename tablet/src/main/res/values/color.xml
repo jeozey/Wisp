@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 手写板 -->
+    <color name="tablet_cursor_color">#4e72b8</color>
+    <color name="tablet_dashed_color">#d3d7d4</color>
+    <color name="tablet_title_background">#426ab3</color>
+    <color name="tablet_title_text_color">#130c0e</color>
+    <color name="tablet_background">#00ae9d</color>
+    <color name="tablet_bottom_background">#74787c</color>
+</resources>

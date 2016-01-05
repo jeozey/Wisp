@@ -3,7 +3,6 @@ package com.rj.wisp.ui.phone;
 import android.content.Context;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +17,13 @@ import com.rj.framework.ButtonFactory;
 import com.rj.framework.webview.RjWebViewClient;
 import com.rj.framework.webview.WebViewCtrol;
 import com.rj.framework.webview.WebViewFactory;
-import com.rj.view.TopTabLayoutWidget;
+import com.rj.view.SlideItem;
+import com.rj.view.SlideTitle;
 import com.rj.view.button.CustomButton;
 import com.rj.view.button.CustomWidgetButton;
 import com.rj.view.button.PhoneHorizontalBtns;
 import com.rj.wisp.R;
+import com.rj.wisp.bean.CustomBtn;
 import com.rj.wisp.core.WISPComponentsParser;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class PhoneWebChromeClient extends WebChromeClient {
     private RelativeLayout childLayout;
     private RelativeLayout browserLayout;
     private PhoneHorizontalBtns horizontalBtns;
-    private TopTabLayoutWidget tabWidget;
+    private SlideTitle tabWidget;
     private LinkedList<WebView> webViews;
     private HashMap<Integer, ArrayList<CustomWidgetButton>> formButtons = new HashMap<Integer, ArrayList<CustomWidgetButton>>();
     private HashMap<Integer, ArrayList<CustomButton>> tabButtons = new HashMap<Integer, ArrayList<CustomButton>>();
@@ -97,7 +98,7 @@ public class PhoneWebChromeClient extends WebChromeClient {
     private List<CustomButton> collectionlist;// 更多按钮
 
     // 初始化动态按钮
-    public void updateBottomTabBar(String data, PhoneHorizontalBtns horizontalBtns, TopTabLayoutWidget tabWidget) {
+    public void updateBottomTabBar(String data, PhoneHorizontalBtns horizontalBtns, SlideTitle tabWidget) {
 //		Log.i("_GuLang","updateBottomButtonBar  -->"+data);
         try {
             this.horizontalBtns = horizontalBtns;
@@ -164,37 +165,68 @@ public class PhoneWebChromeClient extends WebChromeClient {
         }
     }
 
-    public void initializeTabs(final List<CustomButton> tablist, TopTabLayoutWidget tabWidget) {
+    public void initializeTabs(final List<CustomButton> tablist, SlideTitle tabWidget) {
         try {
             this.tabWidget = tabWidget;
-//			final TopTabLayoutWidget tabWidget = (TopTabLayoutWidget) context.findViewById(R.id.tabLayoutWidget);
             Log.e(TAG, "initializeTabs");
+//            tabWidget.setVisibility(View.VISIBLE);
+//            List<CustomWidgetButton> buttons = new ArrayList<CustomWidgetButton>();
+//            CustomWidgetButton btn = new CustomWidgetButton();
+//            for (CustomButton button : tablist) {
+//                Log.e(TAG, "button:" + button);
+//                btn = new CustomWidgetButton();
+//                btn.setTitle(button.getButtonText());
+//                btn.setCallBack(button.getClickEvent());
+//                btn.setIsclick(button.getIsClick());
+//                buttons.add(btn);
+//            }
+////            DisplayMetrics mDisplayMetrics = new DisplayMetrics();
+////            context.getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
+//
+//            DisplayMetrics mDisplayMetrics = context.getResources().getDisplayMetrics();
+//
+//            tabWidget.init(mDisplayMetrics.widthPixels, buttons, new TopTabLayoutWidget.ITabLayoutWidget() {
+//
+//                @Override
+//                public void callBack(String callBack) {
+////					Toast.makeText(context, callBack, Toast.LENGTH_SHORT).show();
+//                    if (!TextUtils.isEmpty(callBack)) {
+//                        loadUrl(callBack);
+//                    }
+//                }
+//            });
+            if (tablist == null || tablist.size() == 0) {
+                tabWidget.setVisibility(View.GONE);
+                return;
+            }
             tabWidget.setVisibility(View.VISIBLE);
-            List<CustomWidgetButton> buttons = new ArrayList<CustomWidgetButton>();
-            CustomWidgetButton btn = new CustomWidgetButton();
+
+            List<SlideItem> buttons = new ArrayList<>();
+            CustomBtn btn;
             for (CustomButton button : tablist) {
-                Log.e(TAG, "button:" + button);
-                btn = new CustomWidgetButton();
-                btn.setTitle(button.getButtonText());
-                btn.setCallBack(button.getClickEvent());
-                btn.setIsclick(button.getIsClick());
+                btn = new CustomBtn();
+                btn.setName(button.getButtonText());
+                if (button.getIsClick() != null && "true".equals(button.getIsClick())) {
+                    btn.setIsCheck(true);
+                }
+                btn.setEvent(button.getClickEvent());
                 buttons.add(btn);
             }
-//            DisplayMetrics mDisplayMetrics = new DisplayMetrics();
-//            context.getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
+            // 标题点击监听
+            tabWidget
+                    .setSlideTitleOnClickListener(new SlideTitle.SlideTitleOnClickListener() {
+                        @Override
+                        public void slideTitleOnClick(SlideItem item) {
+                            if (item instanceof CustomBtn) {
+                                String callBack = ((CustomBtn) item).getEvent();
+                                if (!TextUtils.isEmpty(callBack)) {
+                                    loadUrl(callBack);
+                                }
+                            }
 
-            DisplayMetrics mDisplayMetrics = context.getResources().getDisplayMetrics();
-
-            tabWidget.init(mDisplayMetrics.widthPixels, buttons, new TopTabLayoutWidget.ITabLayoutWidget() {
-
-                @Override
-                public void callBack(String callBack) {
-//					Toast.makeText(context, callBack, Toast.LENGTH_SHORT).show();
-                    if (!TextUtils.isEmpty(callBack)) {
-                        loadUrl(callBack);
-                    }
-                }
-            });
+                        }
+                    });
+            tabWidget.setMidChildTitleFlow(buttons);
         } catch (Exception e) {
             e.printStackTrace();
         }

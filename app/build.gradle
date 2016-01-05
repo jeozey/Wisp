@@ -21,27 +21,71 @@ android {
         versionCode 1
         versionName "1.0"
 
-        signingConfig signingConfigs.release
-        resValue "string", "app_name", "政务办公"
-
-        flavorDimensions "version"
-        buildConfigField "boolean", "IS_PIN", "false"
-        buildConfigField "boolean", "IS_GZIP", "false"
-        buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
-        buildConfigField "int", "HTTPSERVER_PORT", "8011"
-        buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
-        buildConfigField "int", "SECURITY_PORT", "6611"
-        buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
-        buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
-        buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
     }
 
+//    flavorDimensions "market", "version"
+//
+//
+//    productFlavors {
+//        vpn {
+//            flavorDimensions "version"
+//            signingConfig signingConfigs.release
+//            resValue "string", "app_name", "VPN"
+//
+//            flavorDimensions "version"
+//            buildConfigField "boolean", "IS_PIN", "false"
+//            buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
+//            buildConfigField "int", "HTTPSERVER_PORT", "8011"
+//            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
+//            buildConfigField "int", "SECURITY_PORT", "5599"
+//            buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
+//            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
+//            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
+//        }
+//        sdkey { }
+//    }
 
+    flavorDimensions "version"
 
+    productFlavors {
+        default_ {
+            dimension = "version"
 
+            signingConfig signingConfigs.release
+            resValue "string", "app_name", "政务办公"
 
+            flavorDimensions "version"
+            buildConfigField "boolean", "IS_PIN", "false"
+            buildConfigField "boolean", "IS_GZIP", "false"
+            buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
+            buildConfigField "int", "HTTPSERVER_PORT", "8011"
+            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
+            buildConfigField "int", "SECURITY_PORT", "6611"
+            buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
+            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
+            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
+        }
+        vpn_ {
+            dimension = "version"
+            signingConfig signingConfigs.release
+            resValue "string", "app_name", "协同办公1"
 
-    buildTypes {
+            buildConfigField "boolean", "IS_PIN", "false"
+            buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
+            buildConfigField "int", "HTTPSERVER_PORT", "8011"
+            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
+            buildConfigField "int", "SECURITY_PORT", "5599"
+            buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
+            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
+            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
+        }
+        sdkey_ {
+            dimension = "version"
+        }
+
+    }
+
+//    buildTypes {
 //        release {
 //            signingConfig signingConfigs.release
 //            resValue "string", "app_name", "政务办公"
@@ -56,23 +100,22 @@ android {
 //            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
 //            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
 //        }
-        "5599" {
-            signingConfig signingConfigs.release
-            resValue "string", "app_name", "协同办公"
-
-            flavorDimensions "version"
-            buildConfigField "boolean", "IS_PIN", "false"
-            buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
-            buildConfigField "int", "HTTPSERVER_PORT", "8011"
-            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
-            buildConfigField "int", "SECURITY_PORT", "5599"
-            buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
-            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
-            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
-        }
-
-
-    }
+//        "5599" {
+//            signingConfig signingConfigs.release
+//            resValue "string", "app_name", "协同办公"
+//
+//            flavorDimensions "version"
+//            buildConfigField "boolean", "IS_PIN", "false"
+//            buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
+//            buildConfigField "int", "HTTPSERVER_PORT", "8011"
+//            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
+//            buildConfigField "int", "SECURITY_PORT", "5599"
+//            buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
+//            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
+//            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
+//        }
+//
+//    }
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -95,13 +138,15 @@ dependencies {
 //    compile(name: 'framework-debug', ext: 'aar')
 //    compile(name: 'view-debug', ext: 'aar')
 
-    compile 'com.android.support:appcompat-v7:23.0.0'
     compile project(":util");
     compile project(":view");
     compile project(":framework");
     compile project(":connection");
     compile project(":otherlib");
-//    compile project(":sdkey");
+    compile project(":tablet");
+
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
 }
 
 //fileTree(dir: 'libs', include: '**/*.aar')

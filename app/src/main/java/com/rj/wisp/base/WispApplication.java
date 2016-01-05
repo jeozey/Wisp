@@ -4,7 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.rj.framework.CrashHandler;
-import com.rj.wisp.ResourceItem;
+import com.rj.wisp.bean.ResourceItem;
 
 import java.util.HashMap;
 

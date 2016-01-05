@@ -29,8 +29,8 @@ import com.rj.framework.DB;
 import com.rj.framework.SharedPreferencesUtil;
 import com.rj.util.AndroidTool;
 import com.rj.view.ToastTool;
-import com.rj.wisp.AppLoadActivity;
 import com.rj.wisp.R;
+import com.rj.wisp.activity.AppLoadActivity;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.task.GetAppConfigTask;
 
@@ -147,7 +147,14 @@ public class AppSettingDialog extends Dialog implements View.OnClickListener {
                         public void callback(String jsonStr) {
                             // appSettingCallBack.callBack(editText,
                             // jsonStr);
-                            showAppSettings(appNameEt, handleData(jsonStr));
+
+                            ArrayList<HashMap<String, String>> result = handleData(jsonStr);
+                            if (result.size() == 1) {
+                                setConfig(appNameEt, result.get(0));
+                            } else {
+                                showAppSettings(appNameEt, result);
+                            }
+
                             Log.i("GuLang", "" + jsonStr);
                         }
                     });
@@ -261,6 +268,20 @@ public class AppSettingDialog extends Dialog implements View.OnClickListener {
 
     }
 
+    private void setConfig(final EditText editText, Map<String, String> map) {
+        DB.AAS_HOST = map.get("address");
+        DB.APP_NAME = map.get("name");
+        DB.AAS_PORT = Integer.parseInt(map.get("port"));
+        DB.APP_CODE = map.get("appcode");
+        DB.LOGINPAGE_URL = map.get("loginpage");
+        DB.HOMEPAGE_URL = map.get("homepage");
+        DB.APP_CHARSET = map.get("charset");
+        if (editText != null) {
+            editText.setText(DB.APP_NAME);
+        }
+        ToastTool.show(context, "设置成功", Toast.LENGTH_SHORT);
+
+    }
     private void showAppSettings(final EditText editText,
                                  final ArrayList<HashMap<String, String>> dataMapList) {
         if (dataMapList == null || dataMapList.size() == 0) {
@@ -275,20 +296,9 @@ public class AppSettingDialog extends Dialog implements View.OnClickListener {
                 new OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
-                        if (editText != null) {
-                            editText.setText(data[which]);
-                        }
-
                         Map<String, String> map = dataMapList.get(which);
-                        DB.AAS_HOST = map.get("address");
-                        DB.APP_NAME = map.get("name");
-                        DB.AAS_PORT = Integer.parseInt(map.get("port"));
-                        DB.APP_CODE = map.get("appcode");
-                        DB.LOGINPAGE_URL = map.get("loginpage");
-                        DB.HOMEPAGE_URL = map.get("homepage");
-                        DB.APP_CHARSET = map.get("charset");
+                        setConfig(editText, map);
                         dialog.cancel();
-
                     }
                 });
         AlertDialog alertDialog = appNameDialogBuilder.create();

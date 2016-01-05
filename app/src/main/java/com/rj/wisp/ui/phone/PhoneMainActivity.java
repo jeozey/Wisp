@@ -60,6 +60,7 @@ import com.rj.wisp.activity.LoginActivity;
 import com.rj.wisp.base.WispApplication;
 import com.rj.wisp.bean.Attachment;
 import com.rj.wisp.bean.AttachmentDownEvent;
+import com.rj.wisp.bean.HandWriting;
 import com.rj.wisp.bean.HandlerWhat;
 import com.rj.wisp.core.AttachmentCacheUtil;
 import com.rj.wisp.core.Commons;
@@ -67,7 +68,10 @@ import com.rj.wisp.core.FileOpenUtil;
 import com.rj.wisp.core.WISPComponentsParser;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.service.NetConnectService;
+import com.rj.wisp.tablet.TabletActivity;
+import com.rj.wisp.task.HandWrittingTask;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,7 +115,6 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         }
         super.onDestroy();
     }
-
 
 
     @Override
@@ -287,7 +290,10 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                         dismissProgressDialog();
                         break;
                     case HandlerWhat.HANDWRITING_OPEN:
-                        dismissProgressDialog();
+                        handWriting(msg);
+                        break;
+                    case HandlerWhat.HANDWRITING_OPEN_FILE:
+                        handWritingOpenFile(msg);
                         break;
                     default:
                         break;
@@ -305,18 +311,74 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
         }
     }
 
+    private HandWriting handWriting;
+    private HashMap<String, String> downLoadHwUrls = new HashMap<String, String>();
+    private String lastDownLoadHwUrl = "";
+    private String lastDownLoadHwPath = "";
+
+    private void openHandWritingWindow(String downLoadHwUrl, String showHwPath) {
+        Log.e(TAG, "openHandWritingWindow--showHwPath:" + showHwPath);
+        long time = System.currentTimeMillis();
+        String path = DB.HANDWRITE_PATH;
+        String savePngPath = path + File.separator + time
+                + java.util.UUID.randomUUID().toString() + ".png";
+        String saveHwPath = savePngPath.replace("png", "hw");
+        Intent intent = new Intent(PhoneMainActivity.this,
+                TabletActivity.class);
+        intent.putExtra("callback", handWriting.getCallback());
+        intent.putExtra("savePngPath", savePngPath);
+        intent.putExtra("saveHwPath", saveHwPath);
+        if (downLoadHwUrls.containsKey(downLoadHwUrl)) {
+            intent.putExtra("showHwPath", downLoadHwUrls.get(downLoadHwUrl));
+            intent.putExtra("lastHWpath", lastDownLoadHwUrl);
+            // lastDownLoadHwUrl = "";
+        } else if (TextUtils.isEmpty(downLoadHwUrl)) {
+            // intent.putExtra("showHwPath", lastDownLoadHwUrl);
+            intent.putExtra("showHwPath", "");
+            intent.putExtra("lastHWpath", lastDownLoadHwUrl);
+
+        } else {
+            downLoadHwUrls.put(downLoadHwUrl, showHwPath);
+            intent.putExtra("showHwPath", showHwPath);
+            intent.putExtra("lastHWpath", lastDownLoadHwUrl);
+
+            // lastDownLoadHwUrl = "";
+        }
+        startActivityForResult(intent, 11);
+    }
+
+    private void handWritingOpenFile(Message msg) {
+        if (msg.obj != null) {
+            String[] args = (String[]) msg.obj;
+            Intent intent = new Intent(PhoneMainActivity.this,
+                    TabletActivity.class);
+            intent.putExtra("callback", args[0]);
+            if (args.length > 1) {
+                intent.putExtra("savePngPath", args[1]);
+            }
+            if (args.length > 2) {
+                intent.putExtra("saveHwPath", args[2]);
+            }
+            startActivityForResult(intent, TABLET_ACTIVITY_RESULT_CODE);
+        }
+    }
     private void handWriting(Message msg) {
         if (msg.obj == null) {
             ToastTool.show(PhoneMainActivity.this, "获取手写请求出错", Toast.LENGTH_SHORT);
         } else {
             try {
-//               HandWriting handWriting = WISPComponentsParser.getHandWritingProperty(msg.obj.toString());
-//                if (handWriting != null) {
-//                    String downLoadUrl = handWriting.getDownLoadUrl();
+                HandWriting handWriting = WISPComponentsParser.getHandWritingProperty(msg.obj.toString());
+                if (handWriting != null) {
+                    String callBack = handWriting.getCallback();
+                    String pngDownLoadUrl = handWriting.getDownLoadUrl();
+                    if (!TextUtils.isEmpty(pngDownLoadUrl)) {
+                        String hwDownLoadUrl = pngDownLoadUrl.replace(".png", ".hw");
+                        new HandWrittingTask(handler).execute(callBack, pngDownLoadUrl, hwDownLoadUrl);
+                    }
 //                    //说明已经本地写入webview
-//                    if(downLoadUrl.indexOf("@@")!=-1){
+//                    if (downLoadUrl.indexOf("@@") != -1) {
 //                        openHandWritingWindow("@@", null);
-//                    }else if (!TextUtils.isEmpty(downLoadUrl)) {
+//                    } else if (!TextUtils.isEmpty(downLoadUrl)) {
 //                        String url = downLoadUrl;
 //                        if (downLoadUrl.indexOf(DB.HTTPSERVER_HOST) != -1) {
 //                            url = downLoadUrl.substring(
@@ -331,14 +393,17 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 //                    } else {
 //                        openHandWritingWindow(null, null);
 //                    }
-//
-//                }
+
+                } else {
+                    showToast("手写出错");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 ToastTool.show(PhoneMainActivity.this, "手写出错", Toast.LENGTH_SHORT);
             }
         }
     }
+
     private void showDialog(Message msg) {
         if (msg.obj != null) {
             try {
@@ -437,7 +502,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
     private void showSetting() {
         startActivity(new Intent(PhoneMainActivity.this,
-                SettingActivity.class));
+                PhoneSettingActivity.class));
     }
 
     protected void onTapMenuSelect(int position) {
@@ -576,7 +641,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                         }
                     });
             // 初始化弹出菜单
-            settingMenuBtn.setOnClickListener(new View.OnClickListener() {
+            settingMenuBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     settingPopMenu.showAsDropDown(v);
@@ -681,7 +746,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
                     public void callBack(CustomWidgetButton info) {
                         if (CustomWidgetButton.ButtonType.LeftBtn == info.getType() || "更多".equals(info.getTitle())) {
                             Intent intent = new Intent(PhoneMainActivity.this,
-                                    MoreActivity.class);
+                                    PhoneMoreActivity.class);
                             intent.putExtra("buttons",
                                     (Serializable) collectionlist);
                             startActivityForResult(intent, MORE_ACTIVITY_RESULT_CODE);
@@ -707,6 +772,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
     }
 
     private static final int MORE_ACTIVITY_RESULT_CODE = 1;
+    private static final int TABLET_ACTIVITY_RESULT_CODE = 2;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

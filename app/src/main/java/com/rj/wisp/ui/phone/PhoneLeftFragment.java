@@ -20,7 +20,7 @@ import com.rj.framework.DB;
 import com.rj.framework.webview.RjWebViewClient;
 import com.rj.framework.webview.WebViewCtrol;
 import com.rj.framework.webview.WebViewFactory;
-import com.rj.view.TopTabLayoutWidget;
+import com.rj.view.SlideTitle;
 import com.rj.view.button.PhoneHorizontalBtns;
 import com.rj.wisp.R;
 
@@ -66,13 +66,6 @@ public class PhoneLeftFragment extends Fragment {
         }
     }
 
-    //	public void initializeTabs(List<CustomButton> tablist) {
-//		if(phoneWebChromeClient!=null){
-//			final TopTabLayoutWidget tabWidget = (TopTabLayoutWidget) activity.findViewById(R.id.tabLayoutWidget);
-//			phoneWebChromeClient.initializeTabs(tablist,tabWidget);
-//		}
-//
-//	}
     public void updateBottomTabBar(String data) {
         if (phoneWebChromeClient != null) {
 
@@ -128,7 +121,8 @@ public class PhoneLeftFragment extends Fragment {
         this.context = context;
         horizontalBtns = (PhoneHorizontalBtns) ((Activity) context)
                 .findViewById(R.id.form_bottom_navigate_bar);
-        tabWidget = (TopTabLayoutWidget) ((Activity) context).findViewById(R.id.tabLayoutWidget);
+        tabWidget = (SlideTitle) ((Activity) context).findViewById(R.id.tabLayoutWidget);
+//        tabWidget = (TopTabLayoutWidget) ((Activity) context).findViewById(R.id.tabLayoutWidget);
     }
 
     @Override
@@ -138,7 +132,9 @@ public class PhoneLeftFragment extends Fragment {
     }
 
     private PhoneHorizontalBtns horizontalBtns;
-    private TopTabLayoutWidget tabWidget;
+    private SlideTitle tabWidget;
+
+    //    private TopTabLayoutWidget tabWidget;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

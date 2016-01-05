@@ -12,6 +12,7 @@ public class Commons {
     public static final String HTTP_HEAD = "httpHead";
     public static final String Content_Length = "Content-Length";
     public static final String User_Agent = "User-Agent";
+    public static final String File_Path = "File-Path";//非标准http头,用于下载attachment
     public static final String NOT_FOUND = "404 Not Found";
     public static final byte CR = '\r';
     public static final byte LF = '\n';

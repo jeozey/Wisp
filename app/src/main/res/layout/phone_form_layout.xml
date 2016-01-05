@@ -8,14 +8,21 @@
     android:visibility="invisible"
     android:weightSum="1">
 
-    <!-- tab菜单 -->
+    <!-- tab菜单
     <com.rj.view.TopTabLayoutWidget
         android:id="@+id/tabLayoutWidget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_alignParentTop="true"
-        android:background="@android:color/white" />
+        android:background="@android:color/white" />-->
+
+    <com.rj.view.SlideTitle
+        android:id="@+id/tabLayoutWidget"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:visibility="gone"
+        android:layout_alignParentTop="true" />
 
     <RelativeLayout
         android:id="@+id/mainBrowserLayout"
