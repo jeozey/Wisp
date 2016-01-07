@@ -1,8 +1,11 @@
 package com.rj.wisp.activity;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,6 +45,9 @@ public class AppLoadActivity extends BaseActivity {
         super.onStop();
 //        EventBus.getDefault().post(new ResourceConfigSaveEvent());
 
+        if (vBroadcastReceiver != null) {
+            unregisterReceiver(vBroadcastReceiver);
+        }
         EventBus.getDefault().unregister(this);
     }
 
@@ -134,6 +140,11 @@ public class AppLoadActivity extends BaseActivity {
         } else if (!DB.isPhone) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
+
+        vBroadcastReceiver = new VPNBroadcastReceiver();
+        IntentFilter filter = new IntentFilter("com.rj.vpnservice");
+        registerReceiver(vBroadcastReceiver, filter);
+
         super.onResume();
     }
 
@@ -164,16 +175,36 @@ public class AppLoadActivity extends BaseActivity {
             } else {
                 Intent intent = new Intent(this, VPNService.class);
                 intent.putExtra("type", "login");
+                intent.putExtra("VPN_HOST", "220.191.253.188");
+                intent.putExtra("VPN_PORT", 443);
+                intent.putExtra("VPN_USER", "RJtest2");
+                intent.putExtra("VPN_PASS", "123456");
                 startService(intent);
             }
-
-            return;
         }
 
         initDownResourceDialog();
+    }
 
+    private VPNBroadcastReceiver vBroadcastReceiver;
+
+    class VPNBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                Log.e(TAG, "onReceive");
+                int msg = intent.getIntExtra("msg", -1);
+                if (msg == 12) {
+                    checkSetting();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }
+
 
     private ProgressDialog downLoadDialog;
 

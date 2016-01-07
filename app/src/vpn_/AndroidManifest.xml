@@ -53,6 +53,7 @@
                 <action android:name="com.rj.core.TrafficService" />
             </intent-filter>
         </service>
+        <service android:name="com.sangfor.ssl.VPNService" />
         <!--service-->
     </application>
 

@@ -119,6 +119,7 @@ public class VPNService extends Service implements IVpnDelegate {
                 VPN_PORT = intent.getIntExtra("VPN_PORT", 443);
                 VPN_USER = intent.getStringExtra("VPN_USER");
                 VPN_PASS = intent.getStringExtra("VPN_PASS");
+                Log.e(TAG, "VPN_HOST:" + VPN_HOST + " VPN_PORT:" + VPN_PORT + " VPN_USER:" + VPN_USER + " VPN_PASS:" + VPN_PASS);
                 if (!isInit) {
                     initVpn();
                 }
@@ -143,7 +144,7 @@ public class VPNService extends Service implements IVpnDelegate {
     private void initVpn() {
         try {
             com.sangfor.ssl.service.utils.logger.Log.init(getApplicationContext());
-            com.sangfor.ssl.service.utils.logger.Log.LEVEL = com.sangfor.ssl.service.utils.logger.Log.DEBUG;
+            com.sangfor.ssl.service.utils.logger.Log.LEVEL = com.sangfor.ssl.service.utils.logger.Log.ERROR;
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
         }

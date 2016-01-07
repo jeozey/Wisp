@@ -79,7 +79,7 @@ public class WebViewFactory {
         settings.setDomStorageEnabled(true);
         settings.setAppCachePath(context.getCacheDir().toString());
         settings.setAppCacheEnabled(true);
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setGeolocationDatabasePath(context.getCacheDir()
                 .getAbsolutePath());
         settings.setAllowFileAccess(true);

@@ -25,70 +25,14 @@
     <option name="TOOL_WINDOW_REGEXP_FILTER" value="false" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="4e0e8356-148b-461a-81b8-554faca27584" name="Default" comment="SlideTitle">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/libs/AnyOfficeSDK.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/libs/armeabi/libanyofficesdk.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/armeabi-v7a/libauth_forward.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/x86/libauth_forward.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/armeabi/libhttps.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/armeabi-v7a/libhttps.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/x86/libhttps.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/libs/armeabi/libjniapi.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/armeabi/libpkcs12cert.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/armeabi-v7a/libpkcs12cert.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/x86/libpkcs12cert.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/armeabi/libsubstrate.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/armeabi-v7a/libsubstrate.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/x86/libsubstrate.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/libs/armeabi/libsvnapi.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/armeabi/libsvpnservice.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/armeabi-v7a/libsvpnservice.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/libs/x86/libsvpnservice.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/libs/armeabi/libtfcard.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/src/main/AndroidManifest.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/anyoffice_/AndroidManifest.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/default_/java/com.rj.wisp.activity/AppLoadActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/vpn_/java/com.rj.wisp.activity/AppLoadActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/activity/BaseAppLoadActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/anyoffice_/java/com/rj/socket/pool/SvnOrdinarySocketConnection.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/vpn/src/main/java/com/sangfor/ssl/VPNService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/anyoffice.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/build.gradle" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/proguard-rules.pro" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/src/main/res/values/strings.xml" />
-      <change type="DELETED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\.idea\libraries\sdkey_debug_.xml" afterPath="" />
-      <change type="DELETED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\vpn\src\main\java\com\sangfor\ssl\ui\MainActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\vpn\src\main\java\com\sangfor\ssl\ui\RememberEditText.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vpn/libs/SangforSDK.jar" afterPath="$PROJECT_DIR$/vpn/libs/SangforSDK.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vpn/libs/armeabi/libauth_forward.so" afterPath="$PROJECT_DIR$/vpn/libs/armeabi/libauth_forward.so" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/default_/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/default_/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vpn/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/vpn/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/widget/AppSettingDialog.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/widget/AppSettingDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/src/main/java/com/rj/util/GzipUtil.java" afterPath="$PROJECT_DIR$/util/src/main/java/com/rj/util/GzipUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/bean/HandlerWhat.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/bean/HandlerWhat.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/InitUtil.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/InitUtil.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneLeftFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneLeftFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneSettingActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneSettingActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneWebChromeClient.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneWebChromeClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshBase.java" afterPath="$PROJECT_DIR$/framework/src/main/java/com/handmark/pulltorefresh/library/PullToRefreshBase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/src/main/java/com/rj/view/SlideLineTextView.java" afterPath="$PROJECT_DIR$/view/src/main/java/com/rj/view/SlideLineTextView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/view/src/main/java/com/rj/view/SlideTitle.java" afterPath="$PROJECT_DIR$/view/src/main/java/com/rj/view/SlideTitle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+    <list default="true" readonly="true" id="4e0e8356-148b-461a-81b8-554faca27584" name="Default" comment="VPN">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/vpn_/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/vpn_/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/vpn_/java/com.rj.wisp.activity/AppLoadActivity.java" afterPath="$PROJECT_DIR$/app/src/vpn_/java/com.rj.wisp.activity/AppLoadActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vpn/src/main/java/com/sangfor/ssl/VPNService.java" afterPath="$PROJECT_DIR$/vpn/src/main/java/com/sangfor/ssl/VPNService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewFactory.java" afterPath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewFactory.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vpn/build.gradle" afterPath="$PROJECT_DIR$/vpn/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sdkey/sdkey.iml" afterPath="$PROJECT_DIR$/sdkey/sdkey.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vpn/vpn.iml" afterPath="$PROJECT_DIR$/vpn/vpn.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\libs\armeabi\libKTSDK.so" afterPath="$PROJECT_DIR$/sdkey/libs/armeabi/libKTSDK.so" />
-      <change type="MOVED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\libs\armeabi\libhtpkcs11-android.so" afterPath="$PROJECT_DIR$/sdkey/libs/armeabi/libhtpkcs11-android.so" />
-      <change type="MOVED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\libs\armeabi\libsdcardskf.so" afterPath="$PROJECT_DIR$/sdkey/libs/armeabi/libsdcardskf.so" />
-      <change type="MOVED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\libs\armeabi\libskf_fjkt.so" afterPath="$PROJECT_DIR$/sdkey/libs/armeabi/libskf_fjkt.so" />
-      <change type="MOVED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\src\main\java\com\rj\wisp\activity\AppLoadActivity.java" afterPath="$PROJECT_DIR$/app/src/anyoffice_/java/com.rj.wisp.activity/AppLoadActivity.java" />
     </list>
     <ignored path="Wisp.iws" />
     <ignored path="build/" />
@@ -120,114 +64,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/anyoffice_/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="54" column="45" selection-start-line="54" selection-start-column="45" selection-end-line="54" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/default_/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="54" column="45" selection-start-line="54" selection-start-column="45" selection-end-line="54" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.62376237">
-              <caret line="69" column="58" selection-start-line="69" selection-start-column="58" selection-end-line="69" selection-end-column="58" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="AppLoadActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/vpn_/java/com.rj.wisp.activity/AppLoadActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.5454545">
-              <caret line="158" column="21" selection-start-line="158" selection-start-column="21" selection-end-line="158" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="197" column="35" selection-start-line="197" selection-start-column="35" selection-end-line="197" selection-end-column="35" />
               <folding>
-                <element signature="e#7944#9322#0" expanded="true" />
-                <element signature="e#9321#9322#0" expanded="true" />
+                <element signature="e#9040#10418#0" expanded="true" />
+                <element signature="e#10417#10418#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DB.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/DB.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="54" column="30" selection-start-line="54" selection-start-column="30" selection-end-line="54" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InitUtil.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/InitUtil.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="39" column="44" selection-start-line="39" selection-start-column="44" selection-end-line="39" selection-end-column="44" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/vpn_/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="44" column="47" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/Wisp/vpn/unspecified/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="23" column="45" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vpn/src/main/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="58" selection-start-line="15" selection-start-column="58" selection-end-line="15" selection-end-column="58" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VPNService.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="VPNService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vpn/src/main/java/com/sangfor/ssl/VPNService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="26" column="54" selection-start-line="26" selection-start-column="54" selection-end-line="26" selection-end-column="54" />
-              <folding>
-                <element signature="e#1856#1857#0" expanded="false" />
-                <element signature="e#1874#1875#0" expanded="false" />
-                <element signature="e#1904#2240#0" expanded="false" />
-                <element signature="e#2239#2240#0" expanded="false" />
-                <element signature="e#3357#3358#0" expanded="false" />
-                <element signature="e#3380#3381#0" expanded="false" />
-                <element signature="e#4784#5069#0" expanded="false" />
-                <element signature="e#5068#5069#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="10.888889">
+              <caret line="146" column="107" selection-start-line="146" selection-start-column="107" selection-end-line="146" selection-end-column="107" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -9929,7 +9784,7 @@
         <entry key="D:/temp/dagger2-example" value="4334880342587" />
         <entry key="D:/temp/dagger2-example1" value="4335653648532" />
         <entry key="$PROJECT_DIR$" value="15947807043083" />
-        <entry key="F:\WISP_SAFE_ANDROID_4.0\Wisp" value="18865286960996" />
+        <entry key="F:\WISP_SAFE_ANDROID_4.0\Wisp" value="18865287638108" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -10349,7 +10204,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/pad/PadLeftFragment.java" />
         <option value="$PROJECT_DIR$/app/src/vpn/java/com/rj/wisp/AppLoadActivity.java" />
         <option value="$PROJECT_DIR$/app/src/vpn/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/BaseAppLoadActivity.java" />
@@ -10394,12 +10248,13 @@
         <option value="$PROJECT_DIR$/vpn/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/default_/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/anyoffice_/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/vpn_/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/vpn/src/main/java/com/sangfor/ssl/VPNService.java" />
         <option value="$PROJECT_DIR$/vpn/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/vpn_/java/com.rj.wisp.activity/AppLoadActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/InitUtil.java" />
+        <option value="$PROJECT_DIR$/app/src/vpn_/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewFactory.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/vpn_/java/com.rj.wisp.activity/AppLoadActivity.java" />
+        <option value="$PROJECT_DIR$/vpn/src/main/java/com/sangfor/ssl/VPNService.java" />
       </list>
     </option>
   </component>
@@ -11116,6 +10971,44 @@
               <option name="myItemId" value="com" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webview" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wisp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Wisp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -11782,7 +11675,13 @@
       <option name="project" value="LOCAL" />
       <updated>1451978677939</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="VPN">
+      <created>1452136902272</created>
+      <option name="number" value="00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1452136902272</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -11796,7 +11695,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.32976446" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="1101" y="35" width="730" height="47" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -11804,7 +11703,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28538284" sideWeight="0.78051394" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4675174" sideWeight="0.45289078" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25986078" sideWeight="0.70717347" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.900232" sideWeight="0.70717347" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.4676409" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43039444" sideWeight="0.8940043" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17237687" sideWeight="0.6097561" order="2" side_tool="true" content_ui="tabs" />
@@ -11900,7 +11799,8 @@
     <MESSAGE value="Pad UI and downLoad" />
     <MESSAGE value="JumpToHome request" />
     <MESSAGE value="SlideTitle" />
-    <option name="LAST_COMMIT_MESSAGE" value="SlideTitle" />
+    <MESSAGE value="VPN" />
+    <option name="LAST_COMMIT_MESSAGE" value="VPN" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -12065,13 +11965,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/vpn_/java/com.rj.wisp.activity/AppLoadActivity.java</url>
-          <line>142</line>
+          <line>153</line>
           <properties />
           <option name="timeStamp" value="250" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/vpn_/java/com.rj.wisp.activity/AppLoadActivity.java</url>
-          <line>143</line>
+          <line>154</line>
           <properties />
           <option name="timeStamp" value="251" />
         </line-breakpoint>
@@ -12088,13 +11988,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tablet/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tablet/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -12368,6 +12261,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -12410,36 +12304,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/vpn_/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="44" column="47" selection-start-line="44" selection-start-column="47" selection-end-line="44" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/Wisp/vpn/unspecified/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="23" column="45" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vpn/src/main/java/com/sangfor/ssl/VPNService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="54" selection-start-line="26" selection-start-column="54" selection-end-line="26" selection-end-column="54" />
-          <folding>
-            <element signature="e#1856#1857#0" expanded="false" />
-            <element signature="e#1874#1875#0" expanded="false" />
-            <element signature="e#1904#2240#0" expanded="false" />
-            <element signature="e#2239#2240#0" expanded="false" />
-            <element signature="e#3357#3358#0" expanded="false" />
-            <element signature="e#3380#3381#0" expanded="false" />
-            <element signature="e#4784#5069#0" expanded="false" />
-            <element signature="e#5068#5069#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -12467,25 +12336,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/vpn_/java/com.rj.wisp.activity/AppLoadActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.5454545">
-          <caret line="158" column="21" selection-start-line="158" selection-start-column="21" selection-end-line="158" selection-end-column="21" />
-          <folding>
-            <element signature="e#7944#9322#0" expanded="true" />
-            <element signature="e#9321#9322#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/InitUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="44" selection-start-line="39" selection-start-column="44" selection-end-line="39" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/DB.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -12494,10 +12344,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/InitUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.121212">
+          <caret line="39" column="44" selection-start-line="39" selection-start-column="44" selection-end-line="39" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/vpn_/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="57" column="18" selection-start-line="57" selection-start-column="18" selection-end-line="57" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/WebViewFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="86" column="31" selection-start-line="86" selection-start-column="17" selection-end-line="86" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.62376237">
-          <caret line="69" column="58" selection-start-line="69" selection-start-column="58" selection-end-line="69" selection-end-column="58" />
+        <state vertical-scroll-proportion="-8.909091">
+          <caret line="38" column="58" selection-start-line="38" selection-start-column="58" selection-end-line="38" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/vpn_/java/com.rj.wisp.activity/AppLoadActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="197" column="35" selection-start-line="197" selection-start-column="35" selection-end-line="197" selection-end-column="35" />
+          <folding>
+            <element signature="e#9040#10418#0" expanded="true" />
+            <element signature="e#10417#10418#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vpn/src/main/java/com/sangfor/ssl/VPNService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="10.888889">
+          <caret line="146" column="107" selection-start-line="146" selection-start-column="107" selection-end-line="146" selection-end-column="107" />
           <folding />
         </state>
       </provider>
