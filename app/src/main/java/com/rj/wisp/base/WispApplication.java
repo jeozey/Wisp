@@ -12,6 +12,7 @@ public class WispApplication extends Application {
     private static final String TAG = WispApplication.class.getName();
     public static boolean isLogin = false;
     public static HashMap<String, ResourceItem> resourcesList = new HashMap<>();
+    //用于自主发起的socket http请求
     public static String cookies;
     private static WispApplication mInstance = null;
 

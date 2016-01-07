@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -42,7 +43,8 @@ public class PhoneWebChromeClient extends WebChromeClient {
     private RelativeLayout browserLayout;
     private PhoneHorizontalBtns horizontalBtns;
     private SlideTitle tabWidget;
-    private LinkedList<PullToRefreshWebView> webViews;
+    private LinkedList<WebView> webViews;
+    private HashMap<WebView, PullToRefreshWebView> refreshWebviews = new HashMap<>();
     private HashMap<Integer, ArrayList<CustomWidgetButton>> formButtons = new HashMap<Integer, ArrayList<CustomWidgetButton>>();
     private HashMap<Integer, ArrayList<CustomButton>> tabButtons = new HashMap<Integer, ArrayList<CustomButton>>();
     private WebView webView;
@@ -94,7 +96,7 @@ public class PhoneWebChromeClient extends WebChromeClient {
         this.context = context;
         this.childLayout = wrappingLayout;
         this.browserLayout = browserLayout;
-        webViews = new LinkedList<PullToRefreshWebView>();
+        webViews = new LinkedList<WebView>();
     }
 
     private List<CustomButton> collectionlist;// 更多按钮
@@ -171,32 +173,6 @@ public class PhoneWebChromeClient extends WebChromeClient {
         try {
             this.tabWidget = tabWidget;
             Log.e(TAG, "initializeTabs");
-//            tabWidget.setVisibility(View.VISIBLE);
-//            List<CustomWidgetButton> buttons = new ArrayList<CustomWidgetButton>();
-//            CustomWidgetButton btn = new CustomWidgetButton();
-//            for (CustomButton button : tablist) {
-//                Log.e(TAG, "button:" + button);
-//                btn = new CustomWidgetButton();
-//                btn.setTitle(button.getButtonText());
-//                btn.setCallBack(button.getClickEvent());
-//                btn.setIsclick(button.getIsClick());
-//                buttons.add(btn);
-//            }
-////            DisplayMetrics mDisplayMetrics = new DisplayMetrics();
-////            context.getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
-//
-//            DisplayMetrics mDisplayMetrics = context.getResources().getDisplayMetrics();
-//
-//            tabWidget.init(mDisplayMetrics.widthPixels, buttons, new TopTabLayoutWidget.ITabLayoutWidget() {
-//
-//                @Override
-//                public void callBack(String callBack) {
-////					Toast.makeText(context, callBack, Toast.LENGTH_SHORT).show();
-//                    if (!TextUtils.isEmpty(callBack)) {
-//                        loadUrl(callBack);
-//                    }
-//                }
-//            });
             if (tablist == null || tablist.size() == 0) {
                 tabWidget.setVisibility(View.GONE);
                 return;
@@ -279,13 +255,14 @@ public class PhoneWebChromeClient extends WebChromeClient {
         try {
             if (webViews.size() > 1) {
                 Log.e("NNN", "back to parent:" + webViews.size());
-                PullToRefreshWebView wb = webViews.pop();
+                WebView wb = webViews.pop();
+                PullToRefreshWebView pullToRefreshWebView = refreshWebviews.get(wb);
                 browserLayout.removeAllViews();
                 ViewGroup parent = (ViewGroup) wb.getParent();
                 if (parent != null) {
                     parent.removeAllViews();
                 }
-                browserLayout.addView(wb);
+                browserLayout.addView(pullToRefreshWebView);
 
 
                 //恢复底部按钮
@@ -300,7 +277,7 @@ public class PhoneWebChromeClient extends WebChromeClient {
                     initializeTabs(tabBtns, tabWidget);
                 }
                 //给当前webview赋值
-                webView = wb.getRefreshableView();
+                webView = wb;
 //			if(wb!=null){
 //				//重新生成顶部和底部的按钮栏（用于返回上一步  但是全部window.close的时候也调用了一次 浪费了 ）
 //				wb.reload();
@@ -324,19 +301,8 @@ public class PhoneWebChromeClient extends WebChromeClient {
         childLayout.setVisibility(View.VISIBLE);
 
         //发现部分手机会重复调用onCreateWindow
-//        boolean flg = true;
-//        for (PullToRefreshWebView w:webViews
-//             ) {
-//            if(w==(view.getParent())){
-//                flg = false;
-//                break;
-//            }
-//        }
-//        if(flg){
-//            webViews.push((PullToRefreshWebView)(view.getParent()));
-//        }
-        if (!webViews.contains(view.getParent())) {
-            webViews.push((PullToRefreshWebView) (view.getParent()));
+        if (!webViews.contains(view)) {
+            webViews.push(view);
         }
 
         final PullToRefreshWebView pullRefreshWebView = new PullToRefreshWebView(context);
@@ -350,15 +316,20 @@ public class PhoneWebChromeClient extends WebChromeClient {
         webView = pullRefreshWebView.getRefreshableView();
         WebViewFactory.initWebView(context, webView);
 
+        refreshWebviews.put(webView, pullRefreshWebView);
+
         // now create a new web view
 //        webView = WebViewFactory.getNewWebView(context, null);
         webView.setWebChromeClient(this);
         webView.setWebViewClient(new RjWebViewClient((WebViewCtrol) context));
         // add the new web view to the layout
-        webView.setLayoutParams(new RelativeLayout.LayoutParams(
+//        webView.setLayoutParams(new RelativeLayout.LayoutParams(
+//                ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.MATCH_PARENT));
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        browserLayout.addView(pullRefreshWebView);
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        browserLayout.addView(pullRefreshWebView, lp);
         // tell the transport about the new view
         WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
         transport.setWebView(webView);

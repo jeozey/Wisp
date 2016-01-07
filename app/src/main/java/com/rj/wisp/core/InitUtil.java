@@ -37,7 +37,12 @@ public class InitUtil {
             DB.SECURITY_PORT = BuildConfig.SECURITY_PORT;
             DB.APP_CODE = BuildConfig.APP_CODE;
             DB.IS_PIN = BuildConfig.IS_PIN;
+
             DB.USE_VPN = BuildConfig.USE_VPN;
+            DB.VPN_HOST = BuildConfig.VPN_HOST;
+            DB.VPN_PORT = BuildConfig.VPN_PORT;
+            DB.VPN_USER = BuildConfig.VPN_USER;
+            DB.VPN_PASS = BuildConfig.VPN_PASS;
 
 
             String version = AndroidTool.getVersionCode(context);

@@ -191,6 +191,7 @@ public class WebViewCtrolImpl implements WebViewCtrol {
 
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+        Log.e(TAG, "onReceivedError");
         view.stopLoading();
         view.loadData(ErrorPageUtil.getErrorPage(activity, failingUrl), "text/html", "utf-8");
     }

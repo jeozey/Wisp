@@ -21,6 +21,11 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField "boolean", "USE_VPN", "false"
+        buildConfigField "String", "VPN_HOST", ""
+        buildConfigField "int", "VPN_PORT", "443"
+        buildConfigField "String", "VPN_USER", ""
+        buildConfigField "String", "VPN_PASS", ""
     }
 
     flavorDimensions "version"
@@ -33,6 +38,11 @@ android {
 
             buildConfigField "boolean", "IS_PIN", "false"
             buildConfigField "boolean", "USE_VPN", "true"
+            buildConfigField "String", "VPN_HOST", "\"220.191.253.188\""
+            buildConfigField "int", "VPN_PORT", "443"
+            buildConfigField "String", "VPN_USER", "\"RJtest2\""
+            buildConfigField "String", "VPN_PASS", "\"123456\""
+
             buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
             buildConfigField "int", "HTTPSERVER_PORT", "8011"
             buildConfigField "String", "SECURITY_HOST", "\"172.28.93.156\""
