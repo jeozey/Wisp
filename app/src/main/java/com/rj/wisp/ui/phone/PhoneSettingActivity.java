@@ -26,7 +26,7 @@ import com.rj.view.BackTitleBar;
 import com.rj.view.ToastTool;
 import com.rj.view.listview.CornerListView;
 import com.rj.wisp.R;
-import com.rj.wisp.activity.AppLoadActivity;
+import com.rj.wisp.activity.BaseAppLoadActivity;
 import com.rj.wisp.bean.AppConfig;
 import com.rj.wisp.core.InitUtil;
 import com.rj.wisp.task.GetAppConfigTask;
@@ -75,7 +75,7 @@ public class PhoneSettingActivity extends Activity implements View.OnClickListen
             case R.id.rightBtn:
                 InitUtil.saveConfig(getBaseContext());
                 AppSystemTool.clearWebViewCookie(getBaseContext());
-                AppSystemTool.restartApp(PhoneSettingActivity.this, AppLoadActivity.class);
+                AppSystemTool.restartApp(PhoneSettingActivity.this, BaseAppLoadActivity.class);
                 break;
             default:
                 break;

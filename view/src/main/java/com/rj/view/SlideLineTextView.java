@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.TextView;
 
 public class SlideLineTextView extends TextView {
@@ -19,7 +18,7 @@ public class SlideLineTextView extends TextView {
 
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		Log.e(TAG, "onDraw:width = " + this.getWidth());
+//		Log.e(TAG, "onDraw:width = " + this.getWidth());
 		canvas.drawLine(startX, this.getHeight(), startX + width,
 				this.getHeight(), paint);
 	}
@@ -46,7 +45,7 @@ public class SlideLineTextView extends TextView {
 	public void setFrame(int startX, int width) {
 		this.startX = startX;
 		this.width = width;
-		Log.e(TAG, "startX = " + startX + ",width = " + width);
+//		Log.e(TAG, "startX = " + startX + ",width = " + width);
 		postInvalidate();
 	}
 

@@ -11,6 +11,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:persistent="true">
+        <!--
         <activity
             android:name="com.sangfor.ssl.ui.MainActivity"
             android:label="@string/title_activity_main">
@@ -20,13 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        -->
         <!-- VpnService服务 -->
         <service
-            android:name="com.sangfor.ssl.l3vpn.service.SvpnService"
+            android:name="com.sangfor.ssl.l3vpn.service.EasyappSvpnService"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>
-                <action android:name="com.sangfor.ssl.l3vpn.service.SvpnService" />
+                <action android:name="com.sangfor.ssl.l3vpn.service.EasyappSvpnService" />
             </intent-filter>
         </service>
     </application>

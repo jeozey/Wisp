@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Wisp.iml" filepath="$PROJECT_DIR$/Wisp.iml" />
       <module fileurl="file://$PROJECT_DIR$/aarpack/aarpack.iml" filepath="$PROJECT_DIR$/aarpack/aarpack.iml" />
+      <module fileurl="file://$PROJECT_DIR$/anyoffice/anyoffice.iml" filepath="$PROJECT_DIR$/anyoffice/anyoffice.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/connection/connection.iml" filepath="$PROJECT_DIR$/connection/connection.iml" />
       <module fileurl="file://$PROJECT_DIR$/framework/framework.iml" filepath="$PROJECT_DIR$/framework/framework.iml" />

@@ -27,4 +27,7 @@ public class HandlerWhat {
     public static final int HANDWRITING_OPEN_FILE = 19;
 
     public static final int LOG_OUT = 30;
+
+    public static final int ANYOFFICE_LOGIN_SUCC = 31;
+    public static final int ANYOFFICE_LOGIN_FAIL = 32;
 }

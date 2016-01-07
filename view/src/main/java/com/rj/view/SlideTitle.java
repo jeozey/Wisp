@@ -24,9 +24,9 @@ public class SlideTitle extends HorizontalScrollView {
 	private Context mContext = null;
 
 	private RelativeLayout contentRL = null;
-	private LinearLayout cateItemLayout = null;// 存放子项TextView的线性布局�
-	private SlideLineTextView lineView = null; // 下划线�
-	private TitleFlowAdapter tfa;// 适配器�
+	private LinearLayout cateItemLayout = null;// 存放子项TextView的线性布局
+	private SlideLineTextView lineView = null; // 下划线
+	private TitleFlowAdapter tfa;// 适配器
 	private MyOnChickListener mOnChickListener;
 
 	private int mCurrentPage = 0;
@@ -61,7 +61,7 @@ public class SlideTitle extends HorizontalScrollView {
 	}
 
 	private void initLayout() {
-		margin = (int) getContext().getResources().getDimension(R.dimen.dp10);
+//		margin = (int) getContext().getResources().getDimension(R.dimen.dp10);
 		contentRL = new RelativeLayout(mContext); // 标题页签容器
 		LayoutParams contentLp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		addView(contentRL, contentLp);
@@ -145,7 +145,7 @@ public class SlideTitle extends HorizontalScrollView {
 
 			}
 		}
-		// 下划线�
+		// 下划线
 		Log.e(TAG, "-totalWidth- = " + totalWidth);
 		// lineView.setBackgroundColor(Color.GREEN);
 		RelativeLayout.LayoutParams lineViewLp = new RelativeLayout.LayoutParams((int) totalWidth,
@@ -337,7 +337,7 @@ public class SlideTitle extends HorizontalScrollView {
 			} else {
 				convertView = lv.get(position);
 			}
-			if (position == 0) { // 只有一个标签，直接选中�
+			if (position == 0) { // 只有一个标签，直接选中
 				setTag(convertView);
 				((SlideTitleTextView) convertView).setSelect(true);
 			}

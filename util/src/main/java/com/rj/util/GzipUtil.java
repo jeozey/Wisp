@@ -37,7 +37,7 @@ public class GzipUtil {
 
         gos.finish();
 
-        gos.flush();
+        // gos.flush();
         gos.close();
     }
 

@@ -23,39 +23,34 @@ android {
 
     }
 
-//    flavorDimensions "market", "version"
-//
-//
-//    productFlavors {
-//        vpn {
-//            flavorDimensions "version"
-//            signingConfig signingConfigs.release
-//            resValue "string", "app_name", "VPN"
-//
-//            flavorDimensions "version"
-//            buildConfigField "boolean", "IS_PIN", "false"
-//            buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
-//            buildConfigField "int", "HTTPSERVER_PORT", "8011"
-//            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
-//            buildConfigField "int", "SECURITY_PORT", "5599"
-//            buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
-//            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
-//            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
-//        }
-//        sdkey { }
-//    }
-
     flavorDimensions "version"
 
     productFlavors {
+        vpn_ {
+            dimension = "version"
+            signingConfig signingConfigs.release
+            resValue "string", "app_name", "办公VPN"
+
+            buildConfigField "boolean", "IS_PIN", "false"
+            buildConfigField "boolean", "USE_VPN", "true"
+            buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
+            buildConfigField "int", "HTTPSERVER_PORT", "8011"
+            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
+            buildConfigField "int", "SECURITY_PORT", "5599"
+            buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
+            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
+            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
+        }
+
         default_ {
             dimension = "version"
 
             signingConfig signingConfigs.release
-            resValue "string", "app_name", "政务办公"
+            resValue "string", "app_name", "办公Def"
 
             flavorDimensions "version"
-            buildConfigField "boolean", "IS_PIN", "false"
+            buildConfigField "boolean", "IS_PIN", "true"
+            buildConfigField "boolean", "USE_VPN", "false"
             buildConfigField "boolean", "IS_GZIP", "false"
             buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
             buildConfigField "int", "HTTPSERVER_PORT", "8011"
@@ -65,12 +60,14 @@ android {
             buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
             buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
         }
-        vpn_ {
+
+        anyoffice_ {
             dimension = "version"
             signingConfig signingConfigs.release
-            resValue "string", "app_name", "协同办公1"
+            resValue "string", "app_name", "办公Any"
 
             buildConfigField "boolean", "IS_PIN", "false"
+            buildConfigField "boolean", "USE_VPN", "false"
             buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
             buildConfigField "int", "HTTPSERVER_PORT", "8011"
             buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
@@ -85,39 +82,14 @@ android {
 
     }
 
-//    buildTypes {
-//        release {
-//            signingConfig signingConfigs.release
-//            resValue "string", "app_name", "政务办公"
-//
-//            flavorDimensions "version"
-//            buildConfigField "boolean", "IS_PIN", "true"
-//            buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
-//            buildConfigField "int", "HTTPSERVER_PORT", "8011"
-//            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
-//            buildConfigField "int", "SECURITY_PORT", "5599"
-//            buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
-//            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
-//            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
-//        }
-//        "5599" {
-//            signingConfig signingConfigs.release
-//            resValue "string", "app_name", "协同办公"
-//
-//            flavorDimensions "version"
-//            buildConfigField "boolean", "IS_PIN", "false"
-//            buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
-//            buildConfigField "int", "HTTPSERVER_PORT", "8011"
-//            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
-//            buildConfigField "int", "SECURITY_PORT", "5599"
-//            buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
-//            buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
-//            buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""
-//        }
-//
-//    }
     sourceSets {
         main {
+            jniLibs.srcDirs = ['libs']
+        }
+        vpn_ {
+            jniLibs.srcDirs = ['libs']
+        }
+        anyoffice_ {
             jniLibs.srcDirs = ['libs']
         }
     }
@@ -126,24 +98,26 @@ android {
 }
 
 
-
-
 dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile(name: 'sdkey-debug', ext: 'aar')
+    // compile(name: 'sdkey-debug', ext: 'aar')
     //compile(name: 'wisp-tablet', ext: 'aar')
 //    compile(name: 'connection-debug', ext: 'aar')
 //    compile(name: 'framework-debug', ext: 'aar')
 //    compile(name: 'view-debug', ext: 'aar')
 
+    compile project(":sdkey");
     compile project(":util");
     compile project(":view");
     compile project(":framework");
     compile project(":connection");
     compile project(":otherlib");
     compile project(":tablet");
+    vpn_Compile project(":vpn");
+    anyoffice_Compile project(":anyoffice");
+
 
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'

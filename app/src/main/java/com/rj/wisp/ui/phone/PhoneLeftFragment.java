@@ -14,8 +14,9 @@ import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshWebView;
 import com.rj.framework.DB;
 import com.rj.framework.webview.RjWebViewClient;
 import com.rj.framework.webview.WebViewCtrol;
@@ -163,18 +164,20 @@ public class PhoneLeftFragment extends Fragment {
 
         try {
 
-            // LeftFragmentWebViewCtrol leftFragmentWebViewCtrol = new
-            // LeftFragmentWebViewCtrol(
-            // activity);
-//            Log.e(TAG, "WispApplication.cookies:" + WispApplication.cookies);
-//			synCookies(activity, DB.PRE_URL
-//						+ DB.HOMEPAGE_URL, WispApplication.cookies);
-//            Log.e(TAG, "DB.LOGINPAGE_URL" + DB.LOGINPAGE_URL);
-//            Log.e(TAG, "DB.HOMEPAGE_URL" + DB.HOMEPAGE_URL);
             if (webView == null) {
-//                webView = WebViewFactory.getNewWebView(activity, "file:///android_asset/test.html");
-                webView = WebViewFactory.getNewWebView(context, DB.PRE_URL
-                        + DB.HOMEPAGE_URL);
+//                webView = WebViewFactory.getNewWebView(context, DB.PRE_URL
+//                        + DB.HOMEPAGE_URL);
+
+                final PullToRefreshWebView pullRefreshWebView = new PullToRefreshWebView(context);
+                pullRefreshWebView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<WebView>() {
+                    @Override
+                    public void onRefresh(PullToRefreshBase<WebView> refreshView) {
+                        webView.reload();
+                        pullRefreshWebView.onRefreshComplete();
+                    }
+                });
+                webView = pullRefreshWebView.getRefreshableView();
+                WebViewFactory.initWebView(context, webView);
 
                 RelativeLayout browserLayout = (RelativeLayout) getActivity()
                         .findViewById(R.id.mainBrowserLayout);
@@ -189,16 +192,16 @@ public class PhoneLeftFragment extends Fragment {
                         (WebViewCtrol) context));
 
 
+                webView.loadUrl(DB.PRE_URL + DB.LOGINPAGE_URL);
                 LinearLayout leftLinearLayout = (LinearLayout) getActivity()
                         .findViewById(R.id.leftLinearLayout);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                         LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                leftLinearLayout.addView(webView, layoutParams);
+                leftLinearLayout.addView(pullRefreshWebView, layoutParams);
             }
 
-        } catch (ClassCastException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getActivity(), "转换异常", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -30,7 +30,7 @@ import com.rj.framework.SharedPreferencesUtil;
 import com.rj.util.AndroidTool;
 import com.rj.view.ToastTool;
 import com.rj.wisp.R;
-import com.rj.wisp.activity.AppLoadActivity;
+import com.rj.wisp.activity.BaseAppLoadActivity;
 import com.rj.wisp.core.WispCore;
 import com.rj.wisp.task.GetAppConfigTask;
 
@@ -428,7 +428,7 @@ public class AppSettingDialog extends Dialog implements View.OnClickListener {
             editor.commit();
 
             AppSystemTool.clearWebViewCookie(context);
-            AppSystemTool.restartApp((Activity) context, AppLoadActivity.class);
+            AppSystemTool.restartApp((Activity) context, BaseAppLoadActivity.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
