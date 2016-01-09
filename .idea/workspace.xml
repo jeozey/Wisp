@@ -11281,7 +11281,13 @@
       <option name="project" value="LOCAL" />
       <updated>1452321166514</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="AnyOffice">
+      <created>1452321808080</created>
+      <option name="number" value="00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1452321808080</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TodoView">
