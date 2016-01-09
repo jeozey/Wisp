@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -34,6 +33,7 @@ import com.rj.wisp.ui.phone.PhoneMainActivity;
 import com.rj.wisp.ui.phone.PhoneSettingActivity;
 import com.rj.wisp.widget.AppSettingDialog;
 
+import java.io.File;
 import java.net.InetSocketAddress;
 
 import de.greenrobot.event.EventBus;
@@ -430,8 +430,17 @@ public class AppLoadActivity extends BaseActivity {
     private void doLoginAnyOffice() {
         showMessage("正在登录华为AnyOffice...");
         // 初始化SDK工作环境
+//        boolean inited = SDKContext.getInstance().init(AppLoadActivity.this,
+//                this.getCacheDir().getAbsolutePath());
+        // 初始化SDK工作环境
+        String workPath = "/data/data/" + getPackageName();
+        File f = new File(workPath);
+        if (!f.exists()) {
+            f.mkdir();
+        }
+        Log.i(TAG, "Begin to init sdk envirenment");
         boolean inited = SDKContext.getInstance().init(AppLoadActivity.this,
-                Environment.getDataDirectory().getAbsolutePath());
+                workPath);
         Log.i(TAG, "SDKContext.getInstance().init:" + inited);
         NetStatusManager.getInstance().setNetChangeCallback(callback);
         int status = NetStatusManager.getInstance().getNetStatus();

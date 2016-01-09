@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="aynofficesdk">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/anyoffice/libs/aynofficesdk.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

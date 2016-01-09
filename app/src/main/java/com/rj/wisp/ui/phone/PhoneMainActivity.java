@@ -992,9 +992,11 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
 
     @Override
     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-        Log.e(TAG, "onReceivedError:");
+        Log.e(TAG, "onReceivedError:" + failingUrl);
         view.stopLoading();
-        view.loadData(ErrorPageUtil.getErrorPage(getBaseContext(), failingUrl), "text/html", "utf-8");
+//        view.loadData("Error", "text/html", "utf-8");
+        view.loadDataWithBaseURL(null, ErrorPageUtil.getErrorPage(getBaseContext(), failingUrl), "text/html", "UTF-8", null);
+//        view.loadData(ErrorPageUtil.getErrorPage(getBaseContext(), failingUrl), "text/html", "utf-8");
     }
 
     /******************************

@@ -6,7 +6,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class RjWebViewClient extends WebViewClient {
-    private static final String TAG = "RjWebViewClient";
+    private static final String TAG = RjWebViewClient.class.getName();
     WebViewCtrol webViewCtrol;
 
 
@@ -35,11 +35,11 @@ public class RjWebViewClient extends WebViewClient {
         }
     }
 
-
-//    @Override
-//    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-//        super.onReceivedError(view, errorCode, description, failingUrl);
-//        webViewCtrol.onReceivedError(view, errorCode, description, failingUrl);
-//    }
+    @Override
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+        Log.e(TAG, "onReceivedError");
+        super.onReceivedError(view, errorCode, description, failingUrl);
+        webViewCtrol.onReceivedError(view, errorCode, description, failingUrl);
+    }
 
 }

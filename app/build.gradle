@@ -22,10 +22,10 @@ android {
         versionName "1.0"
 
         buildConfigField "boolean", "USE_VPN", "false"
-        buildConfigField "String", "VPN_HOST", ""
+        buildConfigField "String", "VPN_HOST", "\"\""
         buildConfigField "int", "VPN_PORT", "443"
-        buildConfigField "String", "VPN_USER", ""
-        buildConfigField "String", "VPN_PASS", ""
+        buildConfigField "String", "VPN_USER", "\"\""
+        buildConfigField "String", "VPN_PASS", "\"\""
     }
 
     flavorDimensions "version"
@@ -72,6 +72,7 @@ android {
         }
 
         anyoffice_ {
+            applicationId "com.rj"
             dimension = "version"
             signingConfig signingConfigs.release
             resValue "string", "app_name", "办公Any"
@@ -80,8 +81,8 @@ android {
             buildConfigField "boolean", "USE_VPN", "false"
             buildConfigField "String", "HTTPSERVER_HOST", "\"127.0.0.1\""
             buildConfigField "int", "HTTPSERVER_PORT", "8011"
-            buildConfigField "String", "SECURITY_HOST", "\"220.250.1.46\""
-            buildConfigField "int", "SECURITY_PORT", "5599"
+            buildConfigField "String", "SECURITY_HOST", "\"172.30.0.227\""
+            buildConfigField "int", "SECURITY_PORT", "5566"
             buildConfigField "String", "APP_CODE", "\"NcysATJnLGRkNGBuO9VkNGRwLWYZ49E9NGZmNXJoNWVrOGZpOGNnRpRmN9ZjNGRjNpUvQd3bNHem59Vq3Cbg\""
             buildConfigField "String", "LOGINPAGE_URL", "\"http://192.168.1.12/homepage.nsf\""
             buildConfigField "String", "HOMEPAGE_URL", "\"http://192.168.1.12/homepage.nsf/homepage?OpenForm\""

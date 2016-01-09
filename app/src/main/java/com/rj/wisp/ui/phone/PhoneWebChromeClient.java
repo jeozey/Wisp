@@ -319,13 +319,9 @@ public class PhoneWebChromeClient extends WebChromeClient {
         refreshWebviews.put(webView, pullRefreshWebView);
 
         // now create a new web view
-//        webView = WebViewFactory.getNewWebView(context, null);
         webView.setWebChromeClient(this);
         webView.setWebViewClient(new RjWebViewClient((WebViewCtrol) context));
         // add the new web view to the layout
-//        webView.setLayoutParams(new RelativeLayout.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.MATCH_PARENT));
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
