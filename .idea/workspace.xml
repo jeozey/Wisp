@@ -26,36 +26,8 @@
     <option name="TOOL_WINDOW_REGEXP_FILTER" value="false" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="4e0e8356-148b-461a-81b8-554faca27584" name="Default" comment="PullToRefresh WebView">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/libs/gson-2.2.4.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/libs/libammsdk.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/libs/svnapi.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/core/BaseSocketFactory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/anyoffice/src/main/java/com/jeo/anyoffice/MainActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/default_/java/com.rj.wisp.core/SocketFactory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/vpn_/java/com.rj.wisp.core/SocketFactory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/aynofficesdk.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/gson_2_2_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/libammsdk.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/svnapi.xml" />
-      <change type="DELETED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\libs\connection-debug.aar" afterPath="" />
-      <change type="DELETED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\libs\framework-debug.aar" afterPath="" />
-      <change type="DELETED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\libs\sdkey-debug.aar" afterPath="" />
-      <change type="DELETED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\libs\wisp-tablet.aar" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/anyoffice/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/anyoffice/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/anyoffice_/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/anyoffice_/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/anyoffice_/java/com.rj.wisp.activity/AppLoadActivity.java" afterPath="$PROJECT_DIR$/app/src/anyoffice_/java/com.rj.wisp.activity/AppLoadActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneMainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneMainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneWebChromeClient.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/rj/wisp/ui/phone/PhoneWebChromeClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RjWebViewClient.java" afterPath="$PROJECT_DIR$/framework/src/main/java/com/rj/framework/webview/RjWebViewClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/anyoffice/anyoffice.iml" afterPath="$PROJECT_DIR$/anyoffice/anyoffice.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/anyoffice/build.gradle" afterPath="$PROJECT_DIR$/anyoffice/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" readonly="true" id="4e0e8356-148b-461a-81b8-554faca27584" name="Default" comment="AnyOffice">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\anyoffice\libs\AnyOfficeSDK.jar" afterPath="$PROJECT_DIR$/anyoffice/libs/aynofficesdk.jar" />
-      <change type="MOVED" beforePath="F:\WISP_SAFE_ANDROID_4.0\Wisp\app\src\main\java\com\rj\wisp\core\SocketFactory.java" afterPath="$PROJECT_DIR$/app/src/anyoffice_/java/com/rj/wisp/core/SocketFactory.java" />
     </list>
     <ignored path="Wisp.iws" />
     <ignored path="build/" />
@@ -86,18 +58,7 @@
     <favorites_list name="Wisp" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.625">
-              <caret line="84" column="58" selection-start-line="84" selection-start-column="58" selection-end-line="84" selection-end-column="58" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -9794,7 +9755,7 @@
         <entry key="D:/temp/dagger2-example" value="4334880342587" />
         <entry key="D:/temp/dagger2-example1" value="4335653648532" />
         <entry key="$PROJECT_DIR$" value="15947807043083" />
-        <entry key="F:\WISP_SAFE_ANDROID_4.0\Wisp" value="18865869627668" />
+        <entry key="F:\WISP_SAFE_ANDROID_4.0\Wisp" value="18865870073762" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -11314,7 +11275,13 @@
       <option name="project" value="LOCAL" />
       <updated>1452156279815</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="AnyOffice">
+      <created>1452321166514</created>
+      <option name="number" value="00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1452321166514</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TodoView">
@@ -11328,14 +11295,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.32976446" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="1101" y="35" width="730" height="79" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28538284" sideWeight="0.7773019" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.57308584" sideWeight="0.70182014" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.57308584" sideWeight="0.70182014" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32976446" sideWeight="0.4676409" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23897912" sideWeight="0.8940043" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946634" sideWeight="0.5171306" order="7" side_tool="true" content_ui="tabs" />
@@ -11434,7 +11401,8 @@
     <MESSAGE value="SlideTitle" />
     <MESSAGE value="VPN" />
     <MESSAGE value="PullToRefresh WebView" />
-    <option name="LAST_COMMIT_MESSAGE" value="PullToRefresh WebView" />
+    <MESSAGE value="AnyOffice" />
+    <option name="LAST_COMMIT_MESSAGE" value="AnyOffice" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -11879,6 +11847,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="1023" column="0" selection-start-line="1023" selection-start-column="0" selection-end-line="1023" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -11992,8 +11961,8 @@
         <state vertical-scroll-proportion="-2.909091">
           <caret line="83" column="68" selection-start-line="83" selection-start-column="68" selection-end-line="83" selection-end-column="68" />
           <folding>
-            <element signature="e#792#1316#0" expanded="true" />
-            <element signature="e#1315#1316#0" expanded="true" />
+            <element signature="e#788#1312#0" expanded="true" />
+            <element signature="e#1311#1312#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -12026,7 +11995,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.625">
+        <state vertical-scroll-proportion="0.6930693">
           <caret line="84" column="58" selection-start-line="84" selection-start-column="58" selection-end-line="84" selection-end-column="58" />
           <folding />
         </state>
