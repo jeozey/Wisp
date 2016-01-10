@@ -1,2 +1,2 @@
 //include ':app',  ':otherlib',':util',':view'
-include ':app', ':connection', ':otherlib', ':util', ':view', ':framework', ':sdkey', ':vpn', ':aarpack', ':tablet', ':anyoffice'
+include ':app', ':connection', ':otherlib', ':util', ':view', ':framework', ':sdkey', ':vpn', ':tablet', ':anyoffice'
