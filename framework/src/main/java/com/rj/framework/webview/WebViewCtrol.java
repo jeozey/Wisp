@@ -1,7 +1,6 @@
 package com.rj.framework.webview;
 
 import android.graphics.Bitmap;
-import android.os.Message;
 import android.webkit.JsResult;
 import android.webkit.WebView;
 
@@ -12,8 +11,7 @@ public interface WebViewCtrol {
 
     void onPageFinished(WebView view, String url);
 
-    void onCreateWindow(WebView webview, boolean isUserGesture,
-                        Message resultMsg);
+    void onCreateWindow(WebView webview);
 
     void onCloseWindow(WebView webView);
 

@@ -62,18 +62,26 @@ public class AppLoadActivity extends BaseActivity {
 
 //        WispCore.getWISPSO().CloseService();
 
-        if (DB.isPhone) {
-            Intent intent = new Intent(this, PhoneMainActivity.class);
-            intent.putExtra("success", "true");
-            intent.putExtra("popHomePageUrl", "");
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(this, PadMainActivity.class);
-            intent.putExtra("success", "true");
-            intent.putExtra("popHomePageUrl", "");
-            startActivity(intent);
-        }
+        Intent intent;
 
+        if (DB.isPhone) {
+            intent = new Intent(this, PhoneMainActivity.class);
+        } else {
+            intent = new Intent(this, PadMainActivity.class);
+        }
+        intent.putExtra("success", "true");
+        intent.putExtra("popHomePageUrl", "");
+        LoginParam.UserInfo userInfo = LoginAgent.getInstance().getUserInfo();
+
+        if (userInfo != null) {
+            intent.putExtra("userName", userInfo.userName);
+            intent.putExtra("passWord", "_UNI_LOGIN_"+userInfo.password);
+            Log.i(TAG, "logined userInfo username:" + userInfo.userName
+                    + ",password:" + userInfo.password);
+        }else{
+            Log.i(TAG, "logined userInfo null");
+        }
+        startActivity(intent);
         finish();
     }
 

@@ -26,4 +26,14 @@ public class Commons {
     public static final int ATTACHMENT_DOWN_COMPLETE = 3;
     public static final int ATTACHMENT_DOWN_FAIL = 4;
 
+
+    public static final String Url = "Url";
+    public static final String IsHome = "IsHome";
+    public static final String WebView = "WebView";
+    public static final String WebViewTransport = "WebViewTransport";
+    public static final String RightFragmentListener = "RightFragmentListener";
+    public static final String ShowFullScreen = "ShowFullScreen";
+    public static final String SetWebClientflg = "SetWebClientflg";
+    public static final String PopHomePageUrl = "PopHomePageUrl";
+
 }

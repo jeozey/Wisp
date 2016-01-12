@@ -91,7 +91,7 @@ import de.greenrobot.event.EventBus;
 
 
 public class PadMainActivity extends FragmentActivity implements
-        PadLeftFragment.LeftFragmentListener, OnClickListener {
+        PadLeftFragment.LeftFragmentListener, PadRightFragment.RightFragmentListener, OnClickListener {
     private static final String TAG = PadMainActivity.class.getName();
 
     private ProgressDialog downAttachmentProgress;
@@ -284,7 +284,6 @@ public class PadMainActivity extends FragmentActivity implements
     public void onWindowOpen(WebView webView) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        Log.e(TAG, "USER-AGENT:" + webView.getSettings().getUserAgentString());
         if (isHomeFragmentOpen()) {
             Log.e(TAG, "isHomeFragmentOpen yes");
             showPopView(webView);
@@ -304,52 +303,15 @@ public class PadMainActivity extends FragmentActivity implements
         if (popFrameLayout == null) {
             popFrameLayout = (FrameLayout) findViewById(R.id.pop_frame_layout);
         }
-        poPFragment = new PadRightFragment(PadMainActivity.this, webView,
-                popFrameLayout, new PadRightFragment.RightFragmentListener() {
-            @Override
-            public void transHander(Message message) {
-                handler.sendMessage(message);
-            }
 
-            @Override
-            public void onWindowClose(WebView webView, String closeEvent) {
-                Log.e(TAG, "onWindowClose:" + closeEvent);
-                if (TextUtils.isEmpty(closeEvent)) {
-                    if (isPopFragmentOpen()) {
-                        poPFragment.loadUrl(closeEvent);
-                    } else {
-                        rightFragment.loadUrl(closeEvent);
-                    }
-                }
-                if (isPopFragmentOpen()) {
-                    findViewById(R.id.pop_frame_layout).setVisibility(
-                            View.GONE);
-                } else {
-                    closeRightView();
-                }
-
-            }
-
-            @Override
-            public void openFullScreen() {
-                openRightFullScreen(false);
-
-            }
-
-            @Override
-            public void closeFullScreen() {
-                Log.e(TAG, "closeFullScreen");
-                showLeftView();
-            }
-
-            @Override
-            public void saveHandWriteSuccess(String hwPath) {
-                lastDownLoadHwPath = hwPath;
-                Log.i("wanan",
-                        "saveHandWriteSuccess lastDownLoadHwUrl="
-                                + lastDownLoadHwPath);
-            }
-        }, true, false);
+        poPFragment = new PadRightFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(Commons.ShowFullScreen, true);
+        bundle.putBoolean(Commons.SetWebClientflg, false);
+        Message msg = new Message();
+        msg.obj = webView;
+        bundle.putParcelable(Commons.WebView, msg);
+        poPFragment.setArguments(bundle);
 
         // isPopFragmentOpen = true;
 
@@ -369,42 +331,15 @@ public class PadMainActivity extends FragmentActivity implements
     }
 
     private void showRightView(WebView webView) {
-        rightFragment = new PadRightFragment(PadMainActivity.this, webView,
-                rightLayout, new PadRightFragment.RightFragmentListener() {
-            @Override
-            public void transHander(Message message) {
-                handler.sendMessage(message);
-            }
 
-            @Override
-            public void onWindowClose(WebView webView, String closeEvent) {
-                Log.e(TAG, "onWindowClose:" + closeEvent);
-                if (TextUtils.isEmpty(closeEvent)) {
-                    rightFragment.loadUrl(closeEvent);
-                }
-                closeRightView();
-            }
-
-            @Override
-            public void openFullScreen() {
-                openRightFullScreen(false);
-
-            }
-
-            @Override
-            public void closeFullScreen() {
-                Log.e(TAG, "closeFullScreen");
-                showLeftView();
-            }
-
-            @Override
-            public void saveHandWriteSuccess(String hwPath) {
-                lastDownLoadHwPath = hwPath;
-                Log.i("wanan",
-                        "saveHandWriteSuccess lastDownLoadHwUrl="
-                                + lastDownLoadHwPath);
-            }
-        }, true, true);
+        rightFragment = new PadRightFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(Commons.ShowFullScreen, true);
+        bundle.putBoolean(Commons.SetWebClientflg, true);
+        Message msg = new Message();
+        msg.obj = webView;
+        bundle.putParcelable(Commons.WebView, msg);
+        rightFragment.setArguments(bundle);
 
         rightLayout.setVisibility(View.VISIBLE);
         Animation rightSlideLeft = AnimationUtils.loadAnimation(
@@ -633,8 +568,14 @@ public class PadMainActivity extends FragmentActivity implements
             if (homeFragment == null) {
                 FragmentManager manager = getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                homeFragment = new PadLeftFragment(homeMainLayout, DB.PRE_URL
-                        + popHomePageUrl.replace("adapter?open&url=", ""), true);
+                homeFragment = new PadLeftFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putString(Commons.Url, DB.PRE_URL
+                        + popHomePageUrl.replace("adapter?open&url=", ""));
+                bundle.putBoolean(Commons.IsHome, true);
+                homeFragment.setArguments(bundle);
+
                 transaction.add(R.id.home_frame_layout, homeFragment,
                         "homeFragment");
                 transaction.commit();
@@ -1242,8 +1183,13 @@ public class PadMainActivity extends FragmentActivity implements
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         // 动态增加Fragment
-        leftFragment = new PadLeftFragment(leftLayout, DB.PRE_URL
-                + DB.LOGINPAGE_URL, false);
+        leftFragment = new PadLeftFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Commons.Url, DB.PRE_URL
+                + DB.LOGINPAGE_URL);
+        bundle.putBoolean(Commons.IsHome, false);
+        leftFragment.setArguments(bundle);
+
         transaction
                 .add(R.id.left_fragment_layout, leftFragment, "leftfragment");
         transaction.commit();
@@ -1617,5 +1563,49 @@ public class PadMainActivity extends FragmentActivity implements
             e.printStackTrace();
         }
         super.onDestroy();
+    }
+
+
+    @Override
+    public void transHander(Message message) {
+        handler.sendMessage(message);
+    }
+
+    @Override
+    public void onWindowClose(WebView webView, String closeEvent) {
+        Log.e(TAG, "onWindowClose:" + closeEvent);
+        if (TextUtils.isEmpty(closeEvent)) {
+            if (isPopFragmentOpen()) {
+                poPFragment.loadUrl(closeEvent);
+            } else {
+                rightFragment.loadUrl(closeEvent);
+            }
+        }
+        if (isPopFragmentOpen()) {
+            findViewById(R.id.pop_frame_layout).setVisibility(
+                    View.GONE);
+        } else {
+            closeRightView();
+        }
+    }
+
+    @Override
+    public void openFullScreen() {
+        openRightFullScreen(false);
+
+    }
+
+    @Override
+    public void closeFullScreen() {
+        Log.e(TAG, "closeFullScreen");
+        showLeftView();
+    }
+
+    @Override
+    public void saveHandWriteSuccess(String hwPath) {
+        lastDownLoadHwPath = hwPath;
+        Log.i("wanan",
+                "saveHandWriteSuccess lastDownLoadHwUrl="
+                        + lastDownLoadHwPath);
     }
 }

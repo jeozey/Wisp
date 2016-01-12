@@ -21,7 +21,6 @@ public class ErrorPageUtil {
     public static String getErrorPage(Context context, String errUrl) {
         try {
             if (TextUtils.isEmpty(errorPage)) {
-                errorPageSB = new StringBuilder();
                 AssetManager assetManager = context.getAssets();
                 InputStream is = assetManager.open("errorPage.html");
                 ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -33,12 +32,13 @@ public class ErrorPageUtil {
                 os.close();
                 is.close();
                 errorPage = os.toString();
-                int i = errorPage.indexOf("@");
+                int i = errorPage.indexOf("@URL@");
                 errorPageHead = errorPage.substring(0, i);
-                errorPageSB.append(errorPageHead);
-                errorPageEnd = errorPage.substring(i);
+                errorPageEnd = errorPage.substring(i + 5);
 
             }
+            errorPageSB = new StringBuilder();
+            errorPageSB.append(errorPageHead);
             errorPageSB.append(errUrl);
             errorPageSB.append(errorPageEnd);
             return errorPageSB.toString();

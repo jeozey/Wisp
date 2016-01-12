@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.graphics.Bitmap;
-import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.JsResult;
@@ -17,11 +16,8 @@ import com.rj.view.loading.CustomProgressDialog;
 import com.rj.view.loading.CutsomProgressDialog;
 import com.rj.view.loading.ProgressDialogTool;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class WebViewCtrolImpl implements WebViewCtrol {
-    private static final String TAG = "WebViewCtrolImpl";
+    private static final String TAG = WebViewCtrolImpl.class.getName();
     private Activity activity;
     private AlertDialog jsConfirmDialog, jsAlertDialog;
     private CustomProgressDialog loadDialog = null;
@@ -79,22 +75,7 @@ public class WebViewCtrolImpl implements WebViewCtrol {
     @Override
     public void onPageFinished(WebView view, final String url) {
         Log.v("request", "onPageFinished:" + url);
-
-        new Timer().schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                if (url.equals(currentUrl)) {
-                    try {
-                        Log.e(TAG, "url == currentUrl,dismiss loading");
-                        dismiss();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        }, 3000);
+        dismiss();
 
     }
 
@@ -109,8 +90,7 @@ public class WebViewCtrolImpl implements WebViewCtrol {
     }
 
     @Override
-    public void onCreateWindow(WebView webview, boolean isUserGesture,
-                               Message resultMsg) {
+    public void onCreateWindow(WebView view) {
         // TODO Auto-generated method stub
 
     }
@@ -125,20 +105,17 @@ public class WebViewCtrolImpl implements WebViewCtrol {
     public void onJsConfirm(WebView view, String url, String message,
                             final JsResult result) {
         Log.v("bug", "onJsConfirm");
-        // TODO Auto-generated method stub
         final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(DB.APP_NAME).setMessage(message)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
                         result.confirm();
                     }
                 })
                 .setNeutralButton("取消", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
                         result.cancel();
                     }
                 });

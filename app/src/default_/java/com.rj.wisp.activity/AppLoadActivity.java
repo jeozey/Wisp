@@ -12,11 +12,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.rj.framework.DB;
+import com.rj.sdkey.view.PadLoginView;
 import com.rj.sdkey.view.PhoneLoginView;
 import com.rj.view.ToastTool;
 import com.rj.wisp.R;
@@ -145,7 +147,6 @@ public class AppLoadActivity extends BaseActivity {
         messageTxt = (TextView) findViewById(R.id.messageTxt);
 
 
-
         localSocketRequestTool = new LocalSocketRequestTool();
 
         InitUtil.initDB(getApplicationContext());
@@ -160,23 +161,42 @@ public class AppLoadActivity extends BaseActivity {
 
 
         if (DB.IS_PIN) {
-            PhoneLoginView login = new PhoneLoginView(getBaseContext(), new PhoneLoginView.IKeySdkService() {
-                @Override
-                public void loginSuccess() {
-                    ToastTool.show(AppLoadActivity.this, "验证成功", Toast.LENGTH_LONG);
-                    showLoginView();
-                }
+            View login;
+            if (DB.isPhone) {
+                login = new PhoneLoginView(getBaseContext(), new PhoneLoginView.IKeySdkService() {
+                    @Override
+                    public void loginSuccess() {
+                        ToastTool.show(AppLoadActivity.this, "验证成功", Toast.LENGTH_LONG);
+                        showLoginView();
+                    }
 
-                @Override
-                public void exit() {
-                    finish();
-                }
-            });
+                    @Override
+                    public void exit() {
+                        finish();
+                    }
+                });
+                // 初始化，识别SDKEY
+                ((PhoneLoginView)login).initPin(AppLoadActivity.this);
+            } else {
+                login = new PadLoginView(getBaseContext(), new PadLoginView.IKeySdkService() {
+                    @Override
+                    public void loginSuccess() {
+                        ToastTool.show(AppLoadActivity.this, "验证成功", Toast.LENGTH_LONG);
+                        showLoginView();
+                    }
+
+                    @Override
+                    public void exit() {
+                        finish();
+                    }
+                });
+                // 初始化，识别SDKEY
+                ((PadLoginView)login).initPin(AppLoadActivity.this);
+            }
             LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.MATCH_PARENT);
             addContentView(login, lParams);
-            // 初始化，识别SDKEY
-            login.initPin(AppLoadActivity.this);
+
         } else {
             checkSetting();
         }

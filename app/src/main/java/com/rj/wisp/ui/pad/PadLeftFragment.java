@@ -3,7 +3,6 @@ package com.rj.wisp.ui.pad;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -22,6 +21,7 @@ import com.rj.framework.webview.WebViewFactory;
 import com.rj.view.button.CustomButton;
 import com.rj.view.loading.CutsomProgressDialog;
 import com.rj.wisp.R;
+import com.rj.wisp.core.Commons;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class PadLeftFragment extends Fragment {
      * Acitivity要实现这个接口，这样Fragment和Activity就可以共享事件触发的资源了
      */
     public interface LeftFragmentListener {
-        void onWindowOpen(WebView webView);
+        void onWindowOpen(WebView view);
 
         void showSettingView();
 
@@ -119,6 +119,12 @@ public class PadLeftFragment extends Fragment {
         System.out.println("LeftFragment--->onCreateView");
         View view = inflater.inflate(R.layout.pad_left_fragment, container, false);
 
+        View parentView;
+        if (isHome) {
+            parentView = getActivity().findViewById(R.id.home_frame_layout);
+        } else {
+            parentView = getActivity().findViewById(R.id.left_fragment_layout);
+        }
         if (frameLayout == null) {
             // titleTextView = (TextView) getView().findViewById(
             // R.id.leftTextTitle);
@@ -149,20 +155,17 @@ public class PadLeftFragment extends Fragment {
     }
 
     private FrameLayout frameLayout;
-    private View parentView;
+    //    private View parentView;
     private String url;
 
     public PadLeftFragment() {
+        this.url = getArguments().getString(Commons.Url);
+        this.isHome = getArguments().getBoolean(Commons.IsHome);
     }
 
     private boolean isHome;
 
 
-    public PadLeftFragment(View parentView, String url, boolean isHome) {
-        this.parentView = parentView;
-        this.url = url;
-        this.isHome = isHome;
-    }
 
     private LeftFragmentWebViewCtrol leftFragmentWebViewCtrol;
 
@@ -216,17 +219,9 @@ public class PadLeftFragment extends Fragment {
         }
 
         @Override
-        public void onCreateWindow(WebView webview, boolean isUserGesture,
-                                   Message resultMsg) {
-            if (resultMsg != null) {
-                Log.e(TAG, "USER_AGENT:" + webview.getSettings().getUserAgentString());
-                Log.e("NNN", "onCreateWindows1");
-                WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
-                ((LeftFragmentListener) activity).onWindowOpen(webview);
-                transport.setWebView(webview);
-                resultMsg.sendToTarget();
-            }
-            super.onCreateWindow(webview, isUserGesture, resultMsg);
+        public void onCreateWindow(WebView view) {
+            ((LeftFragmentListener) activity).onWindowOpen(view);
+            super.onCreateWindow(view);
         }
     }
 }

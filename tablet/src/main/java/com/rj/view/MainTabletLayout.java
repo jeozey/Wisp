@@ -19,230 +19,225 @@ import com.rj.widgetlib.R;
 
 public class MainTabletLayout extends LinearLayout {
 
-    private MyTabletView mMyTabletView;
-    private Button mBtnUndo, mBtnRedo;
-    private Button mBtnSave;
-    private Button mBtnEraser;
-    private ImageView mBtnExit;
-    private String mPngPath, mHwPath, mLastHWPath, mHwPathShow;
-    private Button mLastPathBT;
-    private Button mClearAllBT;
-    private Button mPrePageBT;
-    private Button mNextPageBT;
-    private Context mContext;
-    private TextView mPageTV;
+	private MyTabletView mMyTabletView;
+	private Button mBtnUndo, mBtnRedo;
+	private Button mBtnSave;
+	private Button mBtnEraser;
+	private ImageView mBtnExit;
+	private String mPngPath, mHwPath, mLastHWPath, mHwPathShow;
+	private Button mLastPathBT;
+	private Button mClearAllBT;
+	private Button mPrePageBT;
+	private Button mNextPageBT;
+	private Context mContext;
+	private TextView mPageTV;
 
-    public MainTabletLayout(Context context) {
-        super(context);
-        mContext = context;
-    }
+	public MainTabletLayout(Context context) {
+		super(context);
+		mContext = context;
+	}
 
-    public MainTabletLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        LayoutInflater.from(context).inflate(R.layout.mytablet, this, true);
-        mContext = context;
-    }
+	public MainTabletLayout(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		LayoutInflater.from(context).inflate(R.layout.mytablet, this, true);
+		mContext = context;
+	}
 
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        mBtnUndo = (Button) findViewById(R.id.btn_undo);
-        mBtnRedo = (Button) findViewById(R.id.btn_redo);
-        mBtnSave = (Button) findViewById(R.id.btn_save);
-        mBtnEraser = (Button) findViewById(R.id.btn_eraser);
-        mBtnExit = (ImageView) findViewById(R.id.btn_exit);
-        mMyTabletView = (MyTabletView) findViewById(R.id.mytabletview);
-        mLastPathBT = (Button) findViewById(R.id.btn_rem);
-        mClearAllBT = (Button) findViewById(R.id.btn_clear_all);
-        mPrePageBT = (Button) findViewById(R.id.pre_page);
-        mPrePageBT.setTextColor(Color.GRAY);
-        mNextPageBT = (Button) findViewById(R.id.next_page);
-        mPageTV = (TextView) findViewById(R.id.page_count);
-        mPrePageBT.setOnClickListener(new OnClickListener() {
+	@Override
+	protected void onFinishInflate() {
+		super.onFinishInflate();
+		mBtnUndo = (Button) findViewById(R.id.btn_undo);
+		mBtnRedo = (Button) findViewById(R.id.btn_redo);
+		mBtnSave = (Button) findViewById(R.id.btn_save);
+		mBtnEraser = (Button) findViewById(R.id.btn_eraser);
+		mBtnExit = (ImageView) findViewById(R.id.btn_exit);
+		mMyTabletView = (MyTabletView) findViewById(R.id.mytabletview);
+		mLastPathBT = (Button) findViewById(R.id.btn_rem);
+		mClearAllBT = (Button) findViewById(R.id.btn_clear_all);
+		mPrePageBT = (Button) findViewById(R.id.pre_page);
+		mPrePageBT.setTextColor(Color.GRAY);
+		mNextPageBT = (Button) findViewById(R.id.next_page);
+		mPageTV = (TextView) findViewById(R.id.page_count);
+		mPrePageBT.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                mMyTabletView.prePage();
-            }
-        });
+			@Override
+			public void onClick(View v) {
+				mMyTabletView.prePage();
+			}
+		});
 
-        mNextPageBT.setOnClickListener(new OnClickListener() {
+		mNextPageBT.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                mMyTabletView.nextPage();
-            }
-        });
+			@Override
+			public void onClick(View v) {
+				mMyTabletView.nextPage();
+			}
+		});
 
-        mMyTabletView.setShowPageListener(new ShowPageListener() {
-            @Override
-            public void hidePreBT() {
-                mPrePageBT.setEnabled(false);
-                mPrePageBT.setTextColor(Color.GRAY);
-            }
+		mMyTabletView.setShowPageListener(new ShowPageListener() {
+			@Override
+			public void hidePreBT() {
+				mPrePageBT.setEnabled(false);
+				mPrePageBT.setTextColor(Color.GRAY);
+			}
 
-            @Override
-            public void showPreBT() {
-                mPrePageBT.setEnabled(true);
-                mPrePageBT.setTextColor(Color.parseColor("#fffffb"));
-            }
+			@Override
+			public void showPreBT() {
+				mPrePageBT.setEnabled(true);
+				mPrePageBT.setTextColor(Color.parseColor("#fffffb"));
+			}
 
-            @Override
-            public void showPageCount(String count) {
-                // String page =
-                // String.format(getResources().getString(R.string.page_one),
-                // count);
-                mPageTV.setText(count);
-            }
-        });
+			@Override
+			public void showPageCount(String count) {
+				mPageTV.setText(count);
+			}
+		});
 
-        mClearAllBT.setOnClickListener(new OnClickListener() {
+		mClearAllBT.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                mMyTabletView.clearCanvas();
-                if (mMyTabletView.getPointFsList().size() != 0)
-                    mMyTabletView.clear();
-            }
-        });
+			@Override
+			public void onClick(View v) {
+				mMyTabletView.clearCanvas();
+				if (mMyTabletView.getPointFsList().size() != 0)
+					mMyTabletView.clear();
+			}
+		});
 
-        mLastPathBT.setOnClickListener(new OnClickListener() {
+		mLastPathBT.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                Compress.buildDialog(mContext, "上次痕迹", "即将删除当前痕迹", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Compress.buildDialog(mContext, "上次痕迹", "即将删除当前痕迹", new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                mMyTabletView.lastPath(mLastHWPath);
-                            }
-                        },
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								mMyTabletView.lastPath(mLastHWPath);
+							}
+						},
 
-                        new DialogInterface.OnClickListener() {
+						new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-            }
-        });
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						});
+			}
+		});
 
-        mBtnEraser.setOnClickListener(new OnClickListener() {
+		mBtnEraser.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                boolean isEraser = mMyTabletView.isEraser();
-                isEraser = !isEraser;
-                mMyTabletView.setEraser(isEraser);
-                if (isEraser) {
-                    mBtnEraser.setBackgroundResource(R.drawable.tablet_btn_true);
-                } else {
-                    mBtnEraser.setBackgroundResource(R.drawable.tablet_save_btn_false);
-                }
+			@Override
+			public void onClick(View v) {
+				boolean isEraser = mMyTabletView.isEraser();
+				isEraser = !isEraser;
+				mMyTabletView.setEraser(isEraser);
+				if (isEraser) {
+					mBtnEraser.setBackgroundResource(R.drawable.tablet_btn_true);
+				} else {
+					mBtnEraser.setBackgroundResource(R.drawable.tablet_save_btn_false);
+				}
 
-            }
-        });
-        mBtnUndo.setOnClickListener(new OnClickListener() {
+			}
+		});
+		mBtnUndo.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                mMyTabletView.undo();
+			@Override
+			public void onClick(View v) {
+				mMyTabletView.undo();
 
-            }
-        });
-        mBtnRedo.setOnClickListener(new OnClickListener() {
+			}
+		});
+		mBtnRedo.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                mMyTabletView.redo();
+			@Override
+			public void onClick(View v) {
+				mMyTabletView.redo();
 
-            }
-        });
-        mBtnSave.setOnClickListener(new OnClickListener() {
+			}
+		});
+		mBtnSave.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                save();
-            }
-        });
-        mBtnExit.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				save();
+			}
+		});
+		mBtnExit.setOnClickListener(new OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                if (mOnTabletResultListener != null) {
-                    mOnTabletResultListener.onCloseTablet();
-                }
-            }
-        });
-    }
+			@Override
+			public void onClick(View v) {
+				if (mOnTabletResultListener != null) {
+					mOnTabletResultListener.onCloseTablet();
+				}
+			}
+		});
+	}
 
-    public void save() {
-        Bitmap tempBitmap = mMyTabletView.processBitmap();
-        if (mOnTabletResultListener != null) {
-            boolean isSaveSuccess = mMyTabletView.saveBitmapAndPoint(tempBitmap, mMyTabletView.printPointsToByte(), mPngPath, mHwPath);
-            // mOnTabletResultListener.onShowBitmap(tempBitmap);
-            if (isSaveSuccess) {
-                boolean isNull = !isSaveSuccess;
-                // boolean isNull = tempBitmap==null?false:true;
-                mOnTabletResultListener.onSaveSuccessCallBack(isNull, mPngPath, mHwPath, true);
-            } else {
-                mOnTabletResultListener.onSaveErrorCallBack();
-            }
-        }
-    }
+	public void save() {
+		Bitmap tempBitmap = mMyTabletView.processBitmap();
+		if (mOnTabletResultListener != null) {
+			boolean isSaveSuccess = mMyTabletView.saveBitmapAndPoint(tempBitmap, mMyTabletView.printPointsToByte(), mPngPath, mHwPath);
+			// mOnTabletResultListener.onShowBitmap(tempBitmap);
+			if (isSaveSuccess) {
+				mOnTabletResultListener.onSaveSuccessCallBack(mPngPath, mHwPath);
+			} else {
+				mOnTabletResultListener.onSaveErrorCallBack();
+			}
+		}
+	}
 
-    public void setSavePath(String pngPath, String hwPath, String pngPathShow, String hwPathShow) {
-        mPngPath = pngPath;
-        mHwPath = hwPath;
-        mLastHWPath = pngPathShow;
-        mHwPathShow = hwPathShow;
-        mMyTabletView.getPointFsByBytes(mHwPathShow);
-        if (TextUtils.isEmpty(mLastHWPath)) {
-            mLastPathBT.setVisibility(View.GONE);
-        }
-    }
+	public void setSavePath(String pngPath, String hwPath, String pngPathShow, String hwPathShow) {
+		mPngPath = pngPath;
+		mHwPath = hwPath;
+		mLastHWPath = pngPathShow;
+		mHwPathShow = hwPathShow;
+		mMyTabletView.getPointFsByBytes(mHwPathShow);
+		if (TextUtils.isEmpty(mLastHWPath)) {
+			mLastPathBT.setVisibility(View.GONE);
+		}
+	}
 
-    public interface onTabletResultListener {
-        void onShowBitmap(Bitmap bitmap);
+	public interface onTabletResultListener {
+		void onShowBitmap(Bitmap bitmap);
 
-        void onSavePointFs(String pointfsInfo);
+		void onSavePointFs(String pointfsInfo);
 
-        /**
-         * 手写图片保存成功后回调接口
-         */
-        void onSaveSuccessCallBack(boolean isNull, String pngPath, String hwPath, boolean isRem);
+		/**
+		 * 手写图片保存成功后回调接口
+		 */
+		void onSaveSuccessCallBack(String pngPath, String hwPath);
 
-        /**
-         * 手写图片保存失败后回调接口
-         */
-        void onSaveErrorCallBack();
+		/**
+		 * 手写图片保存失败后回调接口
+		 */
+		void onSaveErrorCallBack();
 
-        void onCloseTablet();
-    }
+		void onCloseTablet();
+	}
 
-    private onTabletResultListener mOnTabletResultListener;
+	private onTabletResultListener mOnTabletResultListener;
 
-    public onTabletResultListener getTabletResultListener() {
-        return mOnTabletResultListener;
-    }
+	public onTabletResultListener getTabletResultListener() {
+		return mOnTabletResultListener;
+	}
 
-    public void setOnTabletResultListener(onTabletResultListener mOnTabletResultListener) {
-        this.mOnTabletResultListener = mOnTabletResultListener;
-    }
+	public void setOnTabletResultListener(onTabletResultListener mOnTabletResultListener) {
+		this.mOnTabletResultListener = mOnTabletResultListener;
+	}
 
-    public void recycle() {
-        mMyTabletView.setEraser(false);
-        mBtnEraser.setBackgroundResource(R.drawable.tablet_save_btn_false);
-        mMyTabletView.recycleAll();
-    }
+	public void recycle() {
+		mMyTabletView.setEraser(false);
+		mBtnEraser.setBackgroundResource(R.drawable.tablet_save_btn_false);
+		mMyTabletView.recycleAll();
+	}
 
-    public boolean isModify() {
-        if (mMyTabletView != null)
-            return mMyTabletView.isModify();
-        else {
-            return false;
-        }
-    }
+	public boolean isModify() {
+		if (mMyTabletView != null)
+			return mMyTabletView.isModify();
+		else {
+			return false;
+		}
+	}
 
 }

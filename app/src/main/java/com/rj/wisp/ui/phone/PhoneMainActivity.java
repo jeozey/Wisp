@@ -190,7 +190,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
     private Map<String, AttachmentDownEvent> attachmentDownEvents;
 
     public void onEventMainThread(AttachmentDownEvent event) {
-        Log.e(TAG, "onEvent AttachmentDownEvent:" + event);
+//        Log.e(TAG, "onEvent AttachmentDownEvent:" + event);
         if (event != null) {
             switch (event.getDownResult()) {
                 case Commons.ATTACHMENT_DOWN_SUCC:
@@ -917,8 +917,7 @@ public class PhoneMainActivity extends FragmentActivity implements WebViewCtrol 
     }
 
     @Override
-    public void onCreateWindow(WebView webview, boolean isUserGesture,
-                               Message resultMsg) {
+    public void onCreateWindow(WebView webview) {
 
     }
 

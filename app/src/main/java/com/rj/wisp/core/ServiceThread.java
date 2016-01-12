@@ -213,10 +213,10 @@ public class ServiceThread extends Thread {
                 sendRequest(httpPkg.getHead().get(Commons.HTTP_HEAD), httpPkg.getBody(), new DownCallBack() {
                     @Override
                     public void callBack(HttpPkg httpPkg) {
-                        Log.e(TAG, "callBack: size:" + httpPkg.getContentSize() + " length:" + httpPkg.getContentLength());
+//                        Log.e(TAG, "callBack: size:" + httpPkg.getContentSize() + " length:" + httpPkg.getContentLength());
                         try {
                             l += httpPkg.getContentLength();
-                            Log.e(TAG, "file length0 :" + l);
+//                            Log.e(TAG, "file length0 :" + l);
                             os.write(httpPkg.getCurrentContent(), 0, httpPkg.getContentLength());
                             EventBus.getDefault().post(new AttachmentDownEvent(firstLine, path, httpPkg.getContentType(), httpPkg.getContentSize(), httpPkg.getContentLength(), Commons.ATTACHMENT_DOWN_SUCC));
                         } catch (IOException e) {

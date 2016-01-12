@@ -10,36 +10,36 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <!-- 手写板 -->
+	<!-- 手写板 -->
     <style name="TabletSaveBtnStyle" parent="@android:style/Widget">
-        <item name="android:textColor">#fffffb</item>
-        <item name="android:background">@drawable/tablet_save_btn_drawable</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:minHeight">40dip</item>
-        <item name="android:layout_marginTop">5dip</item>
-        <item name="android:layout_marginBottom">5dip</item>
-    </style>
+		<item name="android:textColor">#fffffb</item>
+		<item name="android:background">@drawable/tablet_save_btn_drawable</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:minHeight">40dip</item>
+		<item name="android:layout_marginTop">5dip</item>
+		<item name="android:layout_marginBottom">5dip</item>
+	</style>
 
-    <style name="TabletBtnStyle" parent="@android:style/Widget">
-        <item name="android:textColor">#fffffb</item>
-        <item name="android:background">@drawable/tablet_btn_drawable</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:minHeight">40dip</item>
-        <item name="android:layout_marginTop">5dip</item>
-        <item name="android:layout_marginBottom">5dip</item>
-    </style>
+	<style name="TabletBtnStyle" parent="@android:style/Widget">
+		<item name="android:textColor">#fffffb</item>
+		<item name="android:background">@drawable/tablet_btn_drawable</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:minHeight">40dip</item>
+		<item name="android:layout_marginTop">5dip</item>
+		<item name="android:layout_marginBottom">5dip</item>
+	</style>
 
-    <style name="EraserBTStyle" parent="@android:style/Widget">
-        <item name="android:textColor">#fffffb</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:minHeight">40dip</item>
-        <item name="android:layout_marginTop">5dip</item>
-        <item name="android:layout_marginBottom">5dip</item>
-    </style>
+	<style name="EraserBTStyle" parent="@android:style/Widget">
+		<item name="android:textColor">#fffffb</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:minHeight">40dip</item>
+		<item name="android:layout_marginTop">5dip</item>
+		<item name="android:layout_marginBottom">5dip</item>
+	</style>
 
-    <!-- custom_dialog -->
+	<!-- custom_dialog -->
     <style name="Btn_Dialog" parent="@android:style/Widget.Button">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
+		<item name="android:textSize">12sp</item>
+		<item name="android:textStyle">bold</item>
+	</style>
 </resources>

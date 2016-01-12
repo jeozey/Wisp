@@ -3,7 +3,6 @@ package com.rj.wisp.ui.pad;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -22,6 +21,7 @@ import com.rj.framework.webview.RjWebViewClient;
 import com.rj.framework.webview.WebViewCtrolImpl;
 import com.rj.view.loading.CutsomProgressDialog;
 import com.rj.wisp.R;
+import com.rj.wisp.core.Commons;
 import com.rj.wisp.widget.AppSettingDialog;
 
 
@@ -30,7 +30,7 @@ public class PadHomeFragment extends Fragment {
      * Acitivity要实现这个接口，这样Fragment和Activity就可以共享事件触发的资源了
      */
     public interface PadHomeFragmentListener {
-        void onWindowOpen(WebView webView);
+        void onWindowOpen(WebView view);
     }
 
     private static final String TAG = PadHomeFragment.class.getName();
@@ -109,14 +109,11 @@ public class PadHomeFragment extends Fragment {
     }
 
     public PadHomeFragment() {
+        popHomePageUrl = getArguments().getString(Commons.PopHomePageUrl);
     }
 
-    public PadHomeFragment(View parentView, String popHomePageUrl) {
-        this.parentView = parentView;
-        this.popHomePageUrl = popHomePageUrl;
-    }
 
-    private View parentView;
+    //    private View parentView;
     private WebView homeWebView;
     private String popHomePageUrl;
     private WebViewCtrolImpl webViewCtrol;
@@ -127,9 +124,7 @@ public class PadHomeFragment extends Fragment {
         super.onResume();
         System.out.println("PadHomeFragment--->onResume");
 
-        if (parentView == null) {
-            return;
-        }
+        final Activity parentView = getActivity();
 
         if (homeMainLayout == null) {
             homeMainLayout = (FrameLayout) parentView
@@ -206,18 +201,11 @@ public class PadHomeFragment extends Fragment {
         }
 
         @Override
-        public void onCreateWindow(WebView webview, boolean isUserGesture,
-                                   Message resultMsg) {
-            if (resultMsg == null) {
-                return;
-            }
+        public void onCreateWindow(WebView view) {
             Log.e("NNN", "onCreateWindows1");
-            WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
-            ((PadHomeFragmentListener) activity).onWindowOpen(webview);
+            ((PadHomeFragmentListener) activity).onWindowOpen(view);
 
-            transport.setWebView(webview);
-            resultMsg.sendToTarget();
-            super.onCreateWindow(webview, isUserGesture, resultMsg);
+            super.onCreateWindow(view);
         }
     }
 }

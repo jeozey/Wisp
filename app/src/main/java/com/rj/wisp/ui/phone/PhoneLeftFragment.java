@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -192,7 +193,30 @@ public class PhoneLeftFragment extends Fragment {
                         (WebViewCtrol) context));
 
 
-                webView.loadUrl(DB.PRE_URL + DB.LOGINPAGE_URL);
+                String pageExtra = "";
+                try {
+                    String userName = getActivity().getIntent().getStringExtra("userName");
+                    String passWord = getActivity().getIntent().getStringExtra("passWord");
+
+                    if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(passWord)) {
+                        if (userName.indexOf("@") != -1) {
+                            userName = userName.substring(0, userName.indexOf("@"));
+                        }
+                        if (DB.LOGINPAGE_URL.indexOf("?") != -1) {
+                            pageExtra = "&Username=" + userName + "&Password="
+                                    + passWord;
+                        } else {
+                            pageExtra = "?Username=" + userName + "&Password="
+                                    + passWord;
+                        }
+                        // DB.APP_URL +=extra;
+                    }
+                    Log.e(TAG, "extra:" + pageExtra);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                webView.loadUrl(DB.PRE_URL + DB.LOGINPAGE_URL + pageExtra);
+
                 LinearLayout leftLinearLayout = (LinearLayout) getActivity()
                         .findViewById(R.id.leftLinearLayout);
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(

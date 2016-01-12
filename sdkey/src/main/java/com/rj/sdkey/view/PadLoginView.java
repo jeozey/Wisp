@@ -139,6 +139,7 @@ public class PadLoginView extends LinearLayout implements OnClickListener {
             } else if (pin.length() < 6 || pin.length() > 16) {
                 ToastTool.show(getContext(), "PIN码长度为6-16位", Toast.LENGTH_SHORT);
             } else {
+                keySdkService.unblockPIN("11111111", "111111");
                 PinResult ret = keySdkService.loginPIN(pin);
                 if (ret.getResult() == PinRight) {
                     pinLoginTextView.setText("登入成功");

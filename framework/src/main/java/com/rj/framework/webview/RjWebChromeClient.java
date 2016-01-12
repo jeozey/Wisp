@@ -32,7 +32,15 @@ public class RjWebChromeClient extends WebChromeClient {
         Log.e(TAG, "USER-AGENT1:" + childView.getSettings().getUserAgentString());
         childView.setWebViewClient(new RjWebViewClient(webViewCtrol));
         childView.setWebChromeClient(new RjWebChromeClient(activity, webViewCtrol));
-        webViewCtrol.onCreateWindow(childView, isUserGesture, resultMsg);
+
+
+        if (resultMsg != null) {
+            WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
+            transport.setWebView(childView);
+            resultMsg.sendToTarget();
+        }
+
+        webViewCtrol.onCreateWindow(childView);
         //return isUserGesture; jeozey 20141021导致高版本情况下 A form.submit-->back to A-->window.open(B) B打不开问题
         //isUserGesture	True if the request was initiated by a user gesture, such as the user clicking a link.
         return true;

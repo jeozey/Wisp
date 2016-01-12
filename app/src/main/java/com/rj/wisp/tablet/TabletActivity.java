@@ -11,7 +11,6 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.rj.view.MainTabletLayout;
-import com.rj.view.MainTabletLayout.onTabletResultListener;
 import com.rj.wisp.R;
 
 public class TabletActivity extends Activity {
@@ -31,40 +30,32 @@ public class TabletActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.phone_tablet_layout);
 
-        final String callback = getIntent().getStringExtra("callback");
         final String savePngPath = getIntent().getStringExtra("savePngPath");
         final String saveHwPath = getIntent().getStringExtra("saveHwPath");
-        String showPngPath = getIntent().getStringExtra("showPngPath");
         String showHwPath = getIntent().getStringExtra("showHwPath");
         String lastHWPath = getIntent().getStringExtra("lastHWpath");
 
         mlt = (MainTabletLayout) findViewById(R.id.phone_tablet);
         mlt.setSavePath(savePngPath, saveHwPath, lastHWPath, showHwPath);
-        mlt.setOnTabletResultListener(new onTabletResultListener() {
+        mlt.setOnTabletResultListener(new MainTabletLayout.onTabletResultListener() {
             @Override
             public void onShowBitmap(Bitmap bitmap) {
+                // TODO Auto-generated method stub
             }
 
             @Override
-            public void onSaveSuccessCallBack(boolean isNull, String pngPath, String hwPath, boolean isRem) {
+            public void onSaveSuccessCallBack(String pngPath, String hwPath) {
                 Toast.makeText(TabletActivity.this, "保存成功", Toast.LENGTH_SHORT).show();
-                if (isNull) {// 返回到FormActivity
-                    setResult(1);
-                    finish();
-                } else {
-                    Intent intent = new Intent();
-                    intent.putExtra("callback", callback);
-                    intent.putExtra("savePngPath", pngPath);
-                    intent.putExtra("saveHwPath", hwPath);
-                    intent.putExtra("isRem", isRem);
-                    setResult(2, intent);
-                    finish();
-                }
-
+                Intent intent = new Intent();
+                intent.putExtra("savePngPath", pngPath);
+                intent.putExtra("saveHwPath", hwPath);
+                setResult(2, intent);
+                finish();
             }
 
             @Override
             public void onSavePointFs(String pointfsInfo) {
+                // TODO Auto-generated method stub
 
             }
 

@@ -35,6 +35,7 @@ import com.rj.view.button.CustomWidgetButton;
 import com.rj.view.loading.CutsomProgressDialog;
 import com.rj.wisp.R;
 import com.rj.wisp.bean.CustomBtn;
+import com.rj.wisp.core.Commons;
 import com.rj.wisp.core.WISPComponentsParser;
 
 import java.util.ArrayList;
@@ -370,19 +371,18 @@ public class PadRightFragment extends Fragment {
     private View parentView;
     private DisplayMetrics dm = new DisplayMetrics();
     private boolean showFullScreen = true;
+    private boolean setWebClientflg = true;
 
     public PadRightFragment() {
+        Bundle bundle = getArguments();
+        this.activity = getActivity();
+        Message resultMsg = bundle.getParcelable(Commons.WebView);
+        this.webView = (WebView) resultMsg.obj;
 
-    }
-
-    public PadRightFragment(Activity activity, WebView webView,
-                            View parentView, RightFragmentListener rightFragmentListener,
-                            boolean setWebClientflg, boolean showFullScreen) {
-        this.activity = activity;
-        this.webView = webView;
-        this.parentView = parentView;
-        this.rightFragmentListener = rightFragmentListener;
-        this.showFullScreen = showFullScreen;
+        this.rightFragmentListener = (RightFragmentListener) bundle.getSerializable(Commons.RightFragmentListener);
+        this.showFullScreen = bundle.getBoolean(Commons.ShowFullScreen);
+        this.setWebClientflg = bundle.getBoolean(Commons.SetWebClientflg);
+        this.parentView = activity.findViewById(R.id.right_fragment_layout);
 
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         Log.e(TAG, "DisplayMetrics:" + dm);
@@ -398,8 +398,8 @@ public class PadRightFragment extends Fragment {
             webView.setWebChromeClient(new RjWebChromeClient(activity,
                     rightFragmentWebViewCtrol));
         }
-
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -574,18 +574,8 @@ public class PadRightFragment extends Fragment {
         }
 
         @Override
-        public void onCreateWindow(WebView webview, boolean isUserGesture,
-                                   Message resultMsg) {
+        public void onCreateWindow(WebView webview) {
             Log.e(TAG, "onCreateWindows0");
-            if (resultMsg == null) {
-                return;
-            }
-            Log.e(TAG, "onCreateWindows1");
-            WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
-
-            transport.setWebView(webview);
-            resultMsg.sendToTarget();
-
             // 这边的window.open暂时用这种方法实现
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
@@ -598,7 +588,7 @@ public class PadRightFragment extends Fragment {
             Log.e(TAG, "onCreateWindows2");
             Log.e(TAG, "webview.getUrl():" + webView.getUrl());
             Log.e(TAG, "onCreateWindows3");
-            super.onCreateWindow(webview, isUserGesture, resultMsg);
+            super.onCreateWindow(webview);
         }
 
         @Override

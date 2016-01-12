@@ -44,20 +44,22 @@ public class KeySdkService {
             strSDCardDir += "/Android/data/" + context.getPackageName() + "/files";
         } else {
             strSDCardDir += "/wy";
-
-            KTSDK.KTSDK_Initialize();
-            KTSDK.KTCore_Initialize();
-
-            int nRet = KTSDK.KTSDK_Device_Initialize(
-                    "/data/data/" + context.getPackageName() + "/lib", context.getPackageName());
-            if (nRet != 0) {
-                return new PinResult(-1, "初始化失败:"
-                        + KTSDK.KTSDK_GetErrorString());
-            }
         }
         // initialize
         String strLogFilePath = strSDCardDir + "/kslog.txt";
         KTSDK.KTSDK_SetLogFilePath(strLogFilePath);
+
+        KTSDK.KTSDK_Initialize();
+        KTSDK.KTCore_Initialize();
+
+        int nRet = KTSDK.KTSDK_Device_Initialize(
+                "/data/data/" + context.getPackageName() + "/lib", context.getPackageName());
+        if (nRet != 0) {
+            return new PinResult(-1, "初始化失败:"
+                    + KTSDK.KTSDK_GetErrorString());
+        }
+
+
         initFlag = true;
         return new PinResult(0, "初始化完成");
 
